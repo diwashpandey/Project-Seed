@@ -1,3 +1,6 @@
 from django.contrib import admin
+from . models import College
 
-# Register your models here.
+
+# Registering the Models into the admin page
+admin.site.register(College)
