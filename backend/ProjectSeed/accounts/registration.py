@@ -36,7 +36,7 @@ class CustomUserRegistration:
     """
 
     message_to_client:str = None
-    success:bool = False
+    success_status:bool = False
     # This messege is sent to the client as a error/success message
     
     def register_user_if_valid(self, registration_data) -> bool:
