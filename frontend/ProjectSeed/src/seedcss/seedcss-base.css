@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+/*
+
+Global Variables for theme👇
+
+*/
+:root{
+    --background-color: #242835;
+    --main-boxes-color: #1D1F29;
+    --secondary-boxes-color: #171921;
+    --lighter-or-lower-color:#292e42;
+    --main-theme-color: #F48120;
+    --blue-color: #4979D1;
+    --green-color: #31BA00;
+    --theme-text-color:#FFFFFF;
+    --text-opposite-color:#000000;
+
+
+    --top-1-student-background: rgba(0, 0, 0, 0.20);
+    --top-2-3-student-background: rgba(0, 0, 0, 0.20);
+
+    --top-1-2-3-student-rise-points-box-background:rgba(0, 0, 0, 0.20);
+
+    --top-1-student-rise-count-text:#F48120;
+    --top-2-3-student-rise-count-text:#3175F4;
+    
+    --top-student-box-shadow:0px 0px 15px rgba(0, 0, 0, 0.316) inset;
+    --top-1-student-rise-count-box-shadow: 0px 0px 5px rgba(244, 127, 32, 0.699);
+    --top-2-3-student-rise-count-box-shadow: 0px 0px 5px rgba(49, 117, 244, 0.699);
+
+    --theme-gap: 10px;
+
+    --top-achievements-background: rgba(0, 0, 0, 0.20);
+    --top-achievements-shadow: 0px 0px 15px rgba(0, 0, 0, 0.316) inset;
+}
+
+.light_themed{
+    --background-color: #DEDEDE;
+    --main-boxes-color: #FFFFFF;
+    --secondary-boxes-color: #F3F3F3;
+    --lighter-or-lower-color:rgba(0, 0, 0, 0.164);
+    --main-theme-color: #F48120;
+    --blue-color: #4979D1;
+    --green-color: #31BA00;
+    --theme-text-color:#000000;
+    --text-opposite-color:#FFFFFF;
+    
+    
+    --top-1-student-background: #F48120;
+    --top-2-3-student-background: #3175F4;
+    
+    --top-1-2-3-student-rise-points-box-background:#FFFFFF;
+    
+    --top-student-box-shadow:none;
+    --top-1-student-rise-count-box-shadow:none;
+    --top-2-3-student-rise-count-box-shadow:none;
+    
+    --top-achievements-background: rgba(0, 0, 0, 0.04);
+    --top-achievements-shadow: 0px 0px 15px rgba(0, 0, 0, 0.316) inset;
+}
+
+/*
+
+Global selector for DRY👇
+
+*/
+
+* {
+    font-family: "Jost", sans-serif;
+    color:var(--theme-text-color);
+}
+
+/* 
+
+Scrool bar Design 👇
+
+*/
+
+/* Width */
+::-webkit-scrollbar {
+    width: 4px; /* Adjust as needed */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: transparent; /* Set background to transparent */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #a1a1a1; /* Change this color to match your desired thumb color */
+    border-radius: 5px; /* Add border radius */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1; 
+}
+
+/* changing the color of the body globally */
+body{
+    background-color: var(--background-color);
+}

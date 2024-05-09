@@ -1,0 +1,191 @@
+/* Nav buttons */
+.nav-btn{
+    cursor:pointer;
+    transition: background-color 0.2s ease;
+    border-radius: 10px;
+}
+.nav-btn span,
+.nav-btn svg{
+    color: var(--theme-text-color);
+    fill: var(--theme-text-color);
+}
+.nav-btn:hover{
+    background-color:var(--lighter-or-lower-color)
+}
+.nav-btn-active{
+    border-bottom: 3px solid var(--main-theme-color);
+    border-radius: 0px;
+    color:var(--main-theme-color)
+}
+.nav-btn-active span,
+.nav-btn-active svg{
+    color: var(--main-theme-color);
+    fill: var(--main-theme-color);
+}
+
+
+/* Normal Button */
+.btn{
+    height:28px;
+    width:75px;
+    border: 2px solid var(--main-theme-color);
+    border-radius:15px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color:var(--main-theme-color);
+    background-color: #ffffff00;
+    
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.btn:hover{
+    color:var(--text-color);
+    
+    background-color: var(--main-theme-color);
+}
+.active-btn{
+    color:var(--text-color);
+    background-color: var(--main-theme-color);
+}
+
+
+/* White Button */
+.white-btn{
+    height:28px;
+    width:75px;
+    border:2px solid white;
+    border-radius:15px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 0.8em;
+    font-weight: 300;
+    
+    background-color: rgba(255, 255, 255, 0);
+    cursor: pointer;
+    transition: background-color 0.3s ease,
+                border 0.3s ease;
+}
+.white-btn:hover{
+    background-color: white;
+    color:black;
+}
+
+/*
+Rise Button
+*/
+.rise-btn{
+    height:28px;
+    width:75px;
+    border:none;
+    border-radius: 10px;
+
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+
+    background-color: var(--main-theme-color);
+    font-size: 1em;
+    cursor:pointer;
+
+    transition: background-color 0.3s ease;
+}
+/* rise-inner text */
+.rise-btn > span {
+    color:white;
+    font-size: 0.9em;
+    font-weight: 300;
+}
+/* rise-icon */
+.rise-btn > svg{
+    fill: white;
+    transition: transform 0.2s ease;
+}
+
+
+/* 
+    Unrise Button
+*/
+.unrise-btn{
+    height:28px;
+    width:75px;
+    border:none;
+    border-radius: 10px;
+    
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+    
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid var(--main-theme-color);
+    font-size: 1em;
+    cursor:pointer;
+
+    transition: background-color 0.3s ease;
+}
+/* unrise-inner text */
+.unrise-btn > span {
+    color: var(--main-theme-color);
+    font-size: 0.9em;
+    font-weight: 300;
+}
+/* unrise icon but modified */
+.unrise-btn > svg{
+    fill: var(--main-theme-color);
+    transition: fill 0.2s ease, transform 0.2s ease;
+    transform: rotateZ(180deg);
+    animation: animation_for_rise_button_icon 0.3s 1 ease linear;
+}
+
+
+/*
+    Follow button
+*/
+.follow-btn{
+    height:28px;
+    width:75px;
+    border: 1px solid white;
+    border-radius: 8px;
+
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    
+    color: var(--text-color);
+    background-color: var(--main-boxes-color);
+    cursor:pointer;
+
+}
+
+
+/*
+    Comment button
+*/
+.comment-btn{
+    height:30px;
+    width:100px;
+    
+    border:none;
+    border-radius:15px;
+
+    display:flex;
+    gap:7px;
+    justify-content: center;
+    align-items: center;
+    
+    color: white;
+    background-color:var(--blue-color);
+    
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    font-size: 0.8em;
+    font-weight: 300;
+}

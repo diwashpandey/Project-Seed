@@ -1,0 +1,42 @@
+.profile-photo{
+    height:50px;
+    width:50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.top-1-stu-card{
+    background-color: var(--top-1-student-background);
+    color:white;
+    box-shadow: var(--top-student-box-shadow);
+}
+
+.top-1-stu-rise-points-box{
+    background-color: var(--top-1-2-3-student-rise-points-box-background);
+    box-shadow: var(--top-1-student-rise-count-box-shadow);
+    color: var(--top-1-student-rise-count-text)
+}
+
+.top-1-stu-rise-points-box svg{
+    fill:var(--top-1-student-rise-count-text)
+}
+
+.top-2-3-stu-card{
+    background-color: var(--top-2-3-student-background);
+    box-shadow: var(--top-student-box-shadow);
+}
+
+.top-2-3-stu-rise-points-box{
+    background-color: var(--top-1-2-3-student-rise-points-box-background);
+    box-shadow: var(--top-2-3-student-rise-count-box-shadow);
+    color: var(--top-2-3-student-rise-count-text)
+}
+
+.top-2-3-stu-rise-points-box svg{
+    fill:var(--top-2-3-student-rise-count-text)
+}
+
+.top-achievement-card{
+    background-color: var(--top-achievements-background);
+    box-shadow: var(--top-achievements-shadow);
+}
