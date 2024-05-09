@@ -10,11 +10,17 @@ from django.contrib.auth import authenticate
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
 
+# imports from serializers
+from . serializers import (
+    UserPasswordChangeSerializer
+)
+
 # Getting the user model using the django provided function
 User = get_user_model()
 
-# Custom Class for creating user account
+# Custom modules
 from . registration import CustomUserRegistration
+from custom_utilities.response.response_utilities import ResponseUtilities
 
 # Custom function to get the JWT tokens for the user
 def get_tokens_for_user(user):
@@ -25,24 +31,17 @@ def get_tokens_for_user(user):
         'access': str(refresh.access_token),
     }
 
-class RegisterUser(APIView, CustomUserRegistration):
+class RegisterUser(APIView, CustomUserRegistration, ResponseUtilities):
 
     def post(self, request, format=None):
         data = request.data
 
         created_user = self.register_user_if_valid(registration_data=data)  # this returns user if created else None
         
-        return Response({
-                "success_status":self.success_status, # set by CustomUserRegistration automatically
-                "message":self.message_to_client # set by CustomUserRegistration automatically
-            })
+        return Response(self.get_generated_response())
 
-class LoginUser(APIView):
-    
-    # These will be sent to client as a JsonResponse
-    success_status = False  # This will be true if authentication is success
-    message_to_client = None  # This will be sent as a success/error message
-    redirect_url = None  # This will be sent for redirecting client to homepage
+class LoginUser(APIView, ResponseUtilities):
+
     tokens = None
 
     def post(self, request, format=None):
@@ -52,7 +51,6 @@ class LoginUser(APIView):
         user = authenticate(request, username=email, password=password)
 
         if user is not None:
-
             self.tokens = get_tokens_for_user(user=user)            
 
             self.success_status = True
@@ -61,9 +59,35 @@ class LoginUser(APIView):
         else:
             self.message_to_client = "Invalid email or password. Please try again."
 
-        return Response({
-                "success_status":self.success_status,
-                "message":self.message_to_client,
-                "redirect_url": self.redirect_url,  # Client side will use this to go to homepage
-                "tokens":self.tokens
-                })
+        return Response(self.get_generated_response())
+    
+    def get_generated_response(self):
+        """
+        Overrides the base class method to add tokens in the response.
+
+        :return: generated response including tokens
+        """
+        response_to_return = super().get_generated_response()
+
+        response_to_return["tokens"] = self.tokens # Adding the tokens to the response
+
+        return response_to_return
+    
+class ChangePasswordView(APIView, ResponseUtilities):
+
+    def post(self, request, format=None):
+
+        data = request.data
+        serialized_data = UserPasswordChangeSerializer(data = data)
+
+        if serialized_data.is_valid():
+            user = request.user
+
+            user.set_password(serialized_data.data.get("new_password"))
+            user.save()
+
+            self.success_status = True
+            self.message_to_client = "You have been logged in successfully"
+
+        return Response(self.get_generated_response())
+
