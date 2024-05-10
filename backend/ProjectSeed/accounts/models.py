@@ -13,7 +13,7 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=25)
     last_name = models.CharField(max_length=25)
     age = models.IntegerField(null=True, blank=True)
-    gender = models.CharField(max_length=1)
+    gender = models.CharField(max_length=10)
     intro = models.CharField(max_length = 100)
     about_me= models.TextField(max_length=2000)
     
