@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 
 // Imports from src
-import AuthContext from "../authentication/AuthProvider";
+import { AuthContext } from "../authentication/AuthProvider";
 import { jwtDecode } from "jwt-decode";
 
 const BASEURL = "http://127.0.0.1:8000/"
