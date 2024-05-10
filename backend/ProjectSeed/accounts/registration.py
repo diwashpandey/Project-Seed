@@ -57,6 +57,7 @@ class CustomUserRegistration:
         self.confirm_password = registration_data.get("confirm_password")
 
         self.gender = registration_data.get("gender")
+        self.is_teacher = registration_data.get("is_teacher")
 
         # Returning none if something among the list is not provided
         if not self.all_exists():
@@ -74,6 +75,7 @@ class CustomUserRegistration:
                                     first_name = self.first_name,
                                     last_name = self.last_name,
                                     full_name = self.full_name,
+                                    is_teacher = self.is_teacher,
                                     gender = self.gender
                                     )
                 
@@ -134,7 +136,7 @@ class CustomUserRegistration:
         #   This is for situations where the client uses the browser's Inspect Element capability to do anything incorrect here. 
 
     def all_exists(self) -> bool :
-        lst = [self.first_name, self.last_name, self.new_email, self.new_username, self.new_password, self.confirm_password, self.gender]
+        lst = [self.first_name, self.last_name, self.new_email, self.new_username, self.new_password, self.confirm_password, self.gender, self.is_teacher]
         
         if None in lst:
             self.message_to_client = "You haven't provided all things"
