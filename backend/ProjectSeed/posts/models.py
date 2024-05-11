@@ -19,7 +19,7 @@ class Post(models.Model):
     #           **********************     Relations     **********************     #
 
     # Users who have risen the post
-    rises = models.ManyToManyField(User, symmetrical=False, blank = True)
+    rises = models.ManyToManyField(User, symmetrical=False, blank = True, related_name="risen_posts")
 
     # The owner of the post
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name = 'posts')

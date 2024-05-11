@@ -44,8 +44,8 @@ class User(AbstractUser):
     #           **********************     Relations     **********************     #
 
     # Qualifications
-    college = models.ManyToManyField("colleges.College", null=True, blank=True, related_name="college_students")
-    university = models.ManyToManyField("universities.University", null=True, blank=True, related_name="universities_students")
+    colleges = models.ManyToManyField("colleges.College", null=True, blank=True, related_name="college_students")
+    universities = models.ManyToManyField("universities.University", null=True, blank=True, related_name="universities_students")
 
     # Skills and interests
     skills = models.ManyToManyField('Skill', blank=True,  related_name='users')
@@ -56,7 +56,6 @@ class User(AbstractUser):
     rise = models.ManyToManyField("self", symmetrical=False, related_name="rises", blank=True)
     
     #           ******************     End of Relations     ******************     #
-
 
     # Settings
     EMAIL_FIELD = "email"
@@ -80,7 +79,6 @@ class Skill(models.Model):
 
     def __str__(self):
         return self.name
-
 
 
 
