@@ -19,13 +19,13 @@ class ResponseUtilities:
             Only adding the attribute that is available and returning     
         """
         generated_response = {
-            "success_status" : self.success_status
+            "successStatus" : self.success_status
         }
 
         if self.message_to_client:
-            generated_response["message_to_client"] = self.message_to_client
+            generated_response["messageFromServer"] = self.message_to_client
 
         if self.response_data:
-            generated_response["response_data"] = self.response_data
+            generated_response["responseData"] = self.response_data
 
         return generated_response
