@@ -34,6 +34,7 @@ class ProfileRankingSystem:
         try:
             college = College.objects.get(name = college_name)
             data = college.college_students.all().order_by("-rise_points")[0:count].values("name", "username", "rise_points")
+            data = college.college_students.all().order_by("-rise_points")[0:count].values("full_name", "username", "rise_points")
             self.success_status = True
             return data
 
@@ -46,6 +47,7 @@ class ProfileRankingSystem:
         try:
             university = University.objects.get(name = university_name)
             data = university.university_students.all().order_by("-rise_points")[0:count].values("name", "username", "rise_points")
+            data = university.university_students.all().order_by("-rise_points")[0:count].values("full_name", "username", "rise_points")
             self.success_status = True
             return data
 
