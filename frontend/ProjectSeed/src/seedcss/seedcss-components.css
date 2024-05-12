@@ -16,6 +16,10 @@
     color:var(--main-theme-color)
 }
 
+.bg-main-background{
+    background-color:var(--background-color)
+}
+
 .bg-main-box{
     background-color: var(--main-boxes-color);
 }
