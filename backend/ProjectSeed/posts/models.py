@@ -71,5 +71,5 @@ class Comment(models.Model):
         ordering = ["uploaded_date", "post__user__username"]
 
     def __str__(self) -> str:
-        return f"Post: {self.post.caption[:10]} -> {self.text[:30]}"
+        return f"Post: {self.post.caption[:10]} -> {self.the_comment[:30]}"
         # returns string with the post caption(only first 10 words) and Comment itself(only first 30 words)
