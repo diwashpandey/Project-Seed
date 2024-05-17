@@ -8,7 +8,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 class TopProfilesSerializer(serializers.ModelSerializer):
-    
+
     class Meta:
         model = User
-        fields = ["full_name", "username", "rise_points"]
+        fields = ["full_name", "username", "rise_points", "profile_photo", "background_photo"]

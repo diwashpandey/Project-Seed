@@ -2,6 +2,7 @@
 from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
 
 
 # imports from apps
@@ -15,12 +16,15 @@ from django.http import HttpResponse
 
 # importing serializers
 from ranking.serializers import TopProfilesSerializer
+from accounts.serializers import UserProfileSerializer
 
 # Create your views here.
 def temporaryview(request):
     return HttpResponse("I am in home")
 
 class GetTopProfiles(APIView, ResponseUtilities):  # Using the Normal APIView for more customization
+    authentication_classes = []
+    permission_classes = [AllowAny]
     
     def get(self, request, format=None):
         """
@@ -67,13 +71,16 @@ class GetTopProfiles(APIView, ResponseUtilities):  # Using the Normal APIView fo
 
         # Retrieve top profile globally if no specific parameters are provided
         else:
+            print("i'm here")
             top_profiles = profile_ranking_system.get_top_profiles_from_global(count=count)
+            print(top_profiles)
         
         # Serialize the top profile data using the TopProfilesSerializer class
-        self.data = TopProfilesSerializer(instance=top_profiles, many=True).data  # getting the .data directly
+        self.response_data = TopProfilesSerializer(instance=top_profiles, many=True).data  # getting the .data directly
 
         # Setting the messege to client attribute
         self.message_to_client = profile_ranking_system.message_to_client
+        print("I've reached here", )
         
         # Return the generated response to the client
         return Response(self.get_generated_response())
