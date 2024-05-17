@@ -1,75 +1,69 @@
-import { useState, useEffect, createContext } from "react";
+// imports from react
+import { useState, useEffect, createContext, useRef } from "react";
+
+// imports from third parties
 import { jwtDecode } from "jwt-decode";
+import axios from "axios";
+import useAxios from "../hooks/useAxios";
 
-
+// Additional imports
+import { BaseURL, AuthUserDataURL } from "../utilities/apiEndpoints"
+import { TokensHandler } from "./TokensHandler"
 /*
-    This manages things like:
-        1. isAuthenticated
-        2. setIsAuthenticated
-        
-        3. authTokens
-        4. setAuthTokens
+    This manages and provides things like:
+        1. isAuthenticated,
+        2. setIsAuthenticated,
+
+        3. authUserData,
+        4. setAuthUserData
         
 */
-
 export const AuthContext = createContext()
-
-function tokensExists(){
-    const refresh = localStorage.getItem("refresh")
-    const access = localStorage.getItem("access")
-
-    return (refresh !== null && access !== null) // Will be FALSE if not null else TRUE
-}
-
-function checkIfRefreshTokenIsValid(){
-    try{
-        
-        // Getting the refresh token
-        const refresh = jwtDecode(localStorage.getItem("refresh"))
-        
-        // Checking if the refresh token expiry date
-        if(Date.now() >= refresh.exp){
-            return true
-        }
-        else {
-            // // Removing the JSON Web Tokens if expired
-            localStorage.removeItem("refresh")
-            localStorage.removeItem("access")
-            return false
-        }
-    }
-    catch(error){
-        // Removing the JSON Web Tokens if some glitch happened while decoding them
-        localStorage.removeItem("refresh")
-        localStorage.removeItem("access")
-        return false
-    }
-}
 
 function AuthProvider({children}){
 
-    if (tokensExists()){
-        checkIfRefreshTokenIsValid()
+    const tokensHandler = new TokensHandler()
+
+    const [isAuthenticated, setIsAuthenticated] = useState(tokensHandler.checkIfAuthenticated())
+    const [authUserData, setAuthUserData] = useState(null)
+    const [accessToken, setAccessToken] = useState(null)
+    const [refreshToken, setRefreshToken] = useState(null)
+
+    /*
+    Working on Logged in user Data
+    */
+    const fetchUserData = async () =>{
+        try{
+            const axiosHook = useAxios()
+            let response = await axiosHook.get(AuthUserDataURL)
+            if (response.data.success_status){
+                // Finally setting the quick user data
+                setAuthUserData(response.data.response_data)
+            }
+        }
+        catch(err){
+            console.log("Error occured while fetching the auth User Data:", err)
+            tokensHandler.removeTokens()
+        }
     }
 
-    // isAuthenticated will be set to true if tokens exists in the local storage
-    const [isAuthenticated, setIsAuthenticated] = useState(()=>{
-        return localStorage.getItem("refresh") ? true : false
-    })
+    if (isAuthenticated){
+        if (! tokensHandler.isAccessExpired){
+            fetchUserData();
+        }
+        else{
+            tokensHandler.requestAccessToken()
+        }
+    }
 
-    // setting the authTokens
-    const [authTokens, setAuthTokens] = useState({
-        "access":localStorage.getItem("access"),
-        "refresh":localStorage.getItem("refresh")
-    })
     
     // These are the context that childrens can use
     const contextData = {
         isAuthenticated,
         setIsAuthenticated,
 
-        authTokens,
-        setAuthTokens
+        authUserData,
+        setAuthUserData
     }
 
     // Wrapping it's chilren with it's values
