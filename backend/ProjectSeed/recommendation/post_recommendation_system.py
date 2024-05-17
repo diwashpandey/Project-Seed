@@ -42,11 +42,17 @@ class PostsRecommendation:
             return self.get_random_posts(offset, limit)
         
         # Check if the user has interests or following, if yes, get personalized posts
-        if user.skills.exists() or user.following.exists() or user.college or user.university:
+        if user.skills.first() or user.following.first() or user.colleges.first() or user.universities.first():
             recommended_posts = self.get_personalized_posts(user, offset, limit)
+
+            if recommended_posts == None:
+                recommended_posts = self.get_random_posts(offset, limit)
+
+            elif len(recommended_posts) <= 10:
+                recommended_posts |= self.get_random_posts(offset, limit)
+
         else:
             recommended_posts = self.get_random_posts(offset, limit)
-
         return recommended_posts
 
     def get_personalized_posts(self, user, offset=0, limit=10):
@@ -131,8 +137,8 @@ class PostsRecommendation:
         Returns:
             QuerySet: A queryset containing the latest posts from same college or university.
         """
-        college = user.college
-        university = user.university
+        college = user.colleges.first()
+        university = user.universities.first()
         
         if college:
             # Get posts from users in the same college
