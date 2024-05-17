@@ -34,7 +34,7 @@ class ProfileRankingSystem:
 
         try:
             college = College.objects.get(name = college_name)
-            data = college.college_students.all().order_by("-rise_points")[0:count].values("full_name", "username", "rise_points")
+            data = college.college_students.all().order_by("-rise_points")[0:count]
             self.success_status = True
             return data
 
@@ -46,7 +46,7 @@ class ProfileRankingSystem:
 
         try:
             university = University.objects.get(name = university_name)
-            data = university.university_students.all().order_by("-rise_points")[0:count].values("full_name", "username", "rise_points")
+            data = university.university_students.all().order_by("-rise_points")[0:count]
             self.success_status = True
             return data
 
@@ -56,12 +56,12 @@ class ProfileRankingSystem:
     
     def get_top_profiles_from_global(self, count=10, *args, **kwargs):
 
-        data = list(User.objects.all().order_by("-rise_points")[0:count].values("full_name", "username", "rise_points"))
+        data = User.objects.all().order_by("-rise_points")[0:count]
         self.success_status = True
         return data
 
 
-class PostsRankingSystem:
+class PostRankingSystem:
     """
         This is a class designed to fetch top students from either a college, university, or overall:
 
@@ -107,6 +107,5 @@ class PostsRankingSystem:
     def get_top_posts_from_global(self, count=10, *args, **kwargs):
 
         data = list(Post.objects.all().order_by("-rises_count")[0:count])
-        print("data")
         self.success_status = True
         return data
