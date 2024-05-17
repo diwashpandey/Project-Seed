@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { Link, redirect } from "react-router-dom";
 
 // Components and Pages imports
-import Header from "../components/Header/Header"
 
 // Additional imports
 import LoginHandler from "../authentication/loginHandler"
@@ -52,7 +51,6 @@ function Login() {
 
   return (
     <>
-    <Header />
     <main className="h-screen w-screen center">
       <form id="login-box" className="h-[30rem] w-[26rem] p-8 rounded-lg flex flex-col items-center relative bg-main-box"  onSubmit={handleSubmit}>
 

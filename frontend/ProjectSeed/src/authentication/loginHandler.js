@@ -13,7 +13,7 @@ class LoginHandler{
             try{
                 let response = await axios({
                     method: 'POST',
-                    url: 'http://127.0.0.1:8000/account/login/',
+                    url: 'http://127.0.0.1:8000/accounts/login/',
                     data: {
                         "email": email,
                         "password": password
@@ -30,7 +30,6 @@ class LoginHandler{
                     else{
                         this.message = response.data["message_from_server"]
                     }
-                    
                 }
                 else{
                     this.message = "Something wrong ! Please Refresh the page"

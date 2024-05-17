@@ -25,7 +25,7 @@
 
 
 /* Theme Buttons */
-.hollow-theme-btn{
+.btn-theme-hollow{
     height:28px;
     width:75px;
     border: 2px solid var(--main-theme-color);
@@ -41,17 +41,12 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-.hollow-theme-btn:hover{
-    color:var(--text-color);
-    
+.btn-theme-hollow:hover{
     background-color: var(--main-theme-color);
-}
-.active-btn{
     color:var(--text-color);
-    background-color: var(--main-theme-color);
 }
 
-.filled-theme-btn{
+.btn-theme-filled{
     height:28px;
     width:75px;
     background-color: var(--main-theme-color);
@@ -66,43 +61,65 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-.filled-theme-btn:hover{
+.btn-theme-filled:hover{
     color:var(--main-theme-color);
     
     background-color: rgba(0, 0, 0, 0);
     border: 2px solid var(--main-theme-color);
 }
-.active-btn{
-    color:var(--text-color);
-    background-color: var(--main-theme-color);
-}
-
-
 
 
 /* White Button */
-.white-btn{
+.btn-white-filled{
     height:28px;
     width:75px;
-    border:2px solid white;
     border-radius:15px;
-
+    border: 2px solid var(--theme-text-color);
+    
     display: flex;
     justify-content: center;
     align-items: center;
-
+    
     font-size: 0.8em;
     font-weight: 300;
     
-    background-color: rgba(255, 255, 255, 0);
+    background-color: var(--theme-text-color);
+    color: var(--text-opposite-color);
+
     cursor: pointer;
     transition: background-color 0.3s ease,
                 border 0.3s ease;
 }
-.white-btn:hover{
-    background-color: white;
-    color:black;
+.btn-white-filled:hover{
+    background-color: rgba(255, 255, 255, 0);
+    color: var(--theme-text-color)
 }
+.btn-white-hollow{
+    height:28px;
+    width:75px;
+    border-radius:15px;
+    border: 2px solid var(--theme-text-color);
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    font-size: 0.8em;
+    font-weight: 300;
+    
+    background-color: rgba(255, 255, 255, 0);
+    color: var(--theme-text-color);
+    
+    cursor: pointer;
+    transition: background-color 0.3s ease,
+    border 0.3s ease;
+}
+.btn-white-hollow:hover{
+    background-color: var(--theme-text-color);
+    color: var(--text-opposite-color);
+}
+
+
 
 /*
 Rise Button
@@ -208,7 +225,7 @@ Rise Button
     justify-content: center;
     align-items: center;
     
-    color: white;
+    color: white !important;
     background-color:var(--blue-color);
     
     cursor: pointer;
