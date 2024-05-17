@@ -3,6 +3,7 @@ import { useContext } from "react"
 
 // Third Parties Imports
 import { Link, NavLink } from "react-router-dom"
+import { useSelector } from "react-redux"
 
 // Pages and Components import
 import HomeIcon from "./icons/Home"
@@ -11,10 +12,14 @@ import TopProfiles from "./icons/TopProfiles"
 
 // Additional Imports
 import { AuthContext } from "../../authentication/AuthProvider"
+import { generatePhotoURL } from "../../utilities/apiEndpoints"
 
 function Header(){
+    const authUserData = useSelector((state)=> state.authUserDataReducer)
 
-  const {isAuthenticated, setIsAuthenticated} = useContext(AuthContext)
+    console.log("data of auth user",authUserData)
+
+  const {isAuthenticated} = useContext(AuthContext)
 
   return (
     <header className="h-[60px] w-full mb-2 flex justify-between items-center px-2 bg-main-box md:px-6 fixed z-10">
@@ -57,10 +62,11 @@ function Header(){
             <div className="header-profile center gap-1">
                 {
                     // Rendering this part according to the authentication
-                    isAuthenticated ? <>
+                    isAuthenticated ?
+                    <>
                         
                         <a href="" className="hidden md:block">
-                            <img src="./me.jpg" alt="" className="profile-photo h-10 w-10"/>
+                            <img src={authUserData ? `${generatePhotoURL(authUserData.profile_photo)}` : ""} alt="" className="profile-photo h-10 w-10 bg-slate-400"/>
                         </a>
                         <div className="ellipsis-btn h-7 w-7 center flex-col cursor-pointer rounded-full p-1 hover:bg-slate-600">
                             <div className="rounded-full h-1 w-1 m-auto bg-white"></div>
