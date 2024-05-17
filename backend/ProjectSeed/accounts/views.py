@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model, authenticate
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 # rest_framework_simplejwt imports
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -17,7 +18,7 @@ from . registration import CustomUserRegistration
 # MODELS import
 
 # Serializes imports
-
+from .serializers import AuthUserQuickDataSerializer
 
 
 # Getting the user model with django provided settings
@@ -56,3 +57,16 @@ class RegisterView(APIView, ResponseUtilities, CustomUserRegistration):
         user = self.register_user_if_valid(request.data)
 
         return Response(self.get_generated_response())
+    
+class AuthUserQuickData(APIView, ResponseUtilities):
+
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, format=None):
+        try:
+            self.response_data = AuthUserQuickDataSerializer(instance = request.user).data
+            self.success_status = True
+        except:
+            self.message_to_client = "Something went wrong when fetching the data"
+        return Response(self.get_generated_response())
+
