@@ -1,24 +1,43 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
+
+// importing url Names
+import {homeRoute, loginRoute, profileRoute,}  from "./utilities/frontendRoutes"
+
+// Pages imports
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import BaseApp from "./BaseApp";
+import Profile from "./pages/Profile";
+import Loading from "./pages/Loading";
 
 export const router = createBrowserRouter(
     createRoutesFromElements([
         <Route path="" element={<BaseApp />} >
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/login" element={<Login />}></Route>
+          <Route path={homeRoute} element={<Home />} />
+          <Route path={loginRoute} element={<Login />} />
+          <Route path={`${profileRoute}:username`} element={<Profile />} />
         </Route>
       ])
-  )
+)
 
-// const router = createBrowserRouter([
+// const routerf = createBrowserRouter([
 //   {
-//     "path":"",
-//     element: <Home />
-//   },
-//   {
-//     "path":"/Login",
-//     element: <Login />
-//   },
+//     path:"",
+//     element: <BaseApp />,
+//     children: [
+//       {
+//         path:homeRoute,
+//         element:<Home />
+//       },
+//       {
+//         path:loginRoute,
+//         element:<Login />
+//       },
+//       {
+//         path:`${profileRoute}:username`,
+//         element:<Profile />,
+        
+//       }
+//     ]
+//   }
 // ])

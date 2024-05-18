@@ -1,0 +1,84 @@
+// Additional imports
+import { generatePhotoURL } from '../../utilities/apiEndpoints'
+
+const MainProfile = ({user, children}) => {
+
+  return (
+      <div id="first-box" className='w-full'>
+            <div id="main-user-profile-section" className="w-full pb-4 flex flex-col items-center relative bg-main-box mb-4" >
+                <img src={generatePhotoURL(user.background_photo)} alt="" className="user-profile-background-photo w-full h-32 rounded-lg absolute object-cover z-0 bg-gray-700" />
+                <div className="user-profile-photo-container flex flex-col items-center relative mb-3">
+                    <img src={generatePhotoURL(user.profile_photo)} alt="" className="user-profile-profile-photo profile-photo h-24 w-24 mt-16 border-2 border-white relative z-1 bg-gray-700 sm:h-32 sm:w-32" />
+                    <div className="user-profile-rise-points cursor-default w-fit min-w-32 px-2 py-1 rounded-full center gap-2 absolute bottom-[-10px] bg-theme-color scale-75 sm:scale-100">
+                        <span className="text-xs text-white">{user.rise_points} Rise Points</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="w-4 fill-white">
+                            <g id="Rise">
+                                <path className="cls-1" d="M10,.83A9.17,9.17,0,1,0,19.17,10,9.18,9.18,0,0,0,10,.83Zm3.68,9.06a1.08,1.08,0,0,1-.8.37A1.1,1.1,0,0,1,12.2,10L11.05,9v4.22a1.05,1.05,0,0,1-2.1,0V9L7.8,10a1,1,0,0,1-1.36-1.6L9.32,6a1,1,0,0,1,1.36,0l2.88,2.44A1.06,1.06,0,0,1,13.68,9.89Z"/>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+                <h1 id="user-profile-full-name" className="text-2xl font-light">{user.full_name}</h1>
+                <h3 id="user-profile-username" className="text-xs font-extralight mb-1 sm:text-base">@{user.username}</h3>
+                <h2 id="user-profile-bio" className="text-xs max-w-48 text-center font-extralight sm:text-sm sm:max-w-80">{user.intro}</h2>
+                <div className="flex gap-4 m-4">
+                    <div id="user-profile-followers-count" className="p-1 py-[2px] rounded-md text-light-mode-opposite-color text-xs font-light bg-black-white sm:text-base">{user.followers_count} Followers</div>
+                    <div id="user-profile-following-count" className="p-1 py-[2px] rounded-md text-light-mode-opposite-color text-xs font-light bg-black-white sm:text-base">{user.following_count} Following</div>
+                </div>
+                <div id="user-studies-container" className="p-2 rounded-lg flex flex-col gap-4 items-center bg-theme-lighter sm:flex-row">
+                    {
+                        user.colleges.map((college)=>{
+                            return <span key =  {college.id}  className="text-xs md:text-base">{college.name}</span>
+                        })
+                    }
+                    {
+                        user.universities.map((university)=>{
+                            return <span id={`user-profile-university-${university.id}`} key={university.id} className="text-xs md:text-base">{university.name}</span>
+                        })
+                    }
+                    {
+                        !!user.colleges.length === 0 && !!user.universities.length === 0 ?
+                        <span key="noStudy" className="text-xs md:text-base">No Study Provided</span>
+                        :""
+
+                    }
+                </div>
+                <hr className="w-[80%] m-4" />
+                <div id="user-profile-more-information-section" className="w-[80%] min-h-56 grid grid-rows-2 grid-cols-2 gap-2 sm:flex lg:w-[60%]">
+                    <ul id="user-profile-skills-list" className="order-2 rounded-2xl p-4 flex flex-col items-center bg-theme-lighter text-xs sm:order-1 sm:w-[50%] sm:text-base">
+                        <li className="px-3 mb-1 bg-black-white text-light-mode-opposite-color rounded-md font-light">Skills</li>
+                        {
+                            user.skills.length !== 0 ? 
+                                user.skills.map((skill)=>{
+                                    return <li key={skill.id}>{skill.name}</li>
+                                })
+                            : <li key={"noSkill"} className="text-center">No Skills Provided</li>
+                        }
+                    </ul>
+                    <div id="user-profile-aboutme" className="order-1 p-4 rounded-2xl col-start-1 col-end-3 relative text-sm bg-theme-lighter sm:order-2 sm:w-full">
+                        <p className="text-center text-2xl mb-2">About me</p>
+                        <p className="text-center sm:text-base">
+                            {user.about_me? user.about_me : "No about me Provided"}
+                        </p>
+                        {/* <div id="user-profile-about-seemore" className="absolute bottom-1 right-4 text-sm cursor-pointer opacity-50 hover:underline hover:opacity-100">see all</div> */}
+                    </div>
+                    <ul id="user-profile-interests-list" className="order-3 p-4 rounded-2xl bg-theme-lighter flex flex-col items-center text-xs sm:order-3 sm:w-[50%] sm:text-base">
+                        <li className="px-3 mb-1 bg-black-white text-light-mode-opposite-color rounded-md font-light">Interests</li>
+                        {
+                            user.interests.length !== 0 ? 
+                                user.interests.map((interest)=>{
+                                    return <li key={interest.id}>{interest.name}</li>
+                                })
+                            : <li key={"noInterest"} className="text-center">No Interests Provided</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+            {/* This is the Profile Downtown */}
+            {children}
+        </div>
+  )
+}
+
+export default MainProfile

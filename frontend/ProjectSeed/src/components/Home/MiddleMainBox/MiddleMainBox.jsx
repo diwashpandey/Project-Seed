@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 
 // Additional imports
 import { AuthContext } from "../../../authentication/AuthProvider"
-import { GetPostsUrl, GetPostsNonAuthenticatedUrl } from "../../../utilities/apiEndpoints"
+import { GetPostsURL, GetPostsNonAuthenticatedURL } from "../../../utilities/apiEndpoints"
 import fetchPost from "../../../fetchers/Post/fetchPosts"
 import { addPosts } from "../../../reduxStore/features/Post/postsSlice"
 import { generatePhotoURL } from "../../../utilities/apiEndpoints"
@@ -17,12 +17,12 @@ import Post from "../../Post/Post"
 
 function MiddleMainBox() {
     const authUserData = useSelector((state)=> state.authUserDataReducer)
-    const {isAuthenticated} = useContext(AuthContext)
+    const { isAuthenticated} = useContext(AuthContext)
     const Posts = useSelector((state)=> state.postsReducer[0])
     console.log("Posts in state are:", Posts)
     const dispatch = useDispatch()
 
-    const url = isAuthenticated ? GetPostsUrl : GetPostsNonAuthenticatedUrl
+    const url = isAuthenticated ? GetPostsURL : GetPostsNonAuthenticatedURL
     let { data, isSuccess, isLoading, isError } = useQuery({
         queryKey: ["fetchPosts"],
         queryFn: () =>  fetchPost(url)
