@@ -4,14 +4,26 @@ from rest_framework import serializers
 # imports from django
 from django.contrib.auth import get_user_model
 
+# serializers import
+from colleges.serializers import CollegeMiniData
+from universities.serializers import UniversityMiniData
+from posts.serializers import PostSerializer
+
+
 # using djagno provided function to get the USER Model
 User = get_user_model()
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    
+
+    colleges = CollegeMiniData(many=True)
+    universities = UniversityMiniData(many=True)
+    posts = PostSerializer(many=True)
+
     class Meta:
         model = User
-        fields = ["email","username","full_name","age","gender","intro","about_me","profile_photo","background_photo","is_teacher","is_verified","is_email_verified","following_count","followers_count","rise_points","github","linkedin","instagram","colleges","universities","skills","interests","following", "rise"]      
+        exclude = ["password", "is_staff", "is_superuser", "date_joined", "last_login", "groups", "user_permissions", "following", "rise"]
+        read_only_fields = ["password", "is_staff", "is_superuser", "date_joined", "last_login", "groups", "user_permissions", "following", "rise"]
+        depth = 2
 
 
 class TopProfilesSerializer(serializers.ModelSerializer):

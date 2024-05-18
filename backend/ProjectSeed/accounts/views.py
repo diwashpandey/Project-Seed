@@ -18,7 +18,7 @@ from . registration import CustomUserRegistration
 # MODELS import
 
 # Serializes imports
-from .serializers import AuthUserQuickDataSerializer
+from .serializers import (AuthUserQuickDataSerializer, UserProfileSerializer)
 
 
 # Getting the user model with django provided settings
@@ -49,7 +49,6 @@ class LoginView(APIView, ResponseUtilities):
 
         return Response(self.get_generated_response())
     
-
 class RegisterView(APIView, ResponseUtilities, CustomUserRegistration):
     
     def post(self, request, format=None):
@@ -68,5 +67,55 @@ class AuthUserQuickData(APIView, ResponseUtilities):
             self.success_status = True
         except:
             self.message_to_client = "Something went wrong when fetching the data"
+        return Response(self.get_generated_response())
+    
+class ProfileView(APIView, ResponseUtilities):
+    
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+
+        asked_username = request.query_params.get("username")
+        print(asked_username)
+        try:
+            user = User.objects.get(username = asked_username)
+            self.response_data = UserProfileSerializer(instance=user).data
+            
+            # Adding if_owner to True
+            # if the requester is the Owner of the profile
+            self.response_data["is_owner"] = False
+            if request.user == user: 
+                self.response_data["is_owner"] = True
+
+            self.success_status = True
+
+        except:
+            self.message_to_client = "User didn't found"
+        
+        return Response(self.get_generated_response())
+
+    
+class ProfileViewNonAuthenticated(APIView, ResponseUtilities):
+    
+    permission_classes = [AllowAny]
+    authentication_classes = []
+
+    def get(self, request, format=None):
+
+        asked_username = request.query_params.get("username")
+        print(asked_username)
+        try:
+            user = User.objects.get(username = asked_username)
+            self.response_data = UserProfileSerializer(instance=user).data
+
+            # Adding if_owner to False
+            self.response_data["is_owner"] = False
+            self.success_status = True
+            print("returning the data")
+
+        except Exception as e:
+            print("returning the data", e)
+            self.message_to_client = "User didn't found"
+        
         return Response(self.get_generated_response())
 
