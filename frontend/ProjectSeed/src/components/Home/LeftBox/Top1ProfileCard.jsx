@@ -1,10 +1,14 @@
+// Imports from react
+import { Link } from "react-router-dom"
+
 // Additional imports
-import { BaseURL } from "../../../utilities/apiEndpoints"
+import { generatePhotoURL } from "../../../utilities/apiEndpoints"
+import { profileRoute } from "../../../utilities/frontendRoutes"
 
 function Top1ProfileCard({profile}) {
   return (
-    <a href="{% url 'account:profile_page' top_students.0.username %}" className="top-1-stu-card h-24 w-36 mb-4 rounded-2xl relative flex flex-col items-center">
-      <img src={`${BaseURL}${profile.profile_photo}`} alt="" className="profile-photo h-11 w-11 absolute top-[-1rem]" />
+    <Link to={`${profileRoute}${profile.username}`} className="top-1-stu-card h-24 w-36 mb-4 rounded-2xl relative flex flex-col items-center">
+      <img src={generatePhotoURL(profile.profile_photo)} alt="" className="profile-photo h-11 w-11 absolute top-[-1rem]" />
       <div className="top-1-stu-full-name mt-7 text-sm font-normal text-white">{profile.full_name}</div>
       <div className="top-1-stu-username text- leading-[8px] text-[8px] font-extralight text-white">@{profile.username}</div>
       <div className="top-1-stu-rise-points-box h-[30%] w-[80%] center gap-1 mt-2 rounded-lg">
@@ -15,7 +19,7 @@ function Top1ProfileCard({profile}) {
             </g>
           </svg>
       </div>
-    </a>
+    </Link>
   )
 }
 

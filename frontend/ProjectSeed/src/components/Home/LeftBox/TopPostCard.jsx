@@ -1,12 +1,13 @@
-// imports from react
-import React from 'react'
+// imports from third party libraries
+import { Link } from "react-router-dom"
 
 // Additional imports
 import { generatePhotoURL } from "../../../utilities/apiEndpoints"
+import { profileRoute } from "../../../utilities/frontendRoutes"
 
 const TopPostCard = ({topPost}) => {
   return (
-    <a className="top-achievement-card p-2 rounded-lg w-full block relative mb-2 cursor-pointer">
+    <Link to={`${profileRoute}${topPost.user.username}`}  className="top-achievement-card p-2 rounded-lg w-full block relative mb-2 cursor-pointer">
         <div className="upper-section flex gap-2">
             <img src={generatePhotoURL(topPost.user.profile_photo)} id="post-user-profile-photo" className="profile-photo h-10 w-10" />
             <div className="mb-2">
@@ -23,7 +24,7 @@ const TopPostCard = ({topPost}) => {
           topPost.photos[0] ? <img src={generatePhotoURL(topPost.photos[0].photo)} className="h-12 w-12 ml-16 object-cover rounded-md" /> : null
         }
         <p className="top-achievement-rise-countpy-1 px-2 border-2 border-theme-color rounded-lg text-theme-color absolute right-3 bottom-3">{topPost.rises_count} rises</p>
-    </a>
+    </Link>
   )
 }
 

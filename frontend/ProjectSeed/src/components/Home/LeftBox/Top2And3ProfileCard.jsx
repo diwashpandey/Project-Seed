@@ -1,11 +1,15 @@
+// imports from third party libraries
+import { Link } from "react-router-dom"
+
 // Additional imports
-import { BaseURL } from "../../../utilities/apiEndpoints"
+import { generatePhotoURL } from "../../../utilities/apiEndpoints"
+import { profileRoute } from "../../../utilities/frontendRoutes"
 
 function Top2And3ProfileCard({profile}) {
   return (
-    <a href="{% url 'account:profile_page' top_students.1.username %}" className="top-2-3-stu-card h-20 w-38 rounded-2xl relative flex flex-col items-center p-2">
+    <Link to={`${profileRoute}${profile.username}`} className="top-2-3-stu-card h-20 w-38 rounded-2xl relative flex flex-col items-center p-2">
       <div className="1st-section flex gap-1">
-          <img src={`${BaseURL}${profile.profile_photo}`} alt="" className="profile-photo h-9 w-9" />
+          <img src={generatePhotoURL(profile.profile_photo)} alt="" className="profile-photo h-9 w-9" />
           <div>
               <div className="1st-stu-full-name text-sm font-light text-white">{profile.full_name}</div>
               <div className="1st-stu-username text-[0.6rem] font-extralight text-white">@{profile.username}</div>
@@ -19,7 +23,7 @@ function Top2And3ProfileCard({profile}) {
               </g>
           </svg>
       </div>
-    </a>
+    </Link>
   )
 }
 

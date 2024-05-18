@@ -1,7 +1,10 @@
 // imports from react
 import { useContext } from 'react'
 import { createRoot } from 'react-dom/client'
-import { formatDistance, subDays } from "date-fns"
+
+// imports from third party libraries
+import { formatDistance } from "date-fns"
+import { Link } from "react-router-dom"
 
 // importing components
 import  PostRiseButton  from "../Buttons/PostRiseButton"
@@ -10,6 +13,7 @@ import PostCommentButton from '../Buttons/PostCommentButton'
 // Additional imports
 import { generatePhotoURL } from '../../utilities/apiEndpoints'
 import { AuthContext } from "../../authentication/AuthProvider"
+import { profileRoute } from "../../utilities/frontendRoutes"
 
 function Post({post}) {
 
@@ -18,13 +22,13 @@ function Post({post}) {
   return (
     <div id="post" className="post w-full max-w-xl p-2 mt-4 rounded-2xl bg-main-box">
         <div className="post-header flex items-center relative bottom-3 pl-1 sm:bottom-4 md:pl-4">
-            <div className="post-user-profile-photo-container h-[50px] w-[50px] mr-1 rounded-full center relative bottom-1 bg-main-box md:bottom-0 md:mr-2 md:h-[70px] md:w-[70px]">
+            <Link to={`${profileRoute}${post.user.username}`} className="post-user-profile-photo-container h-[50px] w-[50px] mr-1 rounded-full center relative bottom-1 bg-main-box md:bottom-0 md:mr-2 md:h-[70px] md:w-[70px]">
                 <img src={generatePhotoURL(post.user.profile_photo)} alt="" className="profile-photo h-[80%] w-[80%] bg-gray-500" />
-            </div>
+            </Link>
             <div>
-                <div className="post-user-full-name font-light text-sm sm:text-lg">{ post.user.full_name }</div>
+                <Link to={`${profileRoute}${post.user.username}`} className="post-user-full-name font-light text-sm sm:text-lg">{ post.user.full_name }</Link>
                 <div className="sm:flex">
-                    <div className="post-user-username font-light text-[8px] sm:text-xs">@{ post.user.username }</div>
+                    <Link to={`${profileRoute}${post.user.username}`} className="post-user-username font-light text-[8px] sm:text-xs">@{ post.user.username }</Link>
                     <div className="post-uploaded-time font-light text-[8px] opacity-60 sm:ml-6 sm:text-xs">{
                     formatDistance(new Date(post.uploaded_date), new Date(), { addSuffix: true }) // Using date-fns to get the date uploaded
                     }</div>

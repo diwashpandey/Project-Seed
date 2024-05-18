@@ -17,8 +17,6 @@ import { generatePhotoURL } from "../../utilities/apiEndpoints"
 function Header(){
     const authUserData = useSelector((state)=> state.authUserDataReducer)
 
-    console.log("data of auth user",authUserData)
-
   const {isAuthenticated} = useContext(AuthContext)
 
   return (

@@ -17,10 +17,13 @@ export const HomePageNonAuthenticatedURL = "home/home-data-non-authenticated/"
 
 // Account
 export const AuthUserDataURL = `${BaseURL}/accounts/auth-user-quick-data/`
+export const UserProfileURL = `${BaseURL}/accounts/profile`// add ?username="yourusername"
+export const UserProfileNonAuthenticatedURL = `${BaseURL}/accounts/profile-non-authenticated`// add ?username="yourusername"
+
 
 // Posts
-export const GetPostsUrl = `${BaseURL}/recommendation/get-recommended-posts` // add ?offset= & limit=
-export const GetPostsNonAuthenticatedUrl = `${BaseURL}/recommendation/get-recommended-posts-non-auth` // add ?offect= & limit=
+export const GetPostsURL = `${BaseURL}/recommendation/get-recommended-posts` // add ?offset= & limit=
+export const GetPostsNonAuthenticatedURL = `${BaseURL}/recommendation/get-recommended-posts-non-auth` // add ?offect= & limit=
 
 // Top Profiles
 
