@@ -15,6 +15,8 @@ urlpatterns = [
        # Profile
        path("profile", views.ProfileView.as_view(), name="profile"),
        path("profile-non-authenticated", views.ProfileViewNonAuthenticated.as_view(), name="profile"),
+       path("downtown/", views.ProfileDowntownView.as_view(), name="profile_downtown"),
+       path("downtown-non-authenticated/", views.ProfileDowntownNonAuthenticatedView.as_view(), name="profile_downtown_nonauthenticated"),
 
        # Tokens
        path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

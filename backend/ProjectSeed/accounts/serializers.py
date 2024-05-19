@@ -25,6 +25,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
         read_only_fields = ["password", "is_staff", "is_superuser", "date_joined", "last_login", "groups", "user_permissions", "following", "rise"]
         depth = 2
 
+class DowntownProfileCardsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ["id","username", "full_name", "profile_photo"]
+
 
 class TopProfilesSerializer(serializers.ModelSerializer):
     class Meta:

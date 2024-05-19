@@ -33,7 +33,6 @@ class GetPosts(APIView, ResponseUtilities):
         postrecommendation = PostsRecommendation()
         # recommended_posts = postrecommendation.get_posts_for_user(user=request.user, offset=offset, limit=limit)
         recommended_posts = Post.objects.all() # Temporary
-        print(recommended_posts)
 
         serialized_data = PostSerializer(instance = recommended_posts, many=True)
 
@@ -64,7 +63,6 @@ class GetPostsNonAuthenticated(APIView, ResponseUtilities):
         postrecommendation = PostsRecommendation()
         # recommended_posts = postrecommendation.get_posts_for_user(user=request.user, offset=offset, limit=limit)
         recommended_posts = Post.objects.all() # Temporary
-        print(recommended_posts)
 
         serialized_data = PostSerializer(instance = recommended_posts, many=True)
 

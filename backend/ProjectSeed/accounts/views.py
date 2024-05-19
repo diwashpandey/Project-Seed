@@ -18,7 +18,7 @@ from . registration import CustomUserRegistration
 # MODELS import
 
 # Serializes imports
-from .serializers import (AuthUserQuickDataSerializer, UserProfileSerializer)
+from .serializers import (AuthUserQuickDataSerializer, UserProfileSerializer, DowntownProfileCardsSerializer)
 
 
 # Getting the user model with django provided settings
@@ -76,7 +76,6 @@ class ProfileView(APIView, ResponseUtilities):
     def get(self, request, format=None):
 
         asked_username = request.query_params.get("username")
-        print(asked_username)
         try:
             user = User.objects.get(username = asked_username)
             self.response_data = UserProfileSerializer(instance=user).data
@@ -103,7 +102,6 @@ class ProfileViewNonAuthenticated(APIView, ResponseUtilities):
     def get(self, request, format=None):
 
         asked_username = request.query_params.get("username")
-        print(asked_username)
         try:
             user = User.objects.get(username = asked_username)
             self.response_data = UserProfileSerializer(instance=user).data
@@ -111,11 +109,80 @@ class ProfileViewNonAuthenticated(APIView, ResponseUtilities):
             # Adding if_owner to False
             self.response_data["is_owner"] = False
             self.success_status = True
-            print("returning the data")
 
         except Exception as e:
             print("returning the data", e)
             self.message_to_client = "User didn't found"
         
+        return Response(self.get_generated_response())
+
+class ProfileDowntownView(APIView, ResponseUtilities):
+
+    def get(self, request, format=None):
+
+        asked_username = request.query_params.get("username")
+        section = request.query_params.get("section")
+
+        try:
+            user = User.objects.get(username = asked_username)
+
+            profiles = None
+            if section == "followers":
+                profiles = user.followers.all()
+            elif section == "following":
+                profiles = user.following.all()
+            elif section == "rises":
+                profiles = user.rise.all()
+            elif section == "risenBy":
+                profiles = user.rises.all()
+            else:
+                raise Exception("Profile Downtown request without SECTION")
+
+            self.response_data = DowntownProfileCardsSerializer(instance=profiles, many=True).data
+
+            self.success_status = True
+
+        except Exception as e:
+            print("Error in Downtown View!", e)
+            self.message_to_client = "User didn't found"
+        
+        return Response(self.get_generated_response())
+
+
+class ProfileDowntownNonAuthenticatedView(APIView, ResponseUtilities):
+    
+    permission_classes = [AllowAny]
+    authentication_classes = []
+
+    def get(self, request, format=None):
+        import time
+        time.sleep(3)
+        asked_username = request.query_params.get("username")
+        section = request.query_params.get("section")
+        print("asked section = ", section)
+
+        try:
+            user = User.objects.get(username = asked_username)
+
+            profiles = None
+            if section == "followers":
+                profiles = user.followers.all()
+            elif section == "following":
+                profiles = user.following.all()
+            elif section == "rises":
+                profiles = user.rise.all()
+            elif section == "risenBy":
+                profiles = user.rises.all()
+            else:
+                raise Exception("Profile Downtown request without SECTION")
+
+            self.response_data = DowntownProfileCardsSerializer(instance=profiles, many=True).data
+            print("Response data is:", self.response_data)
+            self.success_status = True
+
+        except Exception as e:
+            print("Error in Downtown View!", e)
+            self.message_to_client = "User didn't found"
+
         return Response(self.get_generated_response())
 
