@@ -1,6 +1,9 @@
 import Post from "../../Post/Post"
+import { useContext } from "react"
+import { userDataContext } from '../../../pages/Profile'
 
-export default function PostsBox({user}) {
+export default function PostsBox() {
+    let user = useContext(userDataContext)
   return (
         <div id="profile-downtown-posts-continer" className="user_profile_downtown_sections">
             <div id="downtown-posts-container-header" className="flex justify-between p-1 sm:p-4">

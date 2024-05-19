@@ -1,8 +1,12 @@
+// Imports from react
+import { useContext } from 'react'
+
 // Additional imports
 import { generatePhotoURL } from '../../utilities/apiEndpoints'
+import { userDataContext } from '../../pages/Profile'
 
-const MainProfile = ({user, children}) => {
-
+const MainProfile = ({children}) => {
+    let user = useContext(userDataContext)
   return (
       <div id="first-box" className='w-full'>
             <div id="main-user-profile-section" className="w-full pb-4 flex flex-col items-center relative bg-main-box mb-4" >

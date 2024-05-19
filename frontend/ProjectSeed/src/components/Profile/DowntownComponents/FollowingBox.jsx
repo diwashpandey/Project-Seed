@@ -1,6 +1,32 @@
-import React from 'react'
+// Imports from react
+import { useContext } from "react"
+
+// Imports from third party libraries
+import { useQuery } from "react-query"
+
+// Components Imports
+import BaseProfilesContainer from "./BaseProfilesContainer"
+
+// Additional Imports
+import { userDataContext } from "../../../pages/Profile"
+import {UserProfileDowntownURL, UserProfileDowntownNonAuthenticatedURL} from "../../../utilities/apiEndpoints"
+import { AuthContext } from "../../../authentication/AuthProvider"
+import { fetchUserProfileDowntown } from "../../../fetchers/Profile/fetchProfileDowntown"
 
 export default function FollowingBox() {
+
+  const {isAuthenticated} = useContext(AuthContext)
+  let user = useContext(userDataContext)
+
+  const url = isAuthenticated ? UserProfileDowntownURL : UserProfileDowntownNonAuthenticatedURL
+  let section = "following" // Warning ! don't change ! it's required for server
+
+  const {data, isLoading, isSuccess} = useQuery({
+      queryKey : ["userFollowingProfilesQuery", user.username],
+      queryFn: () => fetchUserProfileDowntown(url, user.username, section)
+  })
+
+
   return (
     <div id="profile-downtown-following-container" className="user_profile_downtown_sections">
       <div id="downtown-following-container-header" className="flex justify-between p-1 sm:p-4">
@@ -10,9 +36,7 @@ export default function FollowingBox() {
           <!-- <button className="hidden white-btn w-40 text-[0.5em] sm:text-sm sm:block">Teacher | Student</button> --> */}
           
       </div>
-      <div id="downtown-following-user-cards-container" className="flex flex-col items-center">
-
-      </div>
+      <BaseProfilesContainer usersData={data} isLoading={isLoading} isSuccess={isSuccess} />
   </div>
   )
 }

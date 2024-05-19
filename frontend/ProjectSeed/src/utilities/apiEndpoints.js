@@ -15,11 +15,12 @@ export const RegisterURL = `${BaseURL}/accounts/register/`
 export const HomePageAuthenticatedURL = "home/home-data-authenticated/"
 export const HomePageNonAuthenticatedURL = "home/home-data-non-authenticated/"
 
-// Account
+// Account or Profile
 export const AuthUserDataURL = `${BaseURL}/accounts/auth-user-quick-data/`
 export const UserProfileURL = `${BaseURL}/accounts/profile`// add ?username="yourusername"
 export const UserProfileNonAuthenticatedURL = `${BaseURL}/accounts/profile-non-authenticated`// add ?username="yourusername"
-
+export const UserProfileDowntownURL = `${BaseURL}/accounts/downtown` // add ?username="username"&section="section"
+export const UserProfileDowntownNonAuthenticatedURL = `${BaseURL}/accounts/downtown-non-authenticated` // add ?username="username"&section="section"
 
 // Posts
 export const GetPostsURL = `${BaseURL}/recommendation/get-recommended-posts` // add ?offset= & limit=

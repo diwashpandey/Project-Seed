@@ -1,10 +1,6 @@
 // Imports from react
 import { useState } from "react"
 
-// Imports from third party libraries
-import { useLocation } from "react-router-dom"
-import { Link } from "react-router-dom"
-
 // Components Import
 import PostsBox from "./DowntownComponents/PostsBox"
 import FollowersBox from "./DowntownComponents/FollowersBox"
@@ -19,30 +15,28 @@ export default function ProfileDowntown({user}) {
 
   let content;
   let [postsActive, followingActive, followersActive, risesActive, risenByActive] = ["nav-btn","nav-btn","nav-btn","nav-btn","nav-btn"]
-  if (section === "following") {
-    // Render content for following section
-    content = <FollowingBox username={user.username} />;
-    followingActive = "nav-btn-active";
 
-  } else if (section === "followers") {
-    // Render content for followers section
-    content = <FollowersBox username={user.username} />;
-    followersActive = "nav-btn-active";
-
-  } else if (section === "rises") {
-    // Render content for rises section
-    content = <RisesBox username={user.username} />;
-    risesActive = "nav-btn-active";
-
-  } else if (section === "risenBy") {
-    // Render content for risenBy section
-    content = <RisenByBox username={user.username} />;
-    risenByActive = "nav-btn-active";
-    
-  } else {
-    // Default to rendering PostsBox component
-    content = <PostsBox user={user} />;
-    postsActive = "nav-btn-active";
+  switch (section) {
+    case 'following':
+      followingActive = "nav-btn-active";
+      content =  <FollowingBox />;
+      break;
+    case 'followers':
+      followersActive = "nav-btn-active";
+      content =  <FollowersBox />;
+      break;
+    case 'rises':
+      risesActive = "nav-btn-active";
+      content =  <RisesBox />;
+      break;
+    case 'risenBy':
+      risenByActive = "nav-btn-active";
+      content =  <RisenByBox />;
+      break;
+    default:
+      postsActive = "nav-btn-active";
+      content =  <PostsBox />;
+      break;
   }
 
   return (

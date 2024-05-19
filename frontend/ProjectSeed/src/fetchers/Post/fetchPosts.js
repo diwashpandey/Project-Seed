@@ -16,7 +16,7 @@ async function fetchPosts(url){
         }
     }
     catch(err){
-        console.log("Something went wrong while fetching the recommended posts", err)
+        console.log("Something went wrong while fetching the recommended posts")
     }
 }
 
