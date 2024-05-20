@@ -2,6 +2,7 @@
 
 // Import from third party libraries
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 // Additional imports
 import { generatePhotoURL } from "../../../utilities/apiEndpoints"
@@ -33,7 +34,7 @@ const ProfileBox = () => {
                 <span className="font-lgith text-xs text-white">Rises Earned</span>
             </div>
         </div>
-        <a href="#" className="btn-theme-hollow w-32 h-8 mb-2 rounded-lg">View my Profile</a>
+        <Link to={generateProfileRoute(authUserData.username)} className="btn-theme-hollow w-32 h-8 mb-2 rounded-lg">View my Profile</Link>
     </>
   )
 }

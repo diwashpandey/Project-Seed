@@ -6,7 +6,7 @@ import { TokenRefreshURl } from "../utilities/apiEndpoints";
 export class TokensHandler{
 
     checkIfAuthenticated(){
-        if (this.refreshToken && this.accessToken){
+        if (this.refreshToken() && this.accessToken()){
             if(!this.isRefreshExpired()){
                 return true
             }
@@ -14,11 +14,11 @@ export class TokensHandler{
         return false
     }
     
-    get refreshToken(){
+    refreshToken(){
         return localStorage.getItem("refresh");
     }
 
-    get accessToken(){
+    accessToken(){
         return localStorage.getItem("access");
     }
 
@@ -29,7 +29,7 @@ export class TokensHandler{
 
     async requestAccessToken(){
         try {
-            const response = await axios.post(TokenRefreshURl, {"refresh": this.refreshToken});
+            const response = await axios.post(TokenRefreshURl, {"refresh": this.refreshToken()});
             localStorage.setItem("access", response.data.access)
             return response.data.access
         }
@@ -44,7 +44,7 @@ export class TokensHandler{
     }
 
     isAccessExpired(){
-        const decodedToken = jwtDecode(this.accessToken)
+        const decodedToken = jwtDecode(this.accessToken())
         const isExpired = decodedToken.exp < Math.floor(Date.now() / 1000)
 
         if (isExpired){
@@ -58,7 +58,7 @@ export class TokensHandler{
     isRefreshExpired(){
         console.log("In refresh checker")
         try{
-            const refresh = jwtDecode(this.refreshToken)
+            const refresh = jwtDecode(this.refreshToken())
             const isExipred = refresh.exp < Math.floor(Date.now() / 1000) // checking if expired
             
             if(isExipred){
@@ -77,8 +77,8 @@ export class TokensHandler{
     }
 
     tokensExists(){
-        const refresh = this.refreshToken;
-        const access = this.accessToken;
+        const refresh = this.refreshToken();
+        const access = this.accessToken();
     
         return (refresh !== null && access !== null); // Will be FALSE if not null else TRUE
     }

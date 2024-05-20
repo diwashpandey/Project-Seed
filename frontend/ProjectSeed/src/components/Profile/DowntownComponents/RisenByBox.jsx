@@ -3,6 +3,7 @@ import { useContext } from "react"
 
 // Imports from third party libraries
 import { useQuery } from "react-query"
+import { useSelector } from "react-redux"
 
 // Components Imports
 import BaseProfilesContainer from "./BaseProfilesContainer"
@@ -11,11 +12,10 @@ import BaseProfilesContainer from "./BaseProfilesContainer"
 import { userDataContext } from "../../../pages/Profile"
 import {UserProfileDowntownURL, UserProfileDowntownNonAuthenticatedURL} from "../../../utilities/apiEndpoints"
 import { fetchUserProfileDowntown } from "../../../fetchers/Profile/fetchProfileDowntown"
-import { AuthContext } from "../../../authentication/AuthProvider"
 
 export default function RisenByBox() {
 
-  const {isAuthenticated} = useContext(AuthContext)
+  const isAuthenticated = useSelector((states)=>states.isAuthenticatedReducer)
   let user = useContext(userDataContext)
 
   const url = isAuthenticated ? UserProfileDowntownURL : UserProfileDowntownNonAuthenticatedURL

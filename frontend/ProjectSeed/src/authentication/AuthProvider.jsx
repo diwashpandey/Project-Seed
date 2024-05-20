@@ -1,14 +1,18 @@
 // imports from react
-import { useState, useEffect, createContext, useRef } from "react";
+import { useState, createContext } from "react";
 
 // imports from third parties
-import { jwtDecode } from "jwt-decode";
-import axios from "axios";
 import useAxios from "../hooks/useAxios";
+import { useDispatch, useSelector } from "react-redux";
+import { useQuery } from "react-query"
 
 // Additional imports
-import { BaseURL, AuthUserDataURL } from "../utilities/apiEndpoints"
+import { AuthUserDataURL } from "../utilities/apiEndpoints"
 import { TokensHandler } from "./TokensHandler"
+import { setAuthUserData } from "../reduxStore/features/Authentication/authUserDataSlice"
+import {setIsAuthenticatedFalse, setIsAuthenticatedTrue} from "../reduxStore/features/Authentication/isAuthenticatedSlice"
+import { authUserDataFetcher } from "../fetchers/AuthUserData/authUserDataFetcher";
+
 /*
     This manages and provides things like:
         1. isAuthenticated,
@@ -18,60 +22,36 @@ import { TokensHandler } from "./TokensHandler"
         4. setAuthUserData
         
 */
-export const AuthContext = createContext()
 
-function AuthProvider({children}){
+function AuthenticationHadler({children}){
+    const dispatch = useDispatch()
+    const isAuthenticated = useSelector((states)=>states.isAuthenticatedReducer)
+    const TH = new TokensHandler()
 
-    const tokensHandler = new TokensHandler()
-
-    const [isAuthenticated, setIsAuthenticated] = useState(tokensHandler.checkIfAuthenticated())
-    const [authUserData, setAuthUserData] = useState(null)
-    const [accessToken, setAccessToken] = useState(null)
-    const [refreshToken, setRefreshToken] = useState(null)
-
+    if(TH.checkIfAuthenticated()){
+        dispatch(setIsAuthenticatedTrue())
+    }
+    
     /*
     Working on Logged in user Data
+    !!! Using raw axios. Cause we don't want this to stick in the cache !!!
     */
-    const fetchUserData = async () =>{
-        try{
-            const axiosHook = useAxios()
-            let response = await axiosHook.get(AuthUserDataURL)
-            if (response.data.success_status){
-                // Finally setting the quick user data
-                setAuthUserData(response.data.response_data)
-            }
-        }
-        catch(err){
-            console.log("Error occured while fetching the auth User Data:", err)
-            tokensHandler.removeTokens()
-        }
-    }
+    const {data:authUserData, isSuccess} = useQuery({
+        queryKey:["authUserData"],
+        queryFn:authUserDataFetcher,
+        enabled:isAuthenticated // Setting isAuthenticated in enabled to prevent it to fetch when not authenticated
+    })
 
-    if (isAuthenticated){
-        if (! tokensHandler.isAccessExpired){
-            fetchUserData();
-        }
-        else{
-            tokensHandler.requestAccessToken()
-        }
+    if(isSuccess){
+        dispatch(setAuthUserData(authUserData))
     }
-
     
-    // These are the context that childrens can use
-    const contextData = {
-        isAuthenticated,
-        setIsAuthenticated,
-
-        authUserData,
-        setAuthUserData
-    }
-
-    // Wrapping it's chilren with it's values
+    // Returning the Children after the authentication step
     return (
-        <AuthContext.Provider value={contextData}>
-            {children}                                      {/* This is too much important concept, Don't forget !!! */}
-        </AuthContext.Provider>
+        <>
+        {children}
+        </>
     )
 }
 
-export default AuthProvider
+export default AuthenticationHadler

@@ -3,11 +3,11 @@ import { Link } from "react-router-dom"
 
 // Additional imports
 import { generatePhotoURL } from "../../../utilities/apiEndpoints"
-import { profileRoute } from "../../../utilities/frontendRoutes"
+import { generateProfileRoute } from "../../../utilities/frontendRoutes"
 
 function Top2And3ProfileCard({profile}) {
   return (
-    <Link to={`${profileRoute}${profile.username}`} className="top-2-3-stu-card h-20 w-38 rounded-2xl relative flex flex-col items-center p-2">
+    <Link to={generateProfileRoute(profile.username)} className="top-2-3-stu-card h-20 w-38 rounded-2xl relative flex flex-col items-center p-2">
       <div className="1st-section flex gap-1">
           <img src={generatePhotoURL(profile.profile_photo)} alt="" className="profile-photo h-9 w-9" />
           <div>

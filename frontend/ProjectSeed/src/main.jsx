@@ -16,7 +16,7 @@ import './seedcss/seedcss-utilities.css'
 
 // Additional imports
 import './index.css' // Disclaimer ! This tailwind must overrides other css files
-import AuthProvider from "./authentication/AuthProvider"
+import AuthenticationHadler from "./authentication/AuthProvider"
 import { store } from './reduxStore/store'
 
 const queryClient = new QueryClient()
@@ -25,9 +25,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 //   <React.StrictMode>
       <Provider store={store}>
           <QueryClientProvider client={queryClient}>
-              <AuthProvider >
+              <AuthenticationHadler >
                 <RouterProvider router={router} />
-              </AuthProvider>
+              </AuthenticationHadler>
           </QueryClientProvider>
       </Provider>
 //    </React.StrictMode>,

@@ -5,7 +5,7 @@ import { useContext } from "react";
 import axios from "axios";
 
 // Additional imports
-import { BaseURL, TokenRefreshURl } from "../utilities/apiEndpoints";
+import { BaseURL } from "../utilities/apiEndpoints";
 import { TokensHandler } from "../authentication/TokensHandler"
 
 function useAxios(){
@@ -15,7 +15,7 @@ function useAxios(){
     const customAxios = axios.create({
       "baseURL": BaseURL,
       "timeout": 6000,                                        // Now These will go with every request
-      "headers": {'Authorization': `Bearer ${tokensHandler.accessToken}`} 
+      "headers": {'Authorization': `Bearer ${tokensHandler.accessToken()}`} 
     });
 
     /*

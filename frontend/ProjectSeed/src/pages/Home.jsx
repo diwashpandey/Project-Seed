@@ -1,5 +1,5 @@
 // imports from React
-import {useEffect, useState, useContext, memo} from "react"
+import { useEffect } from "react"
 
 // Third party libraries import
 import { useQuery } from "react-query"
@@ -14,23 +14,23 @@ import MiddleMainBox from "../components/Home/MiddleMainBox/MiddleMainBox"
 import Loading from "./Loading"
 
 // Additional Imports
-import { AuthContext } from "../authentication/AuthProvider"
 import { setHomeData } from "../reduxStore/features/Home/homeDataSlice"
 import { HomePageAuthenticatedURL, HomePageNonAuthenticatedURL } from "../utilities/apiEndpoints";
 import { fetchHomeData } from "../fetchers/Home/fetchHomeData"
-import axios from "axios"
-import useAxios from "../hooks/useAxios"
 
 function Home(){
-  const {isAuthenticated} = useContext(AuthContext)
-  const homePageData = useSelector((state)=>state.homeDataReducer)
+  const isAuthenticated = useSelector((states)=>states.isAuthenticatedReducer)
+  const homePageData = useSelector((states)=>states.homeDataReducer)
   const dispatch = useDispatch()
+
+  console.log("here in first:",homePageData)
 
   const url = isAuthenticated ? HomePageAuthenticatedURL : HomePageNonAuthenticatedURL
 
   const { data, isError, isSuccess, error, isLoading } = useQuery({
     queryKey:["homeDataQuery"],
-    queryFn: () => fetchHomeData(url)
+    queryFn: () => fetchHomeData(url),
+    enabled: homePageData===null ? true : false // If home PageData is already there, It wont fetch again
   });
 
   useEffect(()=>{
@@ -38,7 +38,7 @@ function Home(){
       dispatch(setHomeData(data))
     }
     if(isError){
-      console.log("found error", error.message)
+      alert("Error while fetching homepage data")
     }
   }, [isSuccess, isError, isLoading, data])
   
@@ -48,7 +48,7 @@ function Home(){
 
   return (
     <>
-          {/* Padding_top-70_px is the place for the deader */}
+        {/* Padding_top-70_px is the place for the deader */}
         <main className="flex gap-2 pt-[70px]" >
 
           {/* This is the left side ranks showing box */}
@@ -81,5 +81,5 @@ function Home(){
     )
   }
   
-  export default memo(Home)
+  export default Home
   

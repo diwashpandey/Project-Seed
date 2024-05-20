@@ -1,10 +1,12 @@
-import React from 'react'
+import { Link } from "react-router-dom"
+
+import { loginRoute } from "../../../utilities/frontendRoutes"
 
 function LoginBox(){
   return (
       <div id="balancer" className="h-full w-full center flex-col gap-4">
             <h3 className="mb-4 text-theme-color text-3xl font-semibold">Login into Seed</h3>
-            <div id="home-login-" className="btn-white-filled h-8 w-40 font-extralight text-lg">Login</div>
+            <Link to={loginRoute} id="home-login-" className="btn-white-filled h-8 w-40 font-extralight text-lg">Login</Link>
             <div id="home-sign-up-btn" className="btn-theme-filled h-8 w-40 font-extralight text-lg hover:bg-none">Sign up</div>
         </div>
   )

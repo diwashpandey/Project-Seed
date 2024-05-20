@@ -15,13 +15,12 @@ import Loading from "../pages/Loading"
 // Additional imports
 import { fetchUserProfile } from "../fetchers/Profile/fetchUserProfile";
 import { UserProfileURL, UserProfileNonAuthenticatedURL } from "../utilities/apiEndpoints";
-import { AuthContext } from "../authentication/AuthProvider"
 
 export const userDataContext = createContext(null)
 
 function Profile(){
     const { username } = useParams()
-    const {isAuthenticated} = useContext(AuthContext)
+    const isAuthenticated = useSelector((states)=>states.isAuthenticatedReducer)
     const url = isAuthenticated ? UserProfileURL : UserProfileNonAuthenticatedURL
     
     const { data, isLoading, isSuccess, isError, error } = useQuery({

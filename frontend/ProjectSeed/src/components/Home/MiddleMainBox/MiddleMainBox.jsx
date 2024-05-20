@@ -6,7 +6,6 @@ import { useQuery } from "react-query"
 import { useDispatch, useSelector } from "react-redux"
 
 // Additional imports
-import { AuthContext } from "../../../authentication/AuthProvider"
 import { GetPostsURL, GetPostsNonAuthenticatedURL } from "../../../utilities/apiEndpoints"
 import fetchPost from "../../../fetchers/Post/fetchPosts"
 import { addPosts } from "../../../reduxStore/features/Post/postsSlice"
@@ -15,11 +14,11 @@ import DummyLoadingPost from "../../Post/DummyLoadingPost"
 
 import Post from "../../Post/Post"
 
-function MiddleMainBox() {
+export default function MiddleMainBox() {
     const authUserData = useSelector((state)=> state.authUserDataReducer)
-    const { isAuthenticated} = useContext(AuthContext)
+    const isAuthenticated = useSelector((states)=>states.isAuthenticatedReducer)
     const Posts = useSelector((state)=> state.postsReducer[0])
-    console.log("Posts in state are:", Posts)
+
     const dispatch = useDispatch()
 
     const url = isAuthenticated ? GetPostsURL : GetPostsNonAuthenticatedURL
@@ -36,7 +35,25 @@ function MiddleMainBox() {
 
   return (
     <>  
-        { isAuthenticated ? <div id="upload-post-container" className="h-12 w-full max-w-xl p-2 rounded-2xl flex items-center bg-main-box sm:h-14">
+        { isAuthenticated ? <UploadPostDummy /> : null}
+        
+        <div id="posts-container" className="w-full flex flex-col items-center">
+        {
+            Posts ? Posts.map((post)=>{
+                return <Post key={post.id} post={post} />
+            }) : ""
+        }
+        </div>
+
+        {/* This is the dummy loading post which stays in the last as an loading illusion */}
+        <DummyLoadingPost />
+    </>
+  )
+}
+
+function UploadPostDummy(){
+    return (
+        <div id="upload-post-container" className="h-12 w-full max-w-xl p-2 rounded-2xl flex items-center bg-main-box sm:h-14">
             <img src={
                 authUserData?.profile_photo? `${generatePhotoURL(authUserData.profile_photo)}`: ""
                 } alt="pp" className="profile-photo h-8 w-8 mr-4 bg-gray-500 sm:h-10 sm:w-10" />
@@ -50,24 +67,7 @@ function MiddleMainBox() {
                     </svg>
                 </div>
             </div>
-        </div> : ""}
-        
-
-        <div id="posts-container" className="w-full flex flex-col items-center">
-
-        {
-            Posts ? Posts.map((post)=>{
-                return <Post key={post.id} post={post} />
-            }) : ""
-             
-        }
-
         </div>
-
-        {/* This is the dummy loading post which stays in the last as an loading illusion */}
-        <DummyLoadingPost />
-    </>
-  )
+    )
 }
 
-export default MiddleMainBox
