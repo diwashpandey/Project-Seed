@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 
 // Additional imports
 import { generatePhotoURL } from "../../../utilities/apiEndpoints"
+import { generateProfileRoute } from "../../../utilities/frontendRoutes"
 import LoadingProfileBox from './LoadingProfileBox'
 
 const ProfileBox = () => {

@@ -4,12 +4,8 @@ const isAuthenticatedSlice = createSlice({
     name:"isAuthenticatedSlice",
     initialState:false,
     reducers:{
-        setIsAuthenticatedFalse: (state)=>{
-            state = false
-        },
-        setIsAuthenticatedTrue: (state)=>{
-            state = true
-        },
+        setIsAuthenticatedFalse: (state)=> false,
+        setIsAuthenticatedTrue: (state)=> true,
     }
 })
 

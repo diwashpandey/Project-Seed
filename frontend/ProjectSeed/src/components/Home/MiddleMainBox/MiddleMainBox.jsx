@@ -15,7 +15,6 @@ import DummyLoadingPost from "../../Post/DummyLoadingPost"
 import Post from "../../Post/Post"
 
 export default function MiddleMainBox() {
-    const authUserData = useSelector((state)=> state.authUserDataReducer)
     const isAuthenticated = useSelector((states)=>states.isAuthenticatedReducer)
     const Posts = useSelector((state)=> state.postsReducer[0])
 
@@ -52,6 +51,8 @@ export default function MiddleMainBox() {
 }
 
 function UploadPostDummy(){
+    const authUserData = useSelector((state)=> state.authUserDataReducer)
+
     return (
         <div id="upload-post-container" className="h-12 w-full max-w-xl p-2 rounded-2xl flex items-center bg-main-box sm:h-14">
             <img src={

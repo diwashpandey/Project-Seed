@@ -1,5 +1,5 @@
 // imports from react
-import { useState, createContext } from "react";
+import { useEffect } from "react";
 
 // imports from third parties
 import useAxios from "../hooks/useAxios";
@@ -28,9 +28,6 @@ function AuthenticationHadler({children}){
     const isAuthenticated = useSelector((states)=>states.isAuthenticatedReducer)
     const TH = new TokensHandler()
 
-    if(TH.checkIfAuthenticated()){
-        dispatch(setIsAuthenticatedTrue())
-    }
     
     /*
     Working on Logged in user Data
@@ -42,9 +39,17 @@ function AuthenticationHadler({children}){
         enabled:isAuthenticated // Setting isAuthenticated in enabled to prevent it to fetch when not authenticated
     })
 
-    if(isSuccess){
-        dispatch(setAuthUserData(authUserData))
-    }
+    useEffect(() => {
+        if (TH.checkIfAuthenticated()) {
+            dispatch(setIsAuthenticatedTrue());
+        }
+    }, [dispatch, TH]);
+    
+    useEffect(() => {
+        if (isSuccess && authUserData) {
+            dispatch(setAuthUserData(authUserData));
+        }
+    }, [isSuccess, authUserData, dispatch]);
     
     // Returning the Children after the authentication step
     return (
