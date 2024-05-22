@@ -1,3 +1,6 @@
+# imports from django
+from django.db.models import ExpressionWrapper, Q, BooleanField
+
 # imports from rest_framework
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
@@ -31,12 +34,19 @@ class GetPosts(APIView, ResponseUtilities):
         limit = int(request.GET.get("limit", 10))
 
         postrecommendation = PostsRecommendation()
-        # recommended_posts = postrecommendation.get_posts_for_user(user=request.user, offset=offset, limit=limit)
-        recommended_posts = Post.objects.all() # Temporary
+        # posts_query_set = postrecommendation.get_posts_for_user(user=request.user, offset=offset, limit=limit)
+        posts_query_set = Post.objects.all() # Temporary
 
-        serialized_data = PostSerializer(instance = recommended_posts, many=True)
+        # Serializing the data
+        serialized_data = PostSerializer(instance = posts_query_set, many=True).data
 
-        self.response_data = serialized_data.data
+        # Iterating over posts and checking if user has already raised or not.
+        for post in serialized_data:
+            # Checking ID because serializer gives only id
+            # And it will be a little fast to rather than querying again from the database
+            post["already_risen"] = request.user.id in post.get("rises", [])
+
+        self.response_data = serialized_data
         self.success_status = True
 
         return Response(self.get_generated_response())
@@ -61,8 +71,7 @@ class GetPostsNonAuthenticated(APIView, ResponseUtilities):
         limit = int(request.GET.get("limit", 10))
 
         postrecommendation = PostsRecommendation()
-        # recommended_posts = postrecommendation.get_posts_for_user(user=request.user, offset=offset, limit=limit)
-        recommended_posts = Post.objects.all() # Temporary
+        recommended_posts = postrecommendation.get_posts_for_user(user=request.user, offset=offset, limit=limit)
 
         serialized_data = PostSerializer(instance = recommended_posts, many=True)
 

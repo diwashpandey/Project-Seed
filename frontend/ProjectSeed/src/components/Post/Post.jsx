@@ -4,15 +4,14 @@ import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 
 // importing components
-import  PostRiseButton  from "../Buttons/PostRiseButton"
-import PostCommentButton from '../Buttons/PostCommentButton'
+import  PostRiseButton  from "../Buttons/PostButtons/PostRiseButton"
+import PostCommentButton from '../Buttons/PostButtons/PostCommentButton'
 
 // Additional imports
 import { generatePhotoURL } from '../../utilities/apiEndpoints'
 import { generateProfileRoute } from "../../utilities/frontendRoutes"
 
 function Post({post}) {
-    const isAuthenticated = useSelector((states)=>states.isAuthenticatedReducer)
 
     return (
         <div id="post" className="post w-full max-w-xl p-2 mt-4 rounded-2xl bg-main-box">
@@ -30,8 +29,8 @@ function Post({post}) {
                     </div>
                 </div>
                 <div className="post-rise-and-comments-count-box ml-auto flex gap-4">
-                    <div className="post-rise-count w-auto font-medium">
-                        <span className="text-sm text-theme-color sm:text-2xl md:text-lg xl:text-2xl">{ post.rises_count }</span>
+                    <div className="w-auto font-medium">
+                        <span className="post-rise-count text-sm text-theme-color sm:text-2xl md:text-lg xl:text-2xl">{ post.rises_count }</span>
                         <span className="text-theme-color text-[8px] sm:text-sm md:text-xs xl:text-sm"> rises</span>
                     </div>
                     <div className="post-comment-count w-auto">
@@ -49,7 +48,7 @@ function Post({post}) {
                 : null    
             }
             <div className="post-btn-section center gap-7">
-                <PostRiseButton isAuthenticated={isAuthenticated} />
+                <PostRiseButton postId={post.id} alreadyRisen={post.already_risen}/>
                 <PostCommentButton />
             </div>
         </div>
