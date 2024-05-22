@@ -20,8 +20,8 @@ export const userDataContext = createContext(null)
 
 function Profile(){
     const { username } = useParams()
-    const isAuthenticated = useSelector((states)=>states.isAuthenticatedReducer)
-    const url = isAuthenticated ? UserProfileURL : UserProfileNonAuthenticatedURL
+    const user = useSelector((states)=>states.userReducer)
+    const url = user.isAuthenticated ? UserProfileURL : UserProfileNonAuthenticatedURL
     
     const { data, isLoading, isSuccess, isError, error } = useQuery({
         queryKey : ["userProfileQuery", {url, username}],

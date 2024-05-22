@@ -2,41 +2,39 @@
 import { useEffect } from "react";
 
 // imports from third parties
-import useAxios from "../hooks/useAxios";
 import { useDispatch, useSelector } from "react-redux";
 import { useQuery } from "react-query"
 
 // Additional imports
-import { AuthUserDataURL } from "../utilities/apiEndpoints"
 import { TokensHandler } from "./TokensHandler"
-import { setAuthUserData } from "../reduxStore/features/Authentication/authUserDataSlice"
-import {setIsAuthenticatedFalse, setIsAuthenticatedTrue} from "../reduxStore/features/Authentication/isAuthenticatedSlice"
-import { authUserDataFetcher } from "../fetchers/AuthUserData/authUserDataFetcher";
+import {setIsAuthenticatedTrue, setUserData} from "../reduxStore/features/Authentication/userSlice"
+import { userDataFetcher } from "../fetchers/userData/userDataFetcher";
 
 /*
     This manages and provides things like:
         1. isAuthenticated,
         2. setIsAuthenticated,
 
-        3. authUserData,
-        4. setAuthUserData
+        3. userData,
+        4. setuserData
         
 */
 
 function AuthenticationHadler({children}){
+    console.log("Main auth provider called")
     const dispatch = useDispatch()
-    const isAuthenticated = useSelector((states)=>states.isAuthenticatedReducer)
+    const user = useSelector((states)=>states.userReducer)
+    console.log("user is:", user)
     const TH = new TokensHandler()
 
-    
     /*
     Working on Logged in user Data
     !!! Using raw axios. Cause we don't want this to stick in the cache !!!
     */
-    const {data:authUserData, isSuccess} = useQuery({
-        queryKey:["authUserData"],
-        queryFn:authUserDataFetcher,
-        enabled:isAuthenticated // Setting isAuthenticated in enabled to prevent it to fetch when not authenticated
+    const {data:userData, isSuccess} = useQuery({
+        queryKey:["userData"],
+        queryFn:userDataFetcher,
+        enabled:user.isAuthenticated // Setting isAuthenticated in enabled to prevent it to fetch when not authenticated
     })
 
     useEffect(() => {
@@ -46,10 +44,10 @@ function AuthenticationHadler({children}){
     }, [dispatch, TH]);
     
     useEffect(() => {
-        if (isSuccess && authUserData) {
-            dispatch(setAuthUserData(authUserData));
+        if (isSuccess && userData) {
+            dispatch(setUserData(userData));
         }
-    }, [isSuccess, authUserData, dispatch]);
+    }, [isSuccess, userData, dispatch]);
     
     // Returning the Children after the authentication step
     return (

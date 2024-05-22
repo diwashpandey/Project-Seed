@@ -3,37 +3,25 @@ import { useSelector } from "react-redux"
 import { useMutation } from "react-query"
 
 // Additional imports
-import fetchPostRiseRequest from "../../../fetchers/Post/fetchPostRiseRequest"
+import fetchProfileRiseRequest from "../../../fetchers/Profile/fetchProfileRiseRequest"
 
-
-function PostRiseButton({postId, alreadyRisen=false}) {
+function UserRiseButton({postId, alreadyRisen=false}) {
 
     const user = useSelector((states) => states.userReducer)
 
     const mutation = useMutation({
-        "mutationFn": ({commit, postId}) => fetchPostRiseRequest(commit, postId),
+        "mutationFn": ({commit, userId}) => fetchProfileRiseRequest(commit, userId),
 
         // Rising the POST RISE COUNT with the vanilla JS
         "onSuccess": (data, context)=>{
-            const postBox = context.event.target.parentElement.parentElement // This is the parent Element (i.e POST BOX)
-            postBox.querySelector(".post-rise-count").innerHTML = data.new_rise_count_of_post // Updating the rise count element
         },
 
         "onMutate":(context)=>{
             const btn = context.event.target
 
-
             if (context.commit == "unrise"){
-                btn.querySelector("button").classList.remove("unrise-btn")
-                btn.querySelector("button").classList.add("rise-btn")
-                btn.setAttribute("data-commit", "rise")
-                btn.querySelector(".rise-btn-text").innerHTML = "Rise"
             }
             else if(context.commit == "rise"){
-                btn.querySelector("button").classList.remove("rise-btn")
-                btn.querySelector("button").classList.add("unrise-btn")
-                btn.setAttribute("data-commit", "unrise")
-                btn.querySelector(".rise-btn-text").innerHTML = "Unrise"
             }
         }
     })
@@ -89,6 +77,6 @@ function PostRiseButton({postId, alreadyRisen=false}) {
   )
 }
 
-export default PostRiseButton
+export default UserRiseButton
 
 

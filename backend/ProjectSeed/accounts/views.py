@@ -14,6 +14,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 # imports from APPS
 from utilities.response.response_utilities import ResponseUtilities
 from . registration import CustomUserRegistration
+from ranking.points_counter import get_risepoints_of_user
 
 # MODELS import
 
@@ -49,6 +50,7 @@ class LoginView(APIView, ResponseUtilities):
 
         return Response(self.get_generated_response())
     
+
 class RegisterView(APIView, ResponseUtilities, CustomUserRegistration):
     
     def post(self, request, format=None):
@@ -57,6 +59,7 @@ class RegisterView(APIView, ResponseUtilities, CustomUserRegistration):
 
         return Response(self.get_generated_response())
     
+
 class AuthUserQuickData(APIView, ResponseUtilities):
 
     permission_classes = [IsAuthenticated]
@@ -69,6 +72,7 @@ class AuthUserQuickData(APIView, ResponseUtilities):
             self.message_to_client = "Something went wrong when fetching the data"
         return Response(self.get_generated_response())
     
+
 class ProfileView(APIView, ResponseUtilities):
     
     permission_classes = [IsAuthenticated]
@@ -115,6 +119,7 @@ class ProfileViewNonAuthenticated(APIView, ResponseUtilities):
             self.message_to_client = "User didn't found"
         
         return Response(self.get_generated_response())
+
 
 class ProfileDowntownView(APIView, ResponseUtilities):
 
@@ -186,3 +191,36 @@ class ProfileDowntownNonAuthenticatedView(APIView, ResponseUtilities):
 
         return Response(self.get_generated_response())
 
+
+class RiseHandlerView(APIView, ResponseUtilities):
+
+    def post(self, request):
+
+        commit = request.data.get("commit")
+        try:
+            user_to_rise = User.objects.get(username =  request.data.get("username"))
+            user_who_risen = request.user
+
+            if commit == "rise":
+                user_who_risen.rise.add(user_to_rise)
+            elif commit == "unrise":
+                user_who_risen.rise.remove(user_to_rise)
+            else:
+                raise Exception("Not valid commit")
+            """
+            Disclaimer:
+                Signal will count rise points too.
+                But it was not working properly, I don't know why.
+                Might be cause of it's asynchronous or something like that
+
+                So counting again here to deliver the new followers count of user
+            """
+            self.response_data = {
+                "new_rise_points":get_risepoints_of_user(user_to_rise)
+            }
+            self.success_status = True
+
+        except:
+            print("Got error when trying to handle the follow/unfollow request !")
+
+        return Response(self.get_generated_response())

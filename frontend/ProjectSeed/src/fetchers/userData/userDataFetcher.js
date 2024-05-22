@@ -1,9 +1,8 @@
 import useAxios from "../../hooks/useAxios"
 import { AuthUserDataURL } from "../../utilities/apiEndpoints"
 
-export async function authUserDataFetcher(){
+export async function userDataFetcher(){
     const axiosHook = useAxios()
-    console.log("I'm about to fetch auth user data")
 
     try{
         const response = await axiosHook.get(AuthUserDataURL)

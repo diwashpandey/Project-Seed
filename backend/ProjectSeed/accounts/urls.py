@@ -13,6 +13,7 @@ urlpatterns = [
        path("register/", views.RegisterView.as_view(), name="register"),
 
        # Profile
+       path("auth-user-quick-data/", views.AuthUserQuickData.as_view(), name="auth_user_quick_data"),
        path("profile", views.ProfileView.as_view(), name="profile"),
        path("profile-non-authenticated", views.ProfileViewNonAuthenticated.as_view(), name="profile"),
        path("downtown/", views.ProfileDowntownView.as_view(), name="profile_downtown"),
@@ -21,7 +22,7 @@ urlpatterns = [
        # Tokens
        path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
-       # Profile
-       path("auth-user-quick-data/", views.AuthUserQuickData.as_view(), name="auth_user_quick_data"),
+       #Rise and Following
+       path("rise-handler/", views.RiseHandlerView.as_view(), name="rise_handler")
 
 ]

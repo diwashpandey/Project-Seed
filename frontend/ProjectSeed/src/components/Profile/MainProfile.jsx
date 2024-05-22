@@ -4,31 +4,55 @@ import { useContext } from 'react'
 // Additional imports
 import { generatePhotoURL } from '../../utilities/apiEndpoints'
 import { userDataContext } from '../../pages/Profile'
+import UserRiseButton from '../Buttons/ProfileButtons/UserRiseButton'
+import UserFollowButton from '../Buttons/ProfileButtons/UserFollowButton'
 
 const MainProfile = ({children}) => {
     let user = useContext(userDataContext)
   return (
       <div id="first-box" className='w-full'>
             <div id="main-user-profile-section" className="w-full pb-4 flex flex-col items-center relative bg-main-box mb-4" >
-                <img src={generatePhotoURL(user.background_photo)} alt="" className="user-profile-background-photo w-full h-32 rounded-lg absolute object-cover z-0 bg-gray-700" />
-                <div className="user-profile-photo-container flex flex-col items-center relative mb-3">
-                    <img src={generatePhotoURL(user.profile_photo)} alt="" className="user-profile-profile-photo profile-photo h-24 w-24 mt-16 border-2 border-white relative z-1 bg-gray-700 sm:h-32 sm:w-32" />
-                    <div className="user-profile-rise-points cursor-default w-fit min-w-32 px-2 py-1 rounded-full center gap-2 absolute bottom-[-10px] bg-theme-color scale-75 sm:scale-100">
-                        <span className="text-xs text-white">{user.rise_points} Rise Points</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="w-4 fill-white">
-                            <g id="Rise">
-                                <path className="cls-1" d="M10,.83A9.17,9.17,0,1,0,19.17,10,9.18,9.18,0,0,0,10,.83Zm3.68,9.06a1.08,1.08,0,0,1-.8.37A1.1,1.1,0,0,1,12.2,10L11.05,9v4.22a1.05,1.05,0,0,1-2.1,0V9L7.8,10a1,1,0,0,1-1.36-1.6L9.32,6a1,1,0,0,1,1.36,0l2.88,2.44A1.06,1.06,0,0,1,13.68,9.89Z"/>
-                            </g>
-                        </svg>
+                {/* Background Photo */}
+
+                <div id="top-div" className="absolute w-full flex">
+                    <div id="rise-and-follow-buttons-container" className="ml-2 flex gap-4 absolute bottom-[-2.3rem]">
+                        <UserRiseButton />
+                        <UserFollowButton />
+                    </div>
+                    <img src={generatePhotoURL(user.background_photo)} alt="" id="user-profile-background-photo" className="w-full h-36 rounded-lg object-cover z-0 bg-gray-700" />
+                    <div id="more-button" className="flex flex-col gap-0.5 absolute bottom-[-2.3rem] right-2">
+                        <div className="h-1.5 w-1.5 bg-theme- rounded-full"></div>
+                        <div className="h-1.5 w-1.5 bg-theme- rounded-full"></div>
+                        <div className="h-1.5 w-1.5 bg-theme- rounded-full"></div>
                     </div>
                 </div>
+
+                {/* Profile Photo */}
+                
+                <img src={generatePhotoURL(user.profile_photo)} id="user-profile-profile-photo" alt="" className="profile-photo h-24 w-24 mt-16 border-2 border-white relative z-1 bg-gray-700 sm:h-36 sm:w-36" />
+
+                {/* Name, username & intro */}
                 <h1 id="user-profile-full-name" className="text-2xl font-light">{user.full_name}</h1>
-                <h3 id="user-profile-username" className="text-xs font-extralight mb-1 sm:text-base">@{user.username}</h3>
+                <h3 id="user-profile-username" className="text-xs font-extralight mb-1 sm:text-base text-theme-color">@{user.username}</h3>
                 <h2 id="user-profile-bio" className="text-xs max-w-48 text-center font-extralight sm:text-sm sm:max-w-80">{user.intro}</h2>
-                <div className="flex gap-4 m-4">
-                    <div id="user-profile-followers-count" className="p-1 py-[2px] rounded-md text-light-mode-opposite-color text-xs font-light bg-black-white sm:text-base">{user.followers_count} Followers</div>
-                    <div id="user-profile-following-count" className="p-1 py-[2px] rounded-md text-light-mode-opposite-color text-xs font-light bg-black-white sm:text-base">{user.following_count} Following</div>
+
+                {/* Rise Points box */}
+                <div id="user-profile-rise-points" className="h-8 w-fit m-3 px-2 rounded-md center gap-2 cursor-default bg-theme-color">
+                    <span className="text-base text-white">{user.rise_points} Rise Points</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="w-4 fill-white">
+                        <g id="Rise">
+                            <path className="cls-1" d="M10,.83A9.17,9.17,0,1,0,19.17,10,9.18,9.18,0,0,0,10,.83Zm3.68,9.06a1.08,1.08,0,0,1-.8.37A1.1,1.1,0,0,1,12.2,10L11.05,9v4.22a1.05,1.05,0,0,1-2.1,0V9L7.8,10a1,1,0,0,1-1.36-1.6L9.32,6a1,1,0,0,1,1.36,0l2.88,2.44A1.06,1.06,0,0,1,13.68,9.89Z"/>
+                        </g>
+                    </svg>
                 </div>
+
+                {/* Following and Followers count boxes */}
+                <div className="mb-3 flex gap-16">
+                    <div id="user-profile-followers-count" className="p-1 py-[2px] rounded-md text-light-mode-opposite-color text-xs font-extralight bg-black-white sm:text-sm">{user.followers_count} Followers</div>
+                    <div id="user-profile-following-count" className="p-1 py-[2px] rounded-md text-light-mode-opposite-color text-xs font-extralight bg-black-white sm:text-sm">{user.following_count} Following</div>
+                </div>
+
+                {/* College or university details */}
                 <div id="user-studies-container" className="p-2 rounded-lg flex flex-col gap-4 items-center bg-theme-lighter sm:flex-row">
                     {
                         user.colleges.map((college)=>{

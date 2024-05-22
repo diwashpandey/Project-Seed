@@ -48,25 +48,20 @@ export class TokensHandler{
         const isExpired = decodedToken.exp < Math.floor(Date.now() / 1000)
 
         if (isExpired){
-            console.log("Access token found expired")
             return true
         }
-        console.log("Access token not expired")
         return false
     }
 
     isRefreshExpired(){
-        console.log("In refresh checker")
         try{
             const refresh = jwtDecode(this.refreshToken())
             const isExipred = refresh.exp < Math.floor(Date.now() / 1000) // checking if expired
             
             if(isExipred){
-                console.log("Refresh Token found expired")
                 this.removeTokens() // Removing the JSON Web Tokens if expired
                 return true
             }
-            console.log("Refresh Token is not expired")
             return false
         }
         catch(error){

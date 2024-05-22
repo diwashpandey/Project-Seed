@@ -1,15 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit"
 import homeDataReducer from "./features/Home/homeDataSlice"
 import postsReducer from "./features/Post/postsSlice"
-import authUserDataReducer from "./features/Authentication/authUserDataSlice"
-import isAuthenticatedReducer from "./features/Authentication/isAuthenticatedSlice"
+import userReducer from "./features/Authentication/userSlice"
 
 
 export const store = configureStore({
     reducer: {
-        isAuthenticatedReducer,
         homeDataReducer,
         postsReducer,
-        authUserDataReducer
+        userReducer
     }
 })

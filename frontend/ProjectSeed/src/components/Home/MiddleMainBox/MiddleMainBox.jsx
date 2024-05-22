@@ -15,12 +15,12 @@ import DummyLoadingPost from "../../Post/DummyLoadingPost"
 import Post from "../../Post/Post"
 
 export default function MiddleMainBox() {
-    const isAuthenticated = useSelector((states)=>states.isAuthenticatedReducer)
+    const user = useSelector((states)=>states.userReducer)
     const Posts = useSelector((state)=> state.postsReducer[0])
 
     const dispatch = useDispatch()
 
-    const url = isAuthenticated ? GetPostsURL : GetPostsNonAuthenticatedURL
+    const url = user.isAuthenticated ? GetPostsURL : GetPostsNonAuthenticatedURL
     let { data, isSuccess, isLoading, isError } = useQuery({
         queryKey: ["fetchPosts"],
         queryFn: () =>  fetchPost(url)
@@ -34,7 +34,7 @@ export default function MiddleMainBox() {
 
   return (
     <>  
-        { isAuthenticated ? <UploadPostDummy /> : null}
+        { user.isAuthenticated ? <UploadPostDummy /> : null}
         
         <div id="posts-container" className="w-full flex flex-col items-center">
         {
@@ -51,12 +51,12 @@ export default function MiddleMainBox() {
 }
 
 function UploadPostDummy(){
-    const authUserData = useSelector((state)=> state.authUserDataReducer)
+    const user = useSelector((state)=> state.userReducer)
 
     return (
         <div id="upload-post-container" className="h-12 w-full max-w-xl p-2 rounded-2xl flex items-center bg-main-box sm:h-14">
             <img src={
-                authUserData?.profile_photo? `${generatePhotoURL(authUserData.profile_photo)}`: ""
+                user.data?.profile_photo? `${generatePhotoURL(user.data.profile_photo)}`: ""
                 } alt="pp" className="profile-photo h-8 w-8 mr-4 bg-gray-500 sm:h-10 sm:w-10" />
             <p className="text-xs font-extralight sm:text-lg">Share your new achievement</p>
             <div className="btn-container ml-auto flex gap-2  text-sm font-light">

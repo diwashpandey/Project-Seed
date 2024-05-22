@@ -19,13 +19,11 @@ import { HomePageAuthenticatedURL, HomePageNonAuthenticatedURL } from "../utilit
 import { fetchHomeData } from "../fetchers/Home/fetchHomeData"
 
 function Home(){
-  const isAuthenticated = useSelector((states)=>states.isAuthenticatedReducer)
   const homePageData = useSelector((states)=>states.homeDataReducer)
+  const user = useSelector((states)=> states.userReducer)
   const dispatch = useDispatch()
 
-  console.log("here in first:",homePageData)
-
-  const url = isAuthenticated ? HomePageAuthenticatedURL : HomePageNonAuthenticatedURL
+  const url = user.isAuthenticated ? HomePageAuthenticatedURL : HomePageNonAuthenticatedURL
 
   const { data, isError, isSuccess, error, isLoading } = useQuery({
     queryKey:["homeDataQuery"],
@@ -69,7 +67,7 @@ function Home(){
 
               <div className="profile-box h-fit min-h-[21rem] mb-2 rounded-lg flex flex-col items-center relative bg-main-box">
               
-              { isAuthenticated ? <ProfileBox /> : <LoginBox />}
+              { user.isAuthenticated ? <ProfileBox /> : <LoginBox />}
 
               </div>
               <div className="profile-box h-full w-full p-2 rounded-lg flex flex-col relative bg-main-box overflow-scroll">
