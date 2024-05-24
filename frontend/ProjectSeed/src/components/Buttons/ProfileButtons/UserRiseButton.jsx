@@ -1,27 +1,43 @@
+// imports from react
+import { useContext } from "react"
+
 // imports from third party libraries
 import { useSelector } from "react-redux"
 import { useMutation } from "react-query"
 
 // Additional imports
 import fetchProfileRiseRequest from "../../../fetchers/Profile/fetchProfileRiseRequest"
+import { profileOwnerDataContext } from "../../../pages/Profile"
 
-function UserRiseButton({postId, alreadyRisen=false}) {
-
+function UserRiseButton() {
+    
     const user = useSelector((states) => states.userReducer)
+    const {profileOwnerData, setProfileOwnerData} = useContext(profileOwnerDataContext)
 
     const mutation = useMutation({
-        "mutationFn": ({commit, userId}) => fetchProfileRiseRequest(commit, userId),
+        "mutationFn": ({commit, username}) => fetchProfileRiseRequest(commit, username),
 
         // Rising the POST RISE COUNT with the vanilla JS
         "onSuccess": (data, context)=>{
+            setProfileOwnerData((previousData)=>{
+                return {...previousData, rise_points:data.new_rise_points}
+            })
         },
 
         "onMutate":(context)=>{
             const btn = context.event.target
 
             if (context.commit == "unrise"){
+                btn.querySelector("button").classList.remove("unrise-btn")
+                btn.querySelector("button").classList.add("rise-btn")
+                btn.setAttribute("data-commit", "rise")
+                btn.querySelector(".rise-btn-text").innerHTML = "Rise"
             }
             else if(context.commit == "rise"){
+                btn.querySelector("button").classList.remove("rise-btn")
+                btn.querySelector("button").classList.add("unrise-btn")
+                btn.setAttribute("data-commit", "unrise")
+                btn.querySelector(".rise-btn-text").innerHTML = "Unrise"
             }
         }
     })
@@ -30,16 +46,16 @@ function UserRiseButton({postId, alreadyRisen=false}) {
         event.preventDefault()
 
         let commit = event.target.getAttribute("data-commit")
-        let postId = event.target.getAttribute("data-id")
+        let username = event.target.getAttribute("data-username")
 
-        mutation.mutate({commit, postId, event}) // Sending the request
+        mutation.mutate({commit, username, event}) // Sending the request
     }
     
   if (user.isAuthenticated){
       // if already Risen: returning Unrise Button
-      if(alreadyRisen){
+      if(profileOwnerData.already_risen){
         return (
-            <form data-commit="unrise" data-id={postId} onSubmit={handleRise}>
+            <form data-commit="unrise" data-username={profileOwnerData.username} onSubmit={handleRise}>
                 <button type="submit" className="unrise-btn">
                     <span className="rise-btn-text">Unrise</span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="h-4">
@@ -52,7 +68,7 @@ function UserRiseButton({postId, alreadyRisen=false}) {
         )
       }
       return (
-          <form data-commit="rise" data-id={postId} onSubmit={handleRise}>
+          <form data-commit="rise" data-username={profileOwnerData.username} onSubmit={handleRise}>
             <button type="submit" className="rise-btn">
                 <span className="rise-btn-text">Rise</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="h-4">

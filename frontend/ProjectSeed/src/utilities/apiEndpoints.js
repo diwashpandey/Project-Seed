@@ -21,10 +21,13 @@ export const UserProfileURL = `${BaseURL}/accounts/profile`// add ?username="you
 export const UserProfileNonAuthenticatedURL = `${BaseURL}/accounts/profile-non-authenticated`// add ?username="yourusername"
 export const UserProfileDowntownURL = `${BaseURL}/accounts/downtown` // add ?username="username"&section="section"
 export const UserProfileDowntownNonAuthenticatedURL = `${BaseURL}/accounts/downtown-non-authenticated` // add ?username="username"&section="section"
+export const UserProfileRiseURL = `${BaseURL}/accounts/profile-rise-handler/`
+export const UserProfileFollowURL = `${BaseURL}/accounts/profile-follow-handler/`
 
 // Posts
 export const GetPostsURL = `${BaseURL}/recommendation/get-recommended-posts` // add ?offset= & limit=
 export const GetPostsNonAuthenticatedURL = `${BaseURL}/recommendation/get-recommended-posts-non-auth` // add ?offect= & limit=
+export const PostRiseRequestURL = `${BaseURL}/posts/rise-commit` // add ?offset= & limit=
 
 // Top Profiles
 
