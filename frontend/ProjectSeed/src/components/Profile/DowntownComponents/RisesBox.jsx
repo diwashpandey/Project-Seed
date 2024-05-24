@@ -9,20 +9,20 @@ import { useSelector } from "react-redux"
 import BaseProfilesContainer from "./BaseProfilesContainer"
 
 // Additional Imports
-import { userDataContext } from "../../../pages/Profile"
+import { profileOwnerDataContext } from "../../../pages/Profile"
 import {UserProfileDowntownURL, UserProfileDowntownNonAuthenticatedURL} from "../../../utilities/apiEndpoints"
 import { fetchUserProfileDowntown } from "../../../fetchers/Profile/fetchProfileDowntown"
 
 export default function RisesBox() {
   const isAuthenticated = useSelector((states)=>states.isAuthenticatedReducer)
-  let user = useContext(userDataContext)
+  let {profileOwnerData} = useContext(profileOwnerDataContext)
 
   const url = isAuthenticated ? UserProfileDowntownURL : UserProfileDowntownNonAuthenticatedURL
   let section = "rises"  // Warning ! don't change ! it's required for server
 
   const {data, isLoading, isSuccess} = useQuery({
-      queryKey : ["userDowntownRisesQuery", user.username],
-      queryFn: () => fetchUserProfileDowntown(url, user.username, section)
+      queryKey : ["userDowntownRisesQuery", profileOwnerData.username],
+      queryFn: () => fetchUserProfileDowntown(url, profileOwnerData.username, section)
   })
 
   return (

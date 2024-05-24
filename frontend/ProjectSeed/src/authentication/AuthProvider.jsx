@@ -21,10 +21,8 @@ import { userDataFetcher } from "../fetchers/userData/userDataFetcher";
 */
 
 function AuthenticationHadler({children}){
-    console.log("Main auth provider called")
     const dispatch = useDispatch()
     const user = useSelector((states)=>states.userReducer)
-    console.log("user is:", user)
     const TH = new TokensHandler()
 
     /*
