@@ -82,17 +82,21 @@ class ProfileView(APIView, ResponseUtilities):
         asked_username = request.query_params.get("username")
         try:
             user = User.objects.get(username = asked_username)
+            requested_user = request.user
             self.response_data = UserProfileSerializer(instance=user).data
-            
+            print(requested_user.rises.all())
             # Adding if_owner to True
             # if the requester is the Owner of the profile
-            self.response_data["is_owner"] = False
-            if request.user == user: 
-                self.response_data["is_owner"] = True
+            self.response_data.update({
+                            "is_owner": requested_user == user,
+                            "already_risen": user in requested_user.rises.all(),
+                            "already_followed": user in requested_user.following.all(),
+                        })
 
             self.success_status = True
 
-        except:
+        except :
+            print("!!! Got error in the Profile View !!!")
             self.message_to_client = "User didn't found"
         
         return Response(self.get_generated_response())
@@ -137,9 +141,9 @@ class ProfileDowntownView(APIView, ResponseUtilities):
             elif section == "following":
                 profiles = user.following.all()
             elif section == "rises":
-                profiles = user.rise.all()
-            elif section == "risenBy":
                 profiles = user.rises.all()
+            elif section == "risenBy":
+                profiles = user.risen_by.all()
             else:
                 raise Exception("Profile Downtown request without SECTION")
 
@@ -161,7 +165,7 @@ class ProfileDowntownNonAuthenticatedView(APIView, ResponseUtilities):
 
     def get(self, request, format=None):
         import time
-        time.sleep(3)
+        time.sleep(1)
         asked_username = request.query_params.get("username")
         section = request.query_params.get("section")
         print("asked section = ", section)
@@ -175,14 +179,13 @@ class ProfileDowntownNonAuthenticatedView(APIView, ResponseUtilities):
             elif section == "following":
                 profiles = user.following.all()
             elif section == "rises":
-                profiles = user.rise.all()
-            elif section == "risenBy":
                 profiles = user.rises.all()
+            elif section == "risenBy":
+                profiles = user.risen_by.all()
             else:
                 raise Exception("Profile Downtown request without SECTION")
 
             self.response_data = DowntownProfileCardsSerializer(instance=profiles, many=True).data
-            print("Response data is:", self.response_data)
             self.success_status = True
 
         except Exception as e:
@@ -194,17 +197,19 @@ class ProfileDowntownNonAuthenticatedView(APIView, ResponseUtilities):
 
 class RiseHandlerView(APIView, ResponseUtilities):
 
+    permission_classes=[IsAuthenticated]
+
     def post(self, request):
 
-        commit = request.data.get("commit")
         try:
+            commit = request.data.get("commit")
             user_to_rise = User.objects.get(username =  request.data.get("username"))
             user_who_risen = request.user
 
             if commit == "rise":
-                user_who_risen.rise.add(user_to_rise)
+                user_who_risen.rises.add(user_to_rise)
             elif commit == "unrise":
-                user_who_risen.rise.remove(user_to_rise)
+                user_who_risen.rises.remove(user_to_rise)
             else:
                 raise Exception("Not valid commit")
             """
@@ -221,6 +226,45 @@ class RiseHandlerView(APIView, ResponseUtilities):
             self.success_status = True
 
         except:
+            print("Got error when trying to handle the rise/unrise request !")
+
+        return Response(self.get_generated_response())
+    
+class FollowHandlerView(APIView, ResponseUtilities):
+
+    permission_classes=[IsAuthenticated]
+
+    def post(self, request):
+
+        commit = request.data.get("commit")
+        print("Request here in follow:", request.data.get("username"))
+        print("Request here in follow:", request.data.get("commit"))
+
+        try:
+            user_to_follow = User.objects.get(username =  request.data.get("username"))
+            user_who_followed = request.user
+
+            if commit == "follow":
+                user_who_followed.following.add(user_to_follow)
+            elif commit == "unfollow":
+                user_who_followed.following.remove(user_to_follow)
+            else:
+                raise Exception("Not valid commit")
+            """
+            Disclaimer:
+                Signal will count rise points too.
+                But it was not working properly, I don't know why.
+                Might be cause of it's asynchronous or something like that
+
+                So counting again here to deliver the new followers count of user
+            """
+            self.response_data = {
+                "new_followers_count":user_to_follow.followers.count()
+            }
+            self.success_status = True
+
+        except:
             print("Got error when trying to handle the follow/unfollow request !")
 
         return Response(self.get_generated_response())
+    

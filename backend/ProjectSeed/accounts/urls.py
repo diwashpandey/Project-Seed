@@ -23,6 +23,7 @@ urlpatterns = [
        path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
        #Rise and Following
-       path("rise-handler/", views.RiseHandlerView.as_view(), name="rise_handler")
+       path("profile-rise-handler/", views.RiseHandlerView.as_view(), name="rise_handler"),
+       path("profile-follow-handler/", views.FollowHandlerView.as_view(), name="follow_handler")
 
 ]
