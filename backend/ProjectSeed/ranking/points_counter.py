@@ -15,7 +15,7 @@ def get_risepoints_of_user(user):
 
     # Using 👉Coalesce👈 for if value is null 👇
     # Getting the count of rises by teacher and friends
-    rises = user.rises.aggregate(
+    rises = user.risen_by.aggregate(
             teachers_count= Coalesce(Count("id", filter=Q(is_teacher=True)), 0),friends_count=Coalesce(Count("id", filter=Q(is_teacher=False)),0)
             )
         

@@ -21,8 +21,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        exclude = ["password", "is_staff", "is_superuser", "date_joined", "last_login", "groups", "user_permissions", "following", "rise"]
-        read_only_fields = ["password", "is_staff", "is_superuser", "date_joined", "last_login", "groups", "user_permissions", "following", "rise"]
+        exclude = ["password", "is_staff", "is_superuser", "date_joined", "last_login", "groups", "user_permissions", "following", "rises"]
         depth = 2
 
 class DowntownProfileCardsSerializer(serializers.ModelSerializer):

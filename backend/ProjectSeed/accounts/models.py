@@ -53,7 +53,7 @@ class User(AbstractUser):
 
     # Follow and Rise
     following = models.ManyToManyField("self", symmetrical=False, related_name="followers", blank=True)
-    rise = models.ManyToManyField("self", symmetrical=False, related_name="rises", blank=True)
+    rises = models.ManyToManyField("self", symmetrical=False, related_name="risen_by", blank=True)
     
     #           ******************     End of Relations     ******************     #
 

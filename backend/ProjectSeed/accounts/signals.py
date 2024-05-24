@@ -9,7 +9,7 @@ from . models import User
 # imports from APPS
 from ranking.points_counter import get_risepoints_of_user
 
-@receiver(m2m_changed, sender = User.rise.through)
+@receiver(m2m_changed, sender = User.rises.through)
 def rise_counter(sender, instance, action, reverse, model, pk_set, **kwargs):
     """
     This signal updates the rise points of another user, whom the current user (Sender Model) has just rised.
