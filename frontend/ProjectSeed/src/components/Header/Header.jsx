@@ -10,6 +10,7 @@ import TopProfiles from "./icons/TopProfiles"
 // Additional Imports
 import { generatePhotoURL } from "../../utilities/apiEndpoints"
 import { loginRoute } from "../../utilities/frontendRoutes"
+import { topProfiles } from "../../utilities/frontendRoutes";
 
 export default function Header(){
 
@@ -45,7 +46,7 @@ function Nav(){
                     </NavLink>
                 </li>
                 <li className="w-16 h-full">
-                    <NavLink to="/login" className={(e) => {
+                    <NavLink to={topProfiles} className={(e) => {
                             return ( e.isActive ? "nav-btn-active h-full w-16 p-4 center md:p-3" : "nav-btn h-full w-16 p-4 center md:p-3")
                             }}>
                         <TopPosts />

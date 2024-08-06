@@ -65,8 +65,6 @@ class GetPostsNonAuthenticated(APIView, ResponseUtilities):
     permission_classes = [AllowAny]
 
     def get(self, request):
-        import time
-        time.sleep(2)
         offset = int(request.GET.get("offset", 0))
         limit = int(request.GET.get("limit", 10))
 

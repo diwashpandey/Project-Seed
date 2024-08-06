@@ -33,6 +33,8 @@ class ProfileRankingSystem:
     def get_top_profiles_from_college(self, college_name, count=10, *args, **kwargs):
 
         try:
+            college_test = College.objects.get(name__icontains = college_name)
+            print("Tested College:", college_test)
             college = College.objects.get(name = college_name)
             data = college.college_students.all().order_by("-rise_points")[0:count]
             self.success_status = True
