@@ -1,7 +1,7 @@
 from rest_framework.serializers import ( ModelSerializer )
 from .models import College
 
-class CollegeMiniData(ModelSerializer):
+class CollegeMiniDataSerializer(ModelSerializer):
 
     class Meta:
         model = College

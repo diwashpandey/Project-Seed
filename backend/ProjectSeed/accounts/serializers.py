@@ -5,8 +5,8 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
 # serializers import
-from colleges.serializers import CollegeMiniData
-from universities.serializers import UniversityMiniData
+from colleges.serializers import CollegeMiniDataSerializer
+from universities.serializers import UniversityMiniDataSerializer
 from posts.serializers import PostSerializer
 
 
@@ -15,8 +15,8 @@ User = get_user_model()
 
 class UserProfileSerializer(serializers.ModelSerializer):
 
-    colleges = CollegeMiniData(many=True)
-    universities = UniversityMiniData(many=True)
+    colleges = CollegeMiniDataSerializer(many=True)
+    universities = UniversityMiniDataSerializer(many=True)
     posts = PostSerializer(many=True)
 
     class Meta:
@@ -39,8 +39,13 @@ class TopProfilesSerializer(serializers.ModelSerializer):
 
 
 class AuthUserQuickDataSerializer(serializers.ModelSerializer):
+
+    colleges = CollegeMiniDataSerializer(many=True)
+    universities = UniversityMiniDataSerializer(many=True)
+
     class Meta:
         model = User
-        fields = ["full_name", "intro", "username", "rise_points", "profile_photo", "background_photo", "following_count", "followers_count"]
-
+        fields = ["full_name", "intro", "username", "rise_points", "profile_photo", "background_photo", "following_count", "followers_count", "colleges", "universities"]
         read_only_fields = ["full_name", "intro", "username", "rise_points", "profile_photo", "background_photo", "following_count", "followers_count"]
+        depth = 2
+

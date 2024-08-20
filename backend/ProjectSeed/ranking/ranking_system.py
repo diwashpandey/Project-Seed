@@ -33,8 +33,6 @@ class ProfileRankingSystem:
     def get_top_profiles_from_college(self, college_name, count=10, *args, **kwargs):
 
         try:
-            college_test = College.objects.get(name__icontains = college_name)
-            print("Tested College:", college_test)
             college = College.objects.get(name = college_name)
             data = college.college_students.all().order_by("-rise_points")[0:count]
             self.success_status = True
@@ -62,7 +60,7 @@ class ProfileRankingSystem:
         self.success_status = True
         return data
 
-
+        
 class PostRankingSystem:
     """
         This is a class designed to fetch top students from either a college, university, or overall:
@@ -79,7 +77,6 @@ class PostRankingSystem:
         You can use them to send to the client
     """
 
-    success_status:bool = False
     message_to_client:str = ""
 
     def get_top_posts_from_college(self, college_name, count=10, *args, **kwargs):
@@ -87,7 +84,6 @@ class PostRankingSystem:
         try:
             college = College.objects.get(name = college_name)
             data = Post.objects.filter(user__colleges = college).order_by("-rises_count")[0:count]
-            self.success_status = True
             return data
 
         except:
@@ -99,7 +95,6 @@ class PostRankingSystem:
         try:
             university = University.objects.get(name = university_name)
             data = Post.objects.filter(user__universities = university).order_by("-rises_count")[0:count]
-            self.success_status = True
             return data
 
         except:
@@ -109,5 +104,4 @@ class PostRankingSystem:
     def get_top_posts_from_global(self, count=10, *args, **kwargs):
 
         data = list(Post.objects.all().order_by("-rises_count")[0:count])
-        self.success_status = True
         return data

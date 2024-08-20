@@ -70,6 +70,7 @@ class AuthUserQuickData(APIView, ResponseUtilities):
             self.success_status = True
         except:
             self.message_to_client = "Something went wrong when fetching the data"
+        
         return Response(self.get_generated_response())
     
 
