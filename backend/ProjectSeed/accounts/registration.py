@@ -124,7 +124,7 @@ class CustomUserRegistration:
         return full_name
     
     def check_gender(self) -> bool:
-        valid_genders = ["male", "female", "other"]
+        valid_genders = ["m", "f", "o"]
 
         if self.gender.lower() in valid_genders:
             return True

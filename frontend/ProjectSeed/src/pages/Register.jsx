@@ -1,4 +1,5 @@
 import Header from "../components/Header/Header"
+
 function Register(){
   return (
     <>

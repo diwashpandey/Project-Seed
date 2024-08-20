@@ -30,6 +30,6 @@ export const GetPostsNonAuthenticatedURL = `${BaseURL}/recommendation/get-recomm
 export const PostRiseRequestURL = `${BaseURL}/posts/rise-commit` // add ?offset= & limit=
 
 // Top Profiles
-export const GetTopProfilesURL = "top-profiles" // add ?college=collegename&school=schoolname&count=number
+export const GetTopProfilesURL = "ranking/top-profiles" // add ?college=collegename&school=schoolname&count=number
 
 // Top Posts
