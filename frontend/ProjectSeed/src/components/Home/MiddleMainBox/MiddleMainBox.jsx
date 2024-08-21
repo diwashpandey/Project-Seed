@@ -16,7 +16,7 @@ import Post from "../../Post/Post"
 
 export default function MiddleMainBox() {
     const user = useSelector((states)=>states.userReducer)
-    const Posts = useSelector((state)=> state.postsReducer[0])
+    const Posts = useSelector((state)=> state.postsReducer[0]) // Doing [0] to take first thing because it's returning the array inside array, I don't know why
 
     const dispatch = useDispatch()
 
