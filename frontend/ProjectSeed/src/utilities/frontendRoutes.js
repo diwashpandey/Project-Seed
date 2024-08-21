@@ -6,4 +6,4 @@ export const profileRoute = "profile/" // :username <= Add this too (Params)
 export const generateProfileRoute = (username) => `${profileRoute}${username}`
 
 // Top Profiles Routes
-export const topProfiles = "top-profiles/"
+export const topProfiles = "top-profiles/" // Add queries here: get-from & name
