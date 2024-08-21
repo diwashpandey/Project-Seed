@@ -1,20 +1,16 @@
 import useAxios from "../../hooks/useAxios"
-import { GetTopProfilesURL } from "../../utilities/apiEndpoints"
 
-export async function topProfilesFetcher(){
+export async function topProfilesFetcher(url){
     const axiosHook = useAxios()
 
-    try{
-        const response = await axiosHook.get(GetTopProfilesURL)
-        if (response.data.success_status == true){
-            return response.data.response_data
-        }
-        else{
-            throw new Error("There was some problem while fetching data")
-        }
+    const response = await axiosHook.get(url)
+    console.log(response)
+    if (response.data.success_status == true){
+        return response.data.response_data
     }
-    catch(err){
-        console.log("Something went wrong while fetching the top profiles", err)
+    else{
+        throw new Error("There was some problem while fetching data")
     }
+
 }
 
