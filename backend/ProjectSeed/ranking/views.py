@@ -54,9 +54,6 @@ class GetTopProfiles(APIView, ResponseUtilities):  # Using the Normal APIView fo
         self.get_from = request.query_params.get('get_from', None)  # Retrieve the 'get_from' parameter from the request query parameters
         self.name_of_place = request.query_params.get('name', None)  # Retrieve the 'name_of_place' parameter from the request query parameters
         self.count = int(request.query_params.get('count', 3))  # Retribing the count and converting to (int) right away
-
-        print("\n\n\nThe get from is:", self.get_from,"\nThe name of place asked is", self.name_of_place,"\nThe count asked is:", self.count,"\n\n\n")
-
         # Initialize an instance of the ProfileRankingSystem class
         profile_ranking_system = ProfileRankingSystem()  # This will be used to get the top students
 
@@ -66,15 +63,12 @@ class GetTopProfiles(APIView, ResponseUtilities):  # Using the Normal APIView fo
             # Retrieve top profiles based on the specified 'get_from' parameter
             if self.get_from == "college":
                 top_profiles = profile_ranking_system.get_top_profiles_from_college(college_name=self.name_of_place, count=self.count)
-                print("Was here in college so got topstudents:", top_profiles)
 
             elif self.get_from == "university":
                 top_profiles = profile_ranking_system.get_top_profiles_from_university(university_name=self.name_of_place, count=self.count)
-                print("Was here in college so got topstudents:", top_profiles)
             
             else:
                 top_profiles = profile_ranking_system.get_top_profiles_from_global(count=self.count)
-                print("Was here in non college or university so got topstudents:", top_profiles)
 
         # Retrieve top profile globally if no specific parameters are provided
         else:
@@ -82,15 +76,11 @@ class GetTopProfiles(APIView, ResponseUtilities):  # Using the Normal APIView fo
         
         # Serialize the top profile data using the TopProfilesSerializer class
         top_profiles_serialized_data = TopProfilesSerializer(instance=top_profiles, many=True).data  # getting the .data directly
-        print("Here in down got this:", top_profiles_serialized_data)
-        self.success_status = profile_ranking_system.success_status # Setting the success status from the ranking system
 
+        self.success_status = profile_ranking_system.success_status # Setting the success status from the ranking system
         self.response_data = {"top_profiles":top_profiles_serialized_data,
                               "place_details": self.get_place_details()}
-        print("The details of place is:", self.get_place_details())
-        # Setting the messege to client attribute
-        self.message_to_client = profile_ranking_system.message_to_client
-
+        self.message_to_client = profile_ranking_system.message_to_client # Setting the messege to client attribute
         # Return the generated response to the client
         return Response(self.get_generated_response())
     
