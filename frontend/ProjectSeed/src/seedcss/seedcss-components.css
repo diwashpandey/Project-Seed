@@ -4,42 +4,51 @@
     align-items: center;
 }
 
+/* Background Colors */
 .bg-theme-color{
     background-color: var(--main-theme-color);
 }
-
 .bg-theme-lighter{
     background-color: var(--lighter-or-lower-color)
 }
-
-.text-theme-color{
-    color:var(--main-theme-color)
-}
-
 .bg-main-background{
     background-color:var(--background-color)
 }
-
 .bg-main-box{
     background-color: var(--main-boxes-color);
 }
-
-.border-theme-color{
-    border-color: var(--main-theme-color);
-}
-
 .bg-black-white{
     background-color:var(--theme-text-color);
 }
+.bg-theme-darker{
+    background-color: var(--secondary-boxes-color);
+}
 
+/* Text Colors */
+.text-theme-color{
+    color:var(--main-theme-color)
+}
 .text-light-mode-opposite-color{
     color:var(--text-opposite-color);
 }
 
+/* Border Colors */
+.border-theme-color{
+    border-color: var(--main-theme-color);
+}
+
+.border-text-color{
+    border-color: var(--theme-text-color)
+}
+
+.border-text-opposite-color{
+    border-color: var(--text-opposite-color)
+}
+
+/* SVG colors */
 .fill-theme-color{
     fill: var(--main-theme-color);
 }
-
-.bg-theme-darker{
-    background-color: var(--secondary-boxes-color);
+.fill-text-color{
+    fill: var(--theme-text-color);
 }

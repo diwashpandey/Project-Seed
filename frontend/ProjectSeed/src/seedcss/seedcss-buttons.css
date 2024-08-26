@@ -3,6 +3,7 @@
     cursor:pointer;
     transition: background-color 0.2s ease;
     border-radius: 10px;
+    opacity: 0.6;
 }
 .nav-btn span,
 .nav-btn svg{
@@ -10,12 +11,13 @@
     fill: var(--theme-text-color);
 }
 .nav-btn:hover{
+    opacity:0.9;
     background-color:var(--lighter-or-lower-color)
 }
 .nav-btn-active{
+    opacity:1;
     border-bottom: 3px solid var(--main-theme-color);
     border-radius: 0px;
-    color:var(--main-theme-color)
 }
 .nav-btn-active span,
 .nav-btn-active svg{
