@@ -49,16 +49,61 @@ class LoginView(APIView, ResponseUtilities):
             self.message_to_client = "username or password was not matched !"
 
         return Response(self.get_generated_response())
-    
+
+import time
 
 class RegisterView(APIView, ResponseUtilities, CustomUserRegistration):
     
     def post(self, request, format=None):
-
+        time.sleep(2)
         user = self.register_user_if_valid(request.data)
+        print(self.get_generated_response())
 
         return Response(self.get_generated_response())
-    
+
+
+class UsernameAvailabilityService(APIView, ResponseUtilities):
+
+    permission_classes = [AllowAny]
+    authentication_classes = []
+
+    def post(self, request, format=None):
+
+        asked_for_username = request.data.get("asked_for_username", None)
+
+        # Check if username is provided
+        if not asked_for_username:
+            self.message_to_client = "Username must be provided"
+            return Response(self.get_generated_response())
+
+        user_exists_or_not = User.objects.filter(username = asked_for_username).exists()
+
+        self.response_data = {"exists_or_not":user_exists_or_not}
+        self.success_status = True
+
+        return Response(self.get_generated_response())
+
+
+class EmailAvailabilityService(APIView, ResponseUtilities):
+
+    permission_classes = [AllowAny]
+    authentication_classes = []
+
+    def post(self, request, format=None):
+        asked_for_email = request.data.get("asked_for_email", None)
+
+        # Check if username is provided
+        if not asked_for_email:
+            self.message_to_client = "Username must be provided"
+            return Response(self.get_generated_response())
+
+        user_exists_or_not = User.objects.filter(email = asked_for_email).exists()
+
+        self.response_data = {"exists_or_not":user_exists_or_not}
+        self.success_status = True
+
+        return Response(self.get_generated_response())
+
 
 class AuthUserQuickData(APIView, ResponseUtilities):
 
