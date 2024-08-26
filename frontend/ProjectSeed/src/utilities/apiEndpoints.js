@@ -9,7 +9,9 @@ export const generatePhotoURL = (photoURL) => { return `${BaseURL}${photoURL}`}
 
 // Authentication
 export const LoginURL = `${BaseURL}/accounts/login/`;
-export const RegisterURL = `${BaseURL}/accounts/register/`
+export const SignUpURL = `${BaseURL}/accounts/register/`
+export const UsernameAvailabilityServiceURL = `${BaseURL}/accounts/username-availability-service/`
+export const EmailAvailabilityServiceURL = `${BaseURL}/accounts/email-availability-service/`
 
 // Homepage
 export const HomePageAuthenticatedURL = "home/home-data-authenticated/"
