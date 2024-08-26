@@ -12,6 +12,7 @@ import LoginBox from "../components/Home/RightBox/LoginBox"
 import LeftDummyBox from "../components/Home/LeftBox/LeftDummyBox"
 import MiddleMainBox from "../components/Home/MiddleMainBox/MiddleMainBox"
 import Loading from "./Loading"
+import UploadPost from "../components/Post/UploadPost/UploadPost"
 
 // Additional Imports
 import { setHomeData } from "../reduxStore/features/Home/homeDataSlice"
@@ -21,8 +22,9 @@ import { fetchHomeData } from "../fetchers/Home/fetchHomeData"
 function Home(){
   const homePageData = useSelector((states)=>states.homeDataReducer)
   const user = useSelector((states)=> states.userReducer)
+  const uploadPostActive = useSelector((states)=>states.uploadPostActiveReducer)
   const dispatch = useDispatch()
-
+  
   const url = user.isAuthenticated ? HomePageAuthenticatedURL : HomePageNonAuthenticatedURL
 
   const { data, isError, isSuccess, error, isLoading } = useQuery({
@@ -45,8 +47,11 @@ function Home(){
   }
 
   return (
-    <>
-        {/* Padding_top-70_px is the place for the deader */}
+    <>  
+        {/* Showing the UploadPost Box if status is set to be True */}
+        {uploadPostActive?<UploadPost />:null}
+        
+        {/* Padding_top-70_px is the place for the header */}
         <main className="flex gap-2 pt-[70px]" >
 
           {/* This is the left side ranks showing box */}

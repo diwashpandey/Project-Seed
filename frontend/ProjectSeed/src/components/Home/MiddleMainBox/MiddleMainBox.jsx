@@ -1,5 +1,5 @@
 // imports from react
-import { useContext, useEffect, useRef } from "react"
+import { useEffect } from "react"
 
 // imports from third party
 import { useQuery } from "react-query"
@@ -10,18 +10,18 @@ import { GetPostsURL, GetPostsNonAuthenticatedURL } from "../../../utilities/api
 import fetchPost from "../../../fetchers/Post/fetchPosts"
 import { addPosts } from "../../../reduxStore/features/Post/postsSlice"
 import { generatePhotoURL } from "../../../utilities/apiEndpoints"
-import DummyLoadingPost from "../../Post/DummyLoadingPost"
+import DummyLoadingPost from "../../Post/Post/DummyLoadingPost"
+import Post from "../../Post/Post/Post"
+import { changeUploadPostActive } from "../../../reduxStore/features/Post/uploadPostActiveSlice"
 
-import Post from "../../Post/Post"
 
 export default function MiddleMainBox() {
     const user = useSelector((states)=>states.userReducer)
     const Posts = useSelector((state)=> state.postsReducer[0]) // Doing [0] to take first thing because it's returning the array inside array, I don't know why
-
     const dispatch = useDispatch()
 
     const url = user.isAuthenticated ? GetPostsURL : GetPostsNonAuthenticatedURL
-    let { data, isSuccess, isLoading, isError } = useQuery({
+    let { data, isSuccess } = useQuery({
         queryKey: ["fetchPosts"],
         queryFn: () =>  fetchPost(url)
     })
@@ -51,10 +51,16 @@ export default function MiddleMainBox() {
 }
 
 function UploadPostDummy(){
-    const user = useSelector((state)=> state.userReducer)
+
+    const dispatch = useDispatch()
+    // Importing the states from redux
+    const user = useSelector((states)=>states.userReducer)
+    const uploadPostActive = useSelector((states)=>states.uploadPostActiveReducer)
 
     return (
-        <div id="upload-post-container" className="h-12 w-full max-w-xl p-2 rounded-2xl flex items-center bg-main-box sm:h-14">
+        //Putting Redux dispatch in Click EventHandler to open the Upload Post Box
+        <div id="upload-post-container" className="h-12 w-full max-w-xl p-2 rounded-2xl flex items-center bg-main-box sm:h-14"
+        onClick={ () => dispatch(changeUploadPostActive(uploadPostActive)) }>
             <img src={
                 user.data?.profile_photo? `${generatePhotoURL(user.data.profile_photo)}`: ""
                 } alt="pp" className="profile-photo h-8 w-8 mr-4 bg-gray-500 sm:h-10 sm:w-10" />

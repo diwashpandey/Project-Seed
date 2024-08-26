@@ -28,6 +28,7 @@ export const UserProfileFollowURL = `${BaseURL}/accounts/profile-follow-handler/
 export const GetPostsURL = `${BaseURL}/recommendation/get-recommended-posts` // add ?offset= & limit=
 export const GetPostsNonAuthenticatedURL = `${BaseURL}/recommendation/get-recommended-posts-non-auth` // add ?offect= & limit=
 export const PostRiseRequestURL = `${BaseURL}/posts/rise-commit` // add ?offset= & limit=
+export const UploadPostRequestURL = `${BaseURL}/posts/upload-post`
 
 // Top Profiles
 export const GetTopProfilesURL = "ranking/top-profiles" // add ?college=collegename&school=schoolname&count=number
