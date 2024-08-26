@@ -25,7 +25,6 @@ import NotFound from "../components/TopProfiles/NotFound"
   if (typeof getFrom !== 'string' || typeof name !== 'string' || !getFrom.trim() || !name.trim()) {
     return GetTopProfilesURL;
   }
-  console.log("not here")
   return `${GetTopProfilesURL}?get_from=${getFrom}&name=${name}&count=${count}`;
 }
 
@@ -51,14 +50,12 @@ function TopProfiles(){
     // Handiling data after something happens while fetching
     useEffect(()=>{
         if (isSuccess){
-          console.log("ma yaha xu hai")
           dispatch(addTopProfiles(data))
         }
         if(isError){
           alert("Error while fetching homepage data")
         }
       }, [isSuccess, isError, isLoading, data, url])
-      console.log("is error is:", isError, "error is:", error)
 
     
     // Rendering the final page

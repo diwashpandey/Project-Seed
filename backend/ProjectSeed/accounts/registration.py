@@ -57,7 +57,7 @@ class CustomUserRegistration:
         self.confirm_password = registration_data.get("confirm_password")
 
         self.gender = registration_data.get("gender")
-        self.is_teacher = registration_data.get("is_teacher")
+        self.is_teacher = registration_data.get("is_teacher", False)
 
         # Returning none if something among the list is not provided
         if not self.all_exists():
@@ -83,7 +83,7 @@ class CustomUserRegistration:
                 created_user.save()
 
                 self.message_to_client = "Your Account was created successfully"
-                self.success = True
+                self.success_status = True
                 return created_user
             
             except Exception as e:

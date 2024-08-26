@@ -1,10 +1,10 @@
 // Third Parties Imports
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 
 // Additional Imports
 import { generatePhotoURL } from "../../../utilities/apiEndpoints"
-import { loginRoute } from "../../../utilities/frontendRoutes"
+import { loginRoute, generateProfileRoute } from "../../../utilities/frontendRoutes"
 
 function ProfileSection() {
   const user = useSelector((state)=> state.userReducer)
@@ -16,9 +16,9 @@ function ProfileSection() {
           user.isAuthenticated ?
           <>
               
-              <a href="" className="hidden md:block">
+              <Link to={generateProfileRoute(user.data?.username)} className="hidden md:block">
                   <img src={user.data ? `${generatePhotoURL(user.data.profile_photo)}` : ""} alt="" className="profile-photo h-10 w-10 bg-slate-400"/>
-              </a>
+              </Link>
               <div className="ellipsis-btn h-7 w-7 center flex-col cursor-pointer rounded-full p-1 hover:bg-slate-600">
                   <div className="rounded-full h-1 w-1 m-auto bg-white"></div>
                   <div className="rounded-full h-1 w-1 m-auto bg-white"></div>

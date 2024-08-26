@@ -49,7 +49,7 @@ function Nav() {
                 </li>
 
                 <li className="w-16 h-full">
-                    <NavLink to="/register" className={(e) => {
+                    <NavLink to="/hgfdgh" className={(e) => {
                             return ( e.isActive ? "nav-btn-active h-full w-16 p-4 center md:p-3" : "nav-btn h-full w-16 p-4 center md:p-3")
                             }}>
                         <TopProfiles /> {/* This is icon */}

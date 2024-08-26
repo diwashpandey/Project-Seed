@@ -1,15 +1,14 @@
 // imports from third party libraries
 import { formatDistance } from "date-fns"
 import { Link } from "react-router-dom"
-import { useSelector } from "react-redux"
 
 // importing components
-import  PostRiseButton  from "../Buttons/PostButtons/PostRiseButton"
-import PostCommentButton from '../Buttons/PostButtons/PostCommentButton'
+import  PostRiseButton  from ".././../Buttons/PostButtons/PostRiseButton"
+import PostCommentButton from '../../Buttons/PostButtons/PostCommentButton'
 
 // Additional imports
-import { generatePhotoURL } from '../../utilities/apiEndpoints'
-import { generateProfileRoute } from "../../utilities/frontendRoutes"
+import { generatePhotoURL } from '../../../utilities/apiEndpoints'
+import { generateProfileRoute } from "../../../utilities/frontendRoutes"
 
 function Post({post}) {
 

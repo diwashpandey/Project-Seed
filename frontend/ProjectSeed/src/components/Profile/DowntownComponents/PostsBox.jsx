@@ -1,4 +1,4 @@
-import Post from "../../Post/Post"
+import Post from "../../Post/Post/Post"
 import { useContext } from "react"
 import { profileOwnerDataContext } from '../../../pages/Profile'
 

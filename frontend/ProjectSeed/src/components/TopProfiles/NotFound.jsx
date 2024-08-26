@@ -1,7 +1,6 @@
 
 
 function NotFound() {
-    console.log("I'm here in NotFound")
   return (
     <div className="w-full center flex-col gap-3 mt-14">
     <h2 className="text-theme-color font-bold text-5xl">Oupsie!</h2>

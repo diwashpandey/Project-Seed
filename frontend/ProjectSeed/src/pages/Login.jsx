@@ -2,12 +2,13 @@
 import { useEffect, useState } from "react";
 
 // Third partied libraries import
-import { Link, redirect } from "react-router-dom";
-
-// Components and Pages imports
+import { Link } from "react-router-dom";
 
 // Additional imports
 import LoginHandler from "../authentication/loginHandler"
+import { signUpRoute, generateProfileRoute } from "../utilities/frontendRoutes";
+import { pageNameAccordingToNum } from "../components/Register/pageUtilities/pageNavigationUtils";
+
 
 const loginHandler = new LoginHandler()
 
@@ -41,7 +42,7 @@ function Login() {
       setMessageBoxColor("bg-green-600");
       setTimeout(()=>{
         window.location.href = "/";
-      }, 1000)
+      }, 500)
     }
     else{
       setMessageFromServer(response.messageFromServer);
@@ -78,7 +79,7 @@ function Login() {
           <div id="line1" className="w-[40%] h-0.5 bg-theme-lighter"></div>
           <div id="line2" className="w-[40%] h-0.5 bg-theme-lighter"></div>
         </div>
-        <p className="text-sm">Don't have an account? <Link className="text-theme-color hover:underline">Create a new account</Link></p>
+        <p className="text-sm">Don't have an account? <Link to={`${signUpRoute}${pageNameAccordingToNum[1]}`} className="text-theme-color hover:underline">Create a new account</Link></p>
       </form>
     </main>
     </>
