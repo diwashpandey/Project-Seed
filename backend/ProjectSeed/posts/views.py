@@ -15,6 +15,62 @@ from . serializers import PostSerializer
 
 # Models import
 from . models import Post
+from . models import PostPhoto
+
+from django.http import HttpResponse
+
+class UploadPostHandler(APIView, ResponseUtilities):
+    """
+        This view handles:
+            Post/Achievement Request From The Client
+
+        methods:
+            1. post_is_valid(caption, images):
+                This validates the post
+        
+        What it does?
+        =    Handles the post upload request and returns Response using the response utilities.
+    """
+    
+    permission_classes = [ IsAuthenticated ]
+    # authentication_class is JWT authentication by default in settings
+
+    def post(self, request):
+        caption = request.data.get("caption", "")  # Getting the caption or only ""
+        images = request.FILES.get("images", "")  # Getting the image or only ""
+        user = request.user
+
+        # Checking the length of the caption.
+        if self.post_is_valid(caption, images):
+            post = Post.objects.create(caption=caption, user=user)
+
+            if images != "":  # Creating Photo if the image exist
+                photo = PostPhoto.objects.create(photo = images)
+                photo.save()
+                post.photos.add(photo)
+            post.save()
+
+            self.success_status = True
+            self.message_to_client = "Your New Achievement has been uploaded."
+
+        return Response(self.get_generated_response())
+
+
+    def post_is_valid(self, caption, images):
+        
+        # Checking if caption or image exist or not.
+        if (len(caption) < 0) and (len(images) < 0):
+            self.message_to_client= "You need to upload an image or caption !"
+            return False
+        
+        # Checking if caption if more that 300 characters
+        if (len(caption) > 300):
+            self.message_to_client = "Caption should not be longer than 300"
+            return False
+        
+        return True 
+
+
 
 class PostRiseHandler(APIView, ResponseUtilities):
     """
