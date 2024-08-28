@@ -19,6 +19,7 @@ export const router = createBrowserRouter(
           <Route path={topProfiles} element={<TopProfiles />} />
           <Route path={loginRoute} element={<Login />} />
           <Route path={`${profileRoute}:username`} element={<Profile />} />
+          <Route path={`${settingsRoute}:sectionName`} element={<Settings />} />
         </Route>
       ])
 )
