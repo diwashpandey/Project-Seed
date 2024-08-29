@@ -40,7 +40,7 @@ export default function MiddleMainBox() {
         {
             Posts ? Posts.map((post)=>{
                 return <Post key={post.id} post={post} />
-            }) : ""
+            }) : null
         }
         </div>
 
@@ -60,7 +60,7 @@ function UploadPostDummy(){
     return (
         //Putting Redux dispatch in Click EventHandler to open the Upload Post Box
         <div id="upload-post-container" className="h-12 w-full max-w-xl p-2 rounded-2xl flex items-center bg-main-box sm:h-14"
-        onClick={ () => dispatch(changeUploadPostActive(uploadPostActive)) }>
+        onClick={ () => dispatch(changeUploadPostActive()) }>
             <img src={
                 user.data?.profile_photo? `${generatePhotoURL(user.data.profile_photo)}`: ""
                 } alt="pp" className="profile-photo h-8 w-8 mr-4 bg-gray-500 sm:h-10 sm:w-10" />

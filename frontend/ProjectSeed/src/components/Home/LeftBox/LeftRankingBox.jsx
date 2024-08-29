@@ -1,20 +1,24 @@
 // imports from react
 
+// imports from third party libraries
+import { Link } from "react-router-dom"
+
 // Pages and Components imports
 import TopPostCard from "./TopPostCard"
 import Top1ProfileCard from '../LeftBox/Top1ProfileCard'
 
 // Additional imports
 import Top2And3ProfileCard from "./Top2And3ProfileCard"
+import { topProfilesRoute } from "../../../utilities/frontendRoutes"
 
 function LeftRankingBox({top3Profiles, top3Posts}){
     
   return (
         <>
-            <div id="top-students-box" className="h-auto w-full p-2 bg-main-box ">
+            <div id="top-students-box" className="h-auto w-full p-2 rounded-e-lg bg-main-box ">
                 <div className="flex justify-between items-end mb-4">
                     <h1 className="text-lg">Top 3 Students</h1>
-                    <a href="" className="text-xs font-extralight">View more</a>
+                    <Link to={topProfilesRoute} className="text-xs font-extralight">View more</Link>
                 </div>
                 <div id="top-1-stu-contiainer" className="center">
                     <Top1ProfileCard profile={top3Profiles[0]}/>

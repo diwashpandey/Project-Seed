@@ -22,7 +22,7 @@ import { store } from './reduxStore/store'
 const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-//   <React.StrictMode>
+  <React.StrictMode>
       <Provider store={store}>
           <QueryClientProvider client={queryClient}>
               <AuthenticationHadler >
@@ -30,5 +30,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
               </AuthenticationHadler>
           </QueryClientProvider>
       </Provider>
-//    </React.StrictMode>,
+   </React.StrictMode>,
 )

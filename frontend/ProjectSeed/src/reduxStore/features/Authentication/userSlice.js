@@ -20,10 +20,14 @@ const userSlice = createSlice({
         },
         removeUserData(state){
             state.data=null
+        },
+        updateUserData(state, action){
+            state.data = {...state.data , ...action.payload}
+            return state
         }
     }
 })
 
-export const {setIsAuthenticatedTrue, setIsAuthenticatedFalse, setUserData, removeUserData} = userSlice.actions
+export const {setIsAuthenticatedTrue, setIsAuthenticatedFalse, setUserData, removeUserData, updateUserData} = userSlice.actions
 
 export default userSlice.reducer

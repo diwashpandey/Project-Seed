@@ -45,7 +45,7 @@ class AuthUserQuickDataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["full_name", "intro", "username", "rise_points", "profile_photo", "background_photo", "following_count", "followers_count", "colleges", "universities"]
-        read_only_fields = ["full_name", "intro", "username", "rise_points", "profile_photo", "background_photo", "following_count", "followers_count"]
+        fields = ["full_name", "intro", "about_me", "email", "username", "rise_points", "profile_photo", "background_photo", "following_count", "followers_count", "colleges", "universities"]
+        read_only_fields = ["full_name", "intro", "about_me", "email", "username", "rise_points", "profile_photo", "background_photo", "following_count", "followers_count"]
         depth = 2
 

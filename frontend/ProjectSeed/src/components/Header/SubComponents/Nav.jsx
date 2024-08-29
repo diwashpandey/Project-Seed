@@ -8,19 +8,19 @@ import TopPosts from "../icons/TopPosts"
 import TopProfiles from "../icons/TopProfiles"
 
 // Additional Imports
-import { topProfiles } from "../../../utilities/frontendRoutes";
+import { topProfilesRoute } from "../../../utilities/frontendRoutes";
 
 function createUrlWithParams(user) {
     if (!user || !user.isAuthenticated){
-      return topProfiles
+      return topProfilesRoute
     }
     if (user.data && user.data.colleges && user.data.colleges.length) {
-      return `${topProfiles}?get_from=college&name=${user.data.colleges[0].name}`; // Adding the college name in the params
+      return `${topProfilesRoute}?get_from=college&name=${user.data.colleges[0].name}`; // Adding the college name in the params
     } 
     if (user.data && user.data.universities && user.data.universities.length) {
-      return `${topProfiles}?get_from=university&name=${user.data.universities[0].name}`; // Adding the university name in the params
+      return `${topProfilesRoute}?get_from=university&name=${user.data.universities[0].name}`; // Adding the university name in the params
     }
-    return topProfiles;
+    return topProfilesRoute;
   }
 
 function Nav() {

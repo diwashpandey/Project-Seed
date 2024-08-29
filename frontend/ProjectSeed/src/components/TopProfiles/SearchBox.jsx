@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate from react
 import Search from "../Icons/search";
 
 // Additional imports
-import { topProfiles } from "../../utilities/frontendRoutes";
+import { topProfilesRoute } from "../../utilities/frontendRoutes";
 
 function SearchBox() {
   const [form, setForm] = useState({
@@ -17,7 +17,7 @@ function SearchBox() {
     e.preventDefault(); // Prevent the default form submit behavior
 
     const queryParams = new URLSearchParams(form).toString(); // Convert form state to query params
-    navigate(`/${topProfiles}?${queryParams}`); // Navigate to the new URL with query params
+    navigate(`/${topProfilesRoute}?${queryParams}`); // Navigate to the new URL with query params
   };
 
   return (
