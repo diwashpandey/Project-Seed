@@ -13,15 +13,24 @@ import { generateProfileRoute } from "../../../utilities/frontendRoutes"
 function Post({post}) {
 
     return (
-        <div id="post" className="post w-full max-w-xl p-2 mt-4 rounded-2xl bg-main-box">
+        // Main Post
+        <div id="post" className="post w-full max-w-xl p-2 pb-3 mt-4 rounded-2xl bg-main-box">
+
+            {/* Post Header */}
             <div className="post-header flex items-center relative bottom-3 pl-1 sm:bottom-4 md:pl-4">
+                {/* Profile Photo Box */}
                 <Link to={generateProfileRoute(post.user.username)} className="post-user-profile-photo-container h-[50px] w-[50px] mr-1 rounded-full center relative bottom-1 bg-main-box md:bottom-0 md:mr-2 md:h-[70px] md:w-[70px]">
+                    {/* User Profile Photo */}
                     <img src={generatePhotoURL(post.user.profile_photo)} alt="" className="profile-photo h-[80%] w-[80%] bg-gray-500" />
                 </Link>
                 <div>
+                    {/* Full Name */}
                     <Link to={generateProfileRoute(post.user.username)} className="post-user-full-name font-light text-sm sm:text-lg">{ post.user.full_name }</Link>
-                    <div className="sm:flex">
+                    {/* Username and Upload TIme */}
+                    <div className="flex gap-4 sm:gap-0">
+                        {/* Username */}
                         <Link to={generateProfileRoute(post.user.username)} className="post-user-username font-light text-[8px] sm:text-xs">@{ post.user.username }</Link>
+                        {/* Uploaded time */}
                         <div className="post-uploaded-time font-light text-[8px] opacity-60 sm:ml-6 sm:text-xs">{
                         formatDistance(new Date(post.uploaded_date), new Date(), { addSuffix: true }) // Using date-fns to get the date uploaded
                         }</div>

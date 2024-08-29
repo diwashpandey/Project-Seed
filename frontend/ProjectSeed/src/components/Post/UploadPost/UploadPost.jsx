@@ -70,16 +70,15 @@ function UploadPost() {
     
     return (
         // Background box
-        <div className="absolute center z-10 h-full w-full bg-[rgba(0,0,0,0.468)]"
+        <div className="fixed center top-0 right-0 z-10 h-full w-full bg-[rgba(0,0,0,0.468)]"
         onClick={ ()=> dispatch(changeUploadPostActive()) }>
             {/* Main Box */}
             <div id="post" className="h-[80%] w-[25rem] max-h-[45rem] p-8 rounded-2xl relative bg-main-box shadow-2xl sm:w-[35rem] md:h-[80%] md:max-h-[35rem] lg:w-[50rem] lg:max-h-[40rem]"
             onClick={(e)=>e.stopPropagation()}>{/* putting stopPropagation top prevent the box close when clicked */}
                 {/* Cross Button */}
                 <div className="h-10 w-10 z-50 center absolute right-4 rounded-full top-2 bg-[rgba(0,0,0,0)] hover:bg-[rgba(0,0,0,0.25)] opacity-25 hover:opacity-75 transition-opacity duration-100 cursor-pointer"
-                onClick={ ()=> dispatch(changeUploadPostActive()) }>
-                {/* Changing the previous boolean value */}
-                    
+                onClick={ ()=> dispatch(changeUploadPostActive()) } // Changing the previous boolean value
+                >
                     <div className="h-[50%] w-1 rounded-md absolute rotate-45 bg-white"></div>
                     <div className="h-[50%] w-1 rounded-md absolute -rotate-45  bg-white"></div>
                 </div>

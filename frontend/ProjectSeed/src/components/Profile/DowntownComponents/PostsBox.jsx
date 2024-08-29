@@ -1,17 +1,33 @@
 import Post from "../../Post/Post/Post"
 import { useContext } from "react"
 import { profileOwnerDataContext } from '../../../pages/Profile'
+import { changeUploadPostActive } from "../../../reduxStore/features/Post/uploadPostActiveSlice"
+import { useDispatch, useSelector } from "react-redux"
+import UploadPost from "../../Post/UploadPost/UploadPost"
 
 export default function PostsBox() {
+    const user = useSelector((states)=>states.userReducer)
+    const uploadPostActiveStatus = useSelector((states)=>states.uploadPostActiveReducer)
+    let dispatch = useDispatch()
     let {profileOwnerData} = useContext(profileOwnerDataContext)
+
   return (
+    <>
+        {
+            uploadPostActiveStatus ? 
+            <UploadPost />
+            : null
+        }
         <div id="profile-downtown-posts-continer" className="user_profile_downtown_sections">
             <div id="downtown-posts-container-header" className="flex justify-between p-1 sm:p-4">
                 <h2 className="text-lg sm:text-2xl md:text-3xl">Achievements</h2>
                 {
                     // This is the Create new posts button
                     profileOwnerData.is_owner ?  
-                    <button className="btn-white-filled w-40 text-[0.5em] sm:text-sm sm:block">Create a new post</button>
+                    <button
+                    className="btn-white-filled w-40 text-[0.5em] sm:text-sm sm:block"
+                    onClick={()=>dispatch(changeUploadPostActive())}
+                    >Create a new post</button>
                     : null
                 }
                 
@@ -22,5 +38,6 @@ export default function PostsBox() {
                 })}
             </div>
         </div>
+    </>
   )
 }
