@@ -1,9 +1,11 @@
 // imports from third party libraries
 import { useSelector } from "react-redux"
 import { useMutation } from "react-query"
+import { Link } from "react-router-dom"
 
 // Additional imports
 import fetchPostRiseRequest from "../../../fetchers/Post/fetchPostRiseRequest"
+import { loginRoute } from "../../../utilities/frontendRoutes"
 
 
 function PostRiseButton({postId, alreadyRisen=false}) {
@@ -21,7 +23,6 @@ function PostRiseButton({postId, alreadyRisen=false}) {
 
         "onMutate":(context)=>{
             const btn = context.event.target
-
 
             if (context.commit == "unrise"){
                 btn.querySelector("button").classList.remove("unrise-btn")
@@ -78,16 +79,18 @@ function PostRiseButton({postId, alreadyRisen=false}) {
   }
   // If not Authenticated returning this button
   return (
-      <div className="rise-btn">
+      <Link to={loginRoute} className="rise-btn">
           <span className="rise-btn-text">Rise</span>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="h-4">
               <g id="Rise">
                   <path className="cls-1" d="M10,.83A9.17,9.17,0,1,0,19.17,10,9.18,9.18,0,0,0,10,.83Zm3.68,9.06a1.08,1.08,0,0,1-.8.37A1.1,1.1,0,0,1,12.2,10L11.05,9v4.22a1.05,1.05,0,0,1-2.1,0V9L7.8,10a1,1,0,0,1-1.36-1.6L9.32,6a1,1,0,0,1,1.36,0l2.88,2.44A1.06,1.06,0,0,1,13.68,9.89Z"/>
               </g>
           </svg>
-      </div>
+      </Link>
   )
 }
+
+
 
 export default PostRiseButton
 

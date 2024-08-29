@@ -4,10 +4,12 @@ import { useContext } from "react"
 // imports from third party libraries
 import { useSelector } from "react-redux"
 import { useMutation } from "react-query"
+import {Link} from "react-router-dom"
 
 // Additional imports
 import fetchProfileFollowRequest from "../../../fetchers/Profile/fetchProfileFollowRequest"
 import { profileOwnerDataContext } from "../../../pages/Profile"
+import { loginRoute } from "../../../utilities/frontendRoutes"
 
 function UserFollowButton() {
     
@@ -64,7 +66,7 @@ function UserFollowButton() {
     }
     // If not Authenticated returning this button
     return (
-        <div className='follow-btn'>Follow</div>
+        <Link to={loginRoute} className='follow-btn'>Follow</Link>
     )
 }
 
