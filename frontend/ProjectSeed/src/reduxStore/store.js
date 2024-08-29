@@ -7,6 +7,7 @@ import uploadPostActiveReducer from "./features/Post/uploadPostActiveSlice"
 import signUpFormReducer from "./features/Register/signUpFormSlice"
 import signUpPageNumReducer from "./features/Register/signUpPageNumSlice"
 import signUpFormFeedbackReducer from "./features/Register/signUpFormFeedbackSlice"
+import settingsFormNumberReducer from "./features/Settings/settingsFormNumberSlice"
 
 export const store = configureStore({
     reducer: {
@@ -18,5 +19,6 @@ export const store = configureStore({
         signUpFormReducer,
         signUpPageNumReducer,
         signUpFormFeedbackReducer,
+        settingsFormNumberReducer
     }
 })
