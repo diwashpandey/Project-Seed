@@ -120,6 +120,9 @@
     background-color: var(--theme-text-color);
     color: var(--text-opposite-color);
 }
+.btn-white-hollow > svg{
+    fill:var(--theme-text-color);
+}
 
 
 

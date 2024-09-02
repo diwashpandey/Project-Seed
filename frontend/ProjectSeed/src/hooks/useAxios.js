@@ -1,6 +1,3 @@
-// Imports from react
-import { useContext } from "react";
-
 // Imports from third parties
 import axios from "axios";
 

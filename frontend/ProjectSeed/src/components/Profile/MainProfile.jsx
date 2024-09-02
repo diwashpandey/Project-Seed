@@ -13,14 +13,16 @@ const MainProfile = ({children}) => {
   return (
       <div id="first-box" className='w-full'>
             <div id="main-user-profile-section" className="w-full pb-4 flex flex-col items-center relative bg-main-box mb-4" >
-                {/* Background Photo */}
-
                 <div id="top-div" className="absolute w-full flex">
                     <div id="rise-and-follow-buttons-container" className="ml-2 flex gap-4 absolute bottom-[-2.3rem]">
+                        {/* Rise Button */}
                         <UserRiseButton profileOwnerData={profileOwnerData} alreadyRisen={profileOwnerData.already_risen} />
+                        {/* Follow Button */}
                         <UserFollowButton />
                     </div>
+                    {/* Background Photo */}
                     <img src={generatePhotoURL(profileOwnerData.background_photo)} alt="" id="user-profile-background-photo" className="w-full h-36 rounded-lg object-cover z-0 bg-gray-700" />
+                    {/* More Button */}
                     <div id="more-button" className="flex flex-col gap-0.5 absolute bottom-[-2.3rem] right-2">
                         <div className="h-1.5 w-1.5 bg-theme- rounded-full"></div>
                         <div className="h-1.5 w-1.5 bg-theme- rounded-full"></div>
@@ -29,7 +31,6 @@ const MainProfile = ({children}) => {
                 </div>
 
                 {/* Profile Photo */}
-                
                 <img src={generatePhotoURL(profileOwnerData.profile_photo)} id="user-profile-profile-photo" alt="" className="profile-photo h-24 w-24 mt-16 border-2 border-white relative z-1 bg-gray-700 sm:h-36 sm:w-36" />
 
                 {/* Name, username & intro */}

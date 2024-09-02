@@ -31,7 +31,7 @@ function FormFoundation({children, formTitle, description, error=null}) {
           }
 
           {/* header */}
-          <div className="mb-5 w-full flex justify-between">
+          <div className="mb-3 w-full flex justify-between">
               <h2 className="text-xl font-medium">{formTitle}</h2>
               {/* Cross Box */}
               <div
