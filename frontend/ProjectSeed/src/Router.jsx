@@ -1,7 +1,7 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
 
 // importing url Names
-import {homeRoute, loginRoute, profileRoute, signUpRoute, settingsRoute}  from "./utilities/frontendRoutes"
+import {homeRoute, loginRoute, profileRoute, signUpRoute, settingsRoute, collegeProfileRoute}  from "./utilities/frontendRoutes"
 import {topProfilesRoute} from "./utilities/frontendRoutes"
 
 // Pages imports
@@ -12,6 +12,7 @@ import Profile from "./pages/Profile";
 import TopProfiles from "./pages/TopProfiles";
 import SignUp from "./pages/SignUp";
 import Settings from "./pages/Settings";
+import College from "./pages/College";
 
 export const router = createBrowserRouter(
     createRoutesFromElements([
@@ -22,6 +23,8 @@ export const router = createBrowserRouter(
           <Route path={`${signUpRoute}:pageName`} element={<SignUp />} />
           <Route path={`${profileRoute}:username`} element={<Profile />} />
           <Route path={`${settingsRoute}:sectionName`} element={<Settings />} />
+          <Route path={`${settingsRoute}:sectionName`} element={<Settings />} />
+          <Route path={`${collegeProfileRoute}:sectionName`} element={<College />} />
         </Route>
       ])
 )
