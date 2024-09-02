@@ -1,6 +1,9 @@
 import FullNameForm from "../Forms/ProfileSection/FullNameForm"
+import UpdateAboutMeForm from "../Forms/ProfileSection/UpdateAboutMeForm"
+import UpdateBackgroundPhotoForm from "../Forms/ProfileSection/UpdateBackgroundPhotoForm"
 import UpdateIntroForm from "../Forms/ProfileSection/UpdateIntroForm"
-import OptionStandard from "../OptionBoxes/OptionStandard"
+import UpdateProfilePhotoForm from "../Forms/ProfileSection/UpdateProfilePhotoForm"
+import OptionBoxHandler from "../OptionBoxes/OptionBoxHandler"
 import { useSelector } from "react-redux"
 
 function ProfileSection() {
@@ -9,76 +12,109 @@ function ProfileSection() {
 
   const Options = [
     {
-        "optionTitle": "Full Name",
-        "description": "Set or change your display name",
-        "currentValue": user.data?.full_name,  // remove the question mark later
-        "optionNumber": 2.1,
-        "OptionForm": FullNameForm
+      "type": "header",
+      "title":"Basic info"
     },
     {
-        "optionTitle": "Profile Picture",
-        "description": "Upload or change your profile image",
-        "currentValue": user.data?.profile_photo,  // remove the question mark later
-        "optionNumber": 2.2,
-        "OptionForm": ()=>null
+      "type": "option",
+      "optionTitle": "Full Name",
+      "description": "Set or change your display name",
+      "currentValue": user.data?.full_name,  // remove the question mark later
+      "optionNumber": 2.1,
+      "optionType":"standard",
+      "OptionForm": FullNameForm
     },
     {
-        "optionTitle": "Intro",
-        "description": "Write a short intro about yourself",
-        "currentValue": user.data?.intro,  // remove the question mark later
-        "optionNumber": 2.3,
-        "OptionForm": UpdateIntroForm
+      "type": "option",
+      "optionTitle": "Intro",
+      "description": "Write a short intro about yourself",
+      "currentValue": user.data?.intro,  // remove the question mark later
+      "optionNumber": 2.2,
+      "optionType":"standard",
+      "OptionForm": UpdateIntroForm
     },
     {
-        "optionTitle": "About me",
-        "description": "Write something that explains you",
-        "currentValue": user.data?.about_me,  // remove the question mark later
-        "optionNumber": 2.3,
-        "OptionForm": ()=>null
+      "type": "option",
+      "optionTitle": "About me",
+      "description": "Write something that explains you",
+      "currentValue": user.data?.about_me?.slice(0,30),  // remove the question mark later
+      "optionNumber": 2.3,
+      "optionType":"standard",
+      "OptionForm": UpdateAboutMeForm
     },
     {
-        "optionTitle": "Location",
-        "description": "Update your location details",
-        "currentValue": user.data?.location,  // remove the question mark later
-        "optionNumber": 2.4,
-        "OptionForm": ()=>null
+      "type": "header",
+      "title":"Photos"
     },
     {
-        "optionTitle": "Website",
-        "description": "Add a personal website or blog link",
-        "currentValue": "user.data?.website",  // remove the question mark later
-        "optionNumber": 2.5,
-        "OptionForm": ()=>null
+      "type": "option",
+      "optionTitle": "Profile Picture",
+      "description": "Make it easier for people to recognize you",
+      "currentValue": user.data?.profile_photo,  // remove the question mark later
+      "optionNumber": 2.4,
+      "optionType":"photo",
+      "OptionForm": UpdateProfilePhotoForm
     },
     {
-        "optionTitle": "Interests",
-        "description": "List your interests for better social interactions",
-        "currentValue": "user.data?.interests",  // remove the question mark later
-        "optionNumber": 2.6,
-        "OptionForm": ()=>null
+      "type": "option",
+      "optionTitle": "Background Picture",
+      "description": "Add something more stuffs about you",
+      "currentValue": user.data?.background_photo,  // remove the question mark later
+      "optionNumber": 2.5,
+      "optionType":"photo",
+      "OptionForm": UpdateBackgroundPhotoForm
     },
     {
-        "optionTitle": "Visibility",
-        "description": "Control who can see your profile",
-        "currentValue": "user.data?.visibility",  // remove the question mark later
-        "optionNumber": 2.7,
-        "OptionForm": ()=>null
-    }
+      "type": "Header",
+      "title":"Skills and Interests"
+    },
+    {
+      "type": "option",
+      "optionTitle": "Skills",
+      "description": "List your skills for better social interactions",
+      "currentValue": "user.data?.skills",  // remove the question mark later
+      "optionNumber": 2.8,
+      "optionType":"standard",
+      "OptionForm": ()=>null
+    },
+    {
+      "type": "option",
+      "optionTitle": "Interests",
+      "description": "List your interests for better social interactions",
+      "currentValue": "user.data?.interests",  // remove the question mark later
+      "optionNumber": 2.8,
+      "optionType":"standard",
+      "OptionForm": ()=>null
+    },
+    {
+      "type": "Header",
+      "title":"Extra Informations"
+    },
+    {
+      "type": "option",
+      "optionTitle": "Location",
+      "description": "Update your location details",
+      "currentValue": user.data?.location,  // remove the question mark later
+      "optionNumber": 2.6,
+      "optionType":"standard",
+      "OptionForm": ()=>null
+    },
+    {
+      "type": "option",
+      "optionTitle": "Website",
+      "description": "Add a personal website or blog link",
+      "currentValue": "user.data?.website",  // remove the question mark later
+      "optionNumber": 2.7,
+      "optionType":"standard",
+      "OptionForm": ()=>null
+    },
   ]
 
   return (
     <>
-      {Options.map((option, index) => (
-        <OptionStandard 
-          key={index}
-
-          optionTitle={option.optionTitle} 
-          description={option.description}
-          currentValue={option.currentValue}
-          optionNumber={option.optionNumber}
-          OptionForm={option.OptionForm}
-        />
-      ))}
+      {Options.map((option, index) => {
+          return <OptionBoxHandler option={option} key={index} />
+      })} 
     </>
   )
 }
