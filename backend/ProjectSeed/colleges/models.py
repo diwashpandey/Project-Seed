@@ -1,5 +1,6 @@
 from django.db import models
 from universities.models import University
+from django.utils.text import slugify
 
 from django.contrib.auth import get_user_model # Djagno given function to get the AUTH USER model
 
@@ -10,6 +11,7 @@ class College(models.Model):
 
     # Name
     name = models.CharField(max_length=256)
+    college_identifier = models.SlugField(max_length=255, unique=True, blank=True)
 
     # Profile Photos
     profile_photo = models.ImageField(default="college_default_profile_photo", upload_to="colleges_profile_photos/", blank=True, null=True)
@@ -36,5 +38,10 @@ class College(models.Model):
     class Meta:
         ordering = ["name"]
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+    
     def __str__(self) -> str:
         return self.name
