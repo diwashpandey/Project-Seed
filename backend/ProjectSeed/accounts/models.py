@@ -44,8 +44,8 @@ class User(AbstractUser):
     #           **********************     Relations     **********************     #
 
     # Qualifications
-    colleges = models.ManyToManyField("colleges.College", null=True, blank=True, related_name="college_students")
-    universities = models.ManyToManyField("universities.University", null=True, blank=True, related_name="university_students")
+    colleges = models.ManyToManyField("colleges.College", blank=True, related_name="college_students")
+    universities = models.ManyToManyField("universities.University", blank=True, related_name="university_students")
 
     # Skills and interests
     skills = models.ManyToManyField('Skill', blank=True,  related_name='users')

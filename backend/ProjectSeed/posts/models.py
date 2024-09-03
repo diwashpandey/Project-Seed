@@ -4,6 +4,9 @@ from django.contrib.auth import get_user_model # Djagno given function to get th
 # Getting the User from the dajngo given settings
 User = get_user_model()
 
+# Importing Models
+from colleges.models import College
+
 class Post(models.Model):
     
     # Caption of the photo
@@ -21,8 +24,9 @@ class Post(models.Model):
     # Users who have risen the post
     rises = models.ManyToManyField(User, symmetrical=False, blank = True, related_name="risen_posts")
 
-    # The owner of the post
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name = 'posts')
+    # The owner of the post (Can be User or College Both.)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name = 'posts', null=True, blank=True)
+    college = models.ForeignKey(College, on_delete=models.CASCADE, related_name = "college_posts", null=True, blank=True)
 
     # Post photoes - M2M field for future pruffing (feature of multiple photos can be added)
     photos = models.ManyToManyField('PostPhoto', related_name='related_photos')
@@ -31,11 +35,14 @@ class Post(models.Model):
 
 
     class Meta:
-        ordering = ["uploaded_date", "user__username"]
+        ordering = ["uploaded_date"]
 
     def __str__(self) -> str:
-        return f"{self.user.username} -> {self.caption[:30]}"
-        # returns string with username and the post caption
+        if self.user:
+            return f"{self.user.username} -> {self.caption[:30]}"
+        if self.college:
+            return f"{self.college.name} -> {self.caption[:30]}"
+        return f"Post -> {self.caption[:30]}"
 
 
 class PostPhoto(models.Model):
