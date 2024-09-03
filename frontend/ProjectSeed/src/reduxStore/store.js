@@ -8,6 +8,7 @@ import signUpFormReducer from "./features/Register/signUpFormSlice"
 import signUpPageNumReducer from "./features/Register/signUpPageNumSlice"
 import signUpFormFeedbackReducer from "./features/Register/signUpFormFeedbackSlice"
 import settingsFormNumberReducer from "./features/Settings/settingsFormNumberSlice"
+import CollegeProfileReducer from "./features/CollegeProfile/CollegeProfileSlice"
 
 export const store = configureStore({
     reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
         signUpFormReducer,
         signUpPageNumReducer,
         signUpFormFeedbackReducer,
-        settingsFormNumberReducer
+        settingsFormNumberReducer,
+        CollegeProfileReducer
     }
 })
