@@ -17,15 +17,16 @@ urlpatterns = [
        # Profile
        path("auth-user-quick-data/", views.AuthUserQuickData.as_view(), name="auth_user_quick_data"),
        path("profile", views.ProfileView.as_view(), name="profile"),
-       path("profile-non-authenticated", views.ProfileViewNonAuthenticated.as_view(), name="profile"),
+       path("profile-non-authenticated", views.ProfileViewNonAuthenticated.as_view(), name="profile_non_authenticated"),
        path("downtown/", views.ProfileDowntownView.as_view(), name="profile_downtown"),
        path("downtown-non-authenticated/", views.ProfileDowntownNonAuthenticatedView.as_view(), name="profile_downtown_nonauthenticated"),
 
        # Tokens
        path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
-       #Rise and Following
+       # Rise and Following
        path("profile-rise-handler/", views.RiseHandlerView.as_view(), name="rise_handler"),
-       path("profile-follow-handler/", views.FollowHandlerView.as_view(), name="follow_handler")
+       path("profile-follow-handler/", views.FollowHandlerView.as_view(), name="follow_handler"),
+
 
 ]

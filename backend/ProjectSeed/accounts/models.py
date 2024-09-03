@@ -15,7 +15,7 @@ class User(AbstractUser):
     age = models.IntegerField(null=True, blank=True)
     gender = models.CharField(max_length=10)
     intro = models.CharField(max_length = 100, null=True, blank=True)
-    about_me= models.TextField(max_length=2000, null=True, blank=True)
+    about_me= models.TextField(max_length=1000, null=True, blank=True)
     
     # Profile_Photos
     profile_photo = models.ImageField(default="default_profile_photo.jpg", upload_to = "users_profile_photos/")
