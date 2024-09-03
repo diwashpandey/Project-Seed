@@ -44,3 +44,7 @@ export const UploadPostRequestURL = `${BaseURL}/posts/upload-post`
 export const GetTopProfilesURL = "ranking/top-profiles" // add ?college=collegename&school=schoolname&count=number
 
 // Top Posts
+
+
+// College Profile
+export const CollegeProfileURL = `${BaseURL}/colleges/profile/` // add ?college_identifier= 

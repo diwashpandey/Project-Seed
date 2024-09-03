@@ -24,7 +24,7 @@ export const router = createBrowserRouter(
           <Route path={`${profileRoute}:username`} element={<Profile />} />
           <Route path={`${settingsRoute}:sectionName`} element={<Settings />} />
           <Route path={`${settingsRoute}:sectionName`} element={<Settings />} />
-          <Route path={`${collegeProfileRoute}:sectionName`} element={<College />} />
+          <Route path={`${collegeProfileRoute}:college_identifier`} element={<College />} />
         </Route>
       ])
 )
