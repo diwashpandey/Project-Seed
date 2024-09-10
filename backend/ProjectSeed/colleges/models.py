@@ -18,7 +18,7 @@ class College(models.Model):
     about_us= models.TextField(max_length=1000, null=True, blank=True)
 
     # Profile Photos
-    profile_photo = models.ImageField(default="college_default_profile_photo", upload_to="colleges_profile_photos/", blank=True, null=True)
+    profile_photo = models.ImageField(default="college_default_profile_photo.jpg", upload_to="colleges_profile_photos/", blank=True, null=True)
     background_photo = models.ImageField(default="college_default_background_photo.jpg", upload_to = "colleges_background_photos/", blank=True, null=True)
 
     # Location and Country
@@ -30,6 +30,7 @@ class College(models.Model):
 
     # Counts and Points
     rise_points = models.IntegerField(default = 0, null=True)
+    students_count = models.PositiveIntegerField(default=0, null=True)
     
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
@@ -39,7 +40,6 @@ class College(models.Model):
 
     # Users who controls the page
     admin = models.ForeignKey(User, on_delete=models.SET_NULL, related_name="administered_colleges", null=True, blank=True)
-    management_team = models.ManyToManyField(User, blank=True, related_name="managed_colleges")
 
     # Foreign key to the University
     university = models.ForeignKey(University, related_name="colleges", on_delete=models.SET_NULL, null=True, blank=True)
