@@ -24,6 +24,7 @@ function purifyDataForBackend(formData){
         "new_email":formData.email,
         "new_username":formData.username,
         "gender":formData.gender,
+        "profession":formData.profession,
         "new_password":formData.newPassword,
         "confirm_password":formData.confirmPassword,
     }

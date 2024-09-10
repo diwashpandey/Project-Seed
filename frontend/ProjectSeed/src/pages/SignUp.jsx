@@ -51,6 +51,7 @@ function SignUp(){
     onSuccess: () => {
       dispatch(setPageNo(7));
       dispatch(resetSignUpFormStatus())
+      dispatch(resetSignUpForm()) // Reseting the error in the redux state when valid
     },
   });
 
@@ -62,7 +63,6 @@ function SignUp(){
         dispatch(setSignUpFormStatus(validateFeedback)); // Sending error as object cause there is another object in formdata state
       } else{
         mutation.mutate(formData); // Trigger mutation on successful validation
-        dispatch(resetSignUpForm()) // Reseting the error in the redux state when valid
       }
   }
   
@@ -78,7 +78,7 @@ function SignUp(){
 
           {/* Box 2 */}
           <form id="register-form" className="relative" onSubmit={handleSubmit}>
-            <div className="h-64 w-[28rem] bg-main-box rounded-xl">
+            <div className="min-h-64 h-fit w-[28rem] center bg-main-box rounded-xl">
 
               {/* Giving boolen as the hidden prop with the help of page number */}
               {currentPageNo === 1 ? <EnterProfession /> : null}

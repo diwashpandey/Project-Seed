@@ -4,7 +4,7 @@ import { useEffect } from "react"
 // Third party libraries import
 import { useQuery } from "react-query"
 import { useDispatch } from "react-redux"
-import { useLocation, useParams } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 
 // Additional Imports
 import { topProfilesFetcher } from "../fetchers/TopProfiles/topProfilesFetcher"
@@ -19,7 +19,7 @@ import SearchBox from "../components/TopProfiles/SearchBox"
 import NotFound from "../components/TopProfiles/NotFound"
 
 // This is to generate the safe and managed URL with params
-  function generateUrlForTopProfiles(getFrom, name) {
+function generateUrlForTopProfiles(getFrom, name) {
   let count = 30
   // Validate parameters
   if (typeof getFrom !== 'string' || typeof name !== 'string' || !getFrom.trim() || !name.trim()) {
