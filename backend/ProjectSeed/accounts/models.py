@@ -3,77 +3,116 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     
+    class Profession(models.TextChoices):
+        STUDENT = 's', 'Student'
+        TEACHER = 't', 'Teacher'
+        PROFESSIONAL = 'p', 'Professional'
+        INVESTOR = 'i', 'Investor'
+
+    class Gender(models.TextChoices):
+        MALE = 'm', 'Male'
+        FEMALE = 'f', 'Female'
+        OTHER = 'o', 'Other'
+
     # User Logins
     email = models.EmailField(unique=True, null=False, blank=False)
     username = models.CharField(max_length=25, unique=True, null=False, blank=False)
     password = models.CharField(null=False, blank=False, max_length=500)
 
     # User Details
-    full_name = models.CharField(max_length=50) # This should be the automatic field while registering or updating the name
+    full_name = models.CharField(max_length=50)  # This should be the automatic field while registering or updating the name
     first_name = models.CharField(max_length=25)
     last_name = models.CharField(max_length=25)
     age = models.IntegerField(null=True, blank=True)
-    gender = models.CharField(max_length=10)
-    intro = models.CharField(max_length = 100, null=True, blank=True)
-    about_me= models.TextField(max_length=1000, null=True, blank=True)
+    intro = models.CharField(max_length=100, null=True, blank=True)
+    about_me = models.TextField(max_length=1000, null=True, blank=True)
+    gender = models.CharField(max_length=1, choices=Gender.choices)
     
-    # Profile_Photos
-    profile_photo = models.ImageField(default="default_profile_photo.jpg", upload_to = "users_profile_photos/")
-    background_photo = models.ImageField(default="default_background_photo.jpg", upload_to = "users_background_photos/")
+    # Profile Photos
+    profile_photo = models.ImageField(default="default_profile_photo.jpg", upload_to="users_profile_photos/")
+    background_photo = models.ImageField(default="default_background_photo.jpg", upload_to="users_background_photos/")
 
-    # This field is later to be decided
-    #year = models.IntegerField(null = True, blank= True)
-
-    # Role Verification
-    is_teacher = models.BooleanField(default=False)
+    # Profession
+    profession = models.CharField(max_length=1, choices=Profession.choices, default=Profession.STUDENT)
 
     # Verifications
     is_verified = models.BooleanField(default=False)
     is_email_verified = models.BooleanField(default=False)
 
     # Counts and Points
-    following_count = models.IntegerField(default = 0, null=True)
-    followers_count = models.IntegerField(default = 0, null=True) # All These 3 fields should be handled by the Signals
-    rise_points = models.IntegerField(default = 0, null=True)
+    following_count = models.IntegerField(default=0, null=True)
+    followers_count = models.IntegerField(default=0, null=True)  # All these fields should be handled by Signals
+    rise_points = models.IntegerField(default=0, null=True)
 
-    # Social Media urls
+    # Social Media URLs
     github = models.URLField(null=True, blank=True)
     linkedin = models.URLField(null=True, blank=True)
     instagram = models.URLField(null=True, blank=True)
 
-    #           **********************     Relations     **********************     #
-
+    # Relations
     # Qualifications
-    colleges = models.ManyToManyField("colleges.College", blank=True, related_name="college_students")
-    universities = models.ManyToManyField("universities.University", blank=True, related_name="university_students")
+    colleges = models.ManyToManyField("colleges.College", through="CollegeConnection", related_name="college_members")
+    universities = models.ManyToManyField("universities.University", through="UniversityConnection", related_name="university_members")
 
-    # Skills and interests
-    skills = models.ManyToManyField('Skill', blank=True,  related_name='users')
-    interests = models.ManyToManyField('Interest', blank=True,  related_name='users')
+    # Skills and Interests
+    skills = models.ManyToManyField('Skill', blank=True, related_name='users')
+    interests = models.ManyToManyField('Interest', blank=True, related_name='users')
 
     # Follow and Rise
     following = models.ManyToManyField("self", symmetrical=False, related_name="followers", blank=True)
     rises = models.ManyToManyField("self", symmetrical=False, related_name="risen_by", blank=True)
-    
-    #           ******************     End of Relations     ******************     #
 
     # Settings
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
-    
-    #Meta stuffs
+
+    # Meta
     class Meta:
         ordering = ["full_name"]
 
-    # This will setup the default profile_photo when user deletes his/her profile_photo
+    # Default profile photo handler
     def remove_profile_photo(self):
         self.profile_photo = "default_profile_photo.jpg"
         self.save()
 
 
+class CollegeConnection(models.Model):
+    class Role(models.TextChoices):
+        TEACHER = 't', 'Teacher'
+        STUDENT = 's', 'Student'
+        MANAGEMENT = 'm', "Management"
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    college = models.ForeignKey("colleges.College", on_delete=models.CASCADE)
+    
+    role = models.CharField(max_length=1, choices=Role.choices)  # Choices for role
+    verified_by_college = models.BooleanField(default=False)  # Whether verified by college or not
+    
+    class Meta:
+        unique_together = ['user', 'college']
 
-# User has the M2M relation along with the related_name to this
+    def __str__(self):
+        return f"{self.user.full_name} - {self.college.name} ({self.get_role_display()})"
+
+class UniversityConnection(models.Model):
+    class Role(models.TextChoices):
+        TEACHER = 't', 'Teacher'
+        STUDENT = 's', 'Student'
+        MANAGEMENT = 'm', "Management"
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    university = models.ForeignKey("universities.University", on_delete=models.CASCADE)
+    
+    role = models.CharField(max_length=1, choices=Role.choices)  # Choices for role
+    verified_by_university = models.BooleanField(default=False)  # Whether verified by university or not
+    
+    class Meta:
+        unique_together = ['user', 'university']
+
+    def __str__(self):
+        return f"{self.user.full_name} - {self.university.name} ({self.get_role_display()})"
+
 class Skill(models.Model):
     name = models.CharField(max_length=100)
 
@@ -81,8 +120,6 @@ class Skill(models.Model):
         return self.name
 
 
-
-# User has the M2M relation along with the related_name to this
 class Interest(models.Model):
     name = models.CharField(max_length=100)
 
