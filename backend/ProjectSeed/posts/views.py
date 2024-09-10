@@ -1,5 +1,6 @@
 # import from django
 from django.db.models import Count
+from django.contrib.auth import get_user_model
 
 # imports from rest_framework
 from rest_framework.views import APIView
@@ -13,11 +14,72 @@ from utilities.response.response_utilities import ResponseUtilities
 # Serializers imports
 from . serializers import PostSerializer
 
+# Getting the User Model with the django provided function
+User = get_user_model()
+
 # Models import
 from . models import Post
 from . models import PostPhoto
 
-from django.http import HttpResponse
+class GetUserPosts(APIView, ResponseUtilities):
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        username = request.query_params.get("username")
+        offset = int(request.query_params.get("offset", 0))
+        limit = int(request.query_params.get("limit", 10))
+
+        if not username:
+            self.message_to_client = "Username required"
+            return Response(self.get_generated_response())
+
+        posts_query_set = Post.objects.filter(user__username=username).prefetch_related('rises')
+
+        if posts_query_set.exists():
+            serialized_data = PostSerializer(instance=posts_query_set, many=True).data
+            user_id = request.user.id
+
+            for post in serialized_data:
+                post["already_risen"] = user_id in [user.id for user in post['rises']]
+
+            self.response_data = serialized_data
+            self.success_status = True
+        else:
+            self.message_to_client = "User has not uploaded any posts"
+
+        return Response(self.get_generated_response())
+
+
+class GetUserPostsNonAuth(APIView, ResponseUtilities):
+
+    authentication_classes = []
+
+    def get(self, request, format=None):
+        username = request.query_params.get("username")
+        offset = int(request.query_params.get("offset", 0))
+        limit = int(request.query_params.get("limit", 10))
+
+        if not username:
+            self.message_to_client = "Username required"
+            return Response(self.get_generated_response())
+
+        posts_query_set = Post.objects.filter(user__username=username).prefetch_related('rises')
+
+        if posts_query_set.exists():
+            serialized_data = PostSerializer(instance=posts_query_set, many=True).data
+
+            # Set already_risen to False for all posts
+            for post in serialized_data:
+                post["already_risen"] = False
+
+            self.response_data = serialized_data
+            self.success_status = True
+        else:
+            self.message_to_client = "User has not uploaded any posts"
+
+        return Response(self.get_generated_response())
+
 
 class UploadPostHandler(APIView, ResponseUtilities):
     """
