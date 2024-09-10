@@ -6,10 +6,10 @@ User = get_user_model()
  
 # Create your models here.
 class CollegeRating(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="rated_colleges")
-    college = models.ForeignKey("colleges.College", on_delete=models.CASCADE, related_name="college_ratings")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="rated_colleges", null=False, blank=False )
+    college = models.ForeignKey("colleges.College", on_delete=models.CASCADE, related_name="college_ratings", null=False, blank=False)
     rating = models.PositiveIntegerField()
-    comment = models.TextField(blank=True, null=True)
+    comment = models.TextField(blank=True, null=True, max_length=500)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

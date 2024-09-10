@@ -14,8 +14,7 @@ from utilities.response.response_utilities import ResponseUtilities
 from django.http import HttpResponse
 
 # importing serializers
-from ranking.serializers import TopProfilesSerializer
-from accounts.serializers import UserProfileSerializer
+from accounts.serializers import UserProfileCardSerializer
 from colleges.serializers import CollegeMiniDataSerializer
 from universities.serializers import UniversityMiniDataSerializer
 
@@ -74,8 +73,8 @@ class GetTopProfiles(APIView, ResponseUtilities):  # Using the Normal APIView fo
         else:
             top_profiles = profile_ranking_system.get_top_profiles_from_global(count=self.count)
         
-        # Serialize the top profile data using the TopProfilesSerializer class
-        top_profiles_serialized_data = TopProfilesSerializer(instance=top_profiles, many=True).data  # getting the .data directly
+        # Serialize the top profile data using the UserProfileCardSerializer class
+        top_profiles_serialized_data = UserProfileCardSerializer(instance=top_profiles, many=True).data  # getting the .data directly
 
         self.success_status = profile_ranking_system.success_status # Setting the success status from the ranking system
         self.response_data = {"top_profiles":top_profiles_serialized_data,

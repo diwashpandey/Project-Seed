@@ -30,8 +30,8 @@ class GetPosts(APIView, ResponseUtilities):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        offset = int(request.GET.get("offset", 0))
-        limit = int(request.GET.get("limit", 10))
+        offset = int(request.query_params.get("offset", 0))
+        limit = int(request.query_params.get("limit", 10))
 
         postrecommendation = PostsRecommendation()
         # posts_query_set = postrecommendation.get_posts_for_user(user=request.user, offset=offset, limit=limit)
@@ -65,8 +65,8 @@ class GetPostsNonAuthenticated(APIView, ResponseUtilities):
     permission_classes = [AllowAny]
 
     def get(self, request):
-        offset = int(request.GET.get("offset", 0))
-        limit = int(request.GET.get("limit", 10))
+        offset = int(request.query_params.get("offset", 0))
+        limit = int(request.query_params.get("limit", 10))
 
         postrecommendation = PostsRecommendation()
         recommended_posts = postrecommendation.get_posts_for_user(user=request.user, offset=offset, limit=limit)
@@ -77,4 +77,3 @@ class GetPostsNonAuthenticated(APIView, ResponseUtilities):
         self.success_status = True
 
         return Response(self.get_generated_response())
-

@@ -11,6 +11,7 @@ urlpatterns = [
     path('colleges/', include("colleges.urls")),
     path('universities/', include("universities.urls")),
     path('ranking/', include("ranking.urls")),
+    path('ratings/', include("ratings.urls")),
     path('recommendation/', include("recommendation.urls"))
 ]
 
