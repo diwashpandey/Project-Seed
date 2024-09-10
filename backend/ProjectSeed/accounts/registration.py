@@ -46,6 +46,7 @@ class CustomUserRegistration:
                 3. If any error happens when creating user in last then catches error and print and set sorry message to self.message_to_client
 
         """
+        print(registration_data)
 
         self.first_name = registration_data.get("first_name")
         self.last_name = registration_data.get("last_name")
@@ -57,7 +58,7 @@ class CustomUserRegistration:
         self.confirm_password = registration_data.get("confirm_password")
 
         self.gender = registration_data.get("gender")
-        self.is_teacher = registration_data.get("is_teacher", False)
+        self.profession = registration_data.get("profession")
 
         # Returning none if something among the list is not provided
         if not self.all_exists():
@@ -68,14 +69,14 @@ class CustomUserRegistration:
 
         # Checks if user has sent valid form or not.
         # Returns False when not valid.
-        if self.valid_password() and self.user_doesnot_exist() and self.check_gender():
+        if self.valid_password() and self.user_doesnot_exist() and self.check_gender() and self.validate_profession():
             try:
                 created_user = User.objects.create(username=self.new_username,
                                     email = self.new_email,
                                     first_name = self.first_name,
                                     last_name = self.last_name,
                                     full_name = self.full_name,
-                                    is_teacher = self.is_teacher,
+                                    profession = self.profession,
                                     gender = self.gender
                                     )
                 
@@ -93,6 +94,14 @@ class CustomUserRegistration:
         
         else:
             return False
+    
+    def validate_profession(self) -> bool:
+
+        # Checking the profession list according to the database choice
+        if self.profession in ["s", "t", "p", "i"]:  # If you don't understand the letters see the User Model profession field
+            return True
+        self.message_to_client = "Sorry your profession input was invalid"
+        return False
 
     # Checks if given passwords are same or not
     def valid_password(self) -> bool:
@@ -136,7 +145,7 @@ class CustomUserRegistration:
         #   This is for situations where the client uses the browser's Inspect Element capability to do anything incorrect here. 
 
     def all_exists(self) -> bool :
-        lst = [self.first_name, self.last_name, self.new_email, self.new_username, self.new_password, self.confirm_password, self.gender, self.is_teacher]
+        lst = [self.first_name, self.last_name, self.new_email, self.new_username, self.new_password, self.confirm_password, self.gender, self.profession]
         
         if None in lst:
             self.message_to_client = "You haven't provided all things"
