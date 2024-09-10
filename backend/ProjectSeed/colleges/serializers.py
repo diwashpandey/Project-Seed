@@ -8,8 +8,6 @@ from django.contrib.auth import get_user_model # Djagno given function to get th
 from .models import College
 from ratings.serializers import CollegeRatingSerializer
 
-# Importings Other Serializers
-
 # Getting the User from the dajngo given settings
 User = get_user_model()
 
@@ -19,20 +17,17 @@ class UserProfileSerializerForCollege(ModelSerializer):
         model = get_user_model()
         fields = ["id", "username", "full_name", "profile_photo"]
 
-
 # Serializers of the main model here (College)
 class CollegeMiniDataSerializer(ModelSerializer):
-
     class Meta:
         model = College
         fields = ["id","name", "profile_photo", "background_photo", "location", "country"]
-
 
 class CollegeDetailSerializer(ModelSerializer):
     admin = UserProfileSerializerForCollege(read_only=True)
     management_team = UserProfileSerializerForCollege(many=True, read_only=True)
     college_ratings = CollegeRatingSerializer(many=True, read_only=True)
-
+    
     class Meta:
         model = College
         exclude = [

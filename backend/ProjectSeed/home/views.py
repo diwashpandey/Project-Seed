@@ -1,4 +1,3 @@
-import time
 # imports from django_rest_framework
 from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
@@ -15,12 +14,8 @@ from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 
 # importing serializers
-from ranking.serializers import TopProfilesSerializer
+from accounts.serializers import UserProfileCardSerializer
 from posts.serializers import PostSerializer
-from accounts.serializers import UserProfileSerializer
-
-from rest_framework import authentication
-from rest_framework import exceptions
 
 # using djagno provided function to get the USER Model
 User = get_user_model()
@@ -67,7 +62,7 @@ class HomeViewAuthenticated(APIView, ResponseUtilities, ProfileRankingSystem, Po
             top_posts = self.get_top_posts_from_global(count = 3)
 
         # Serializing the data
-        top_3_profiles = TopProfilesSerializer(instance = top_profiles, many=True).data
+        top_3_profiles = UserProfileCardSerializer(instance = top_profiles, many=True).data
         top_3_posts = PostSerializer(instance = top_posts, many=True).data
 
         # Adding the data to the response_data
@@ -96,7 +91,6 @@ class HomeViewNonAuthenticated(APIView, ResponseUtilities, ProfileRankingSystem,
     permission_classes = [AllowAny] 
     
     def get(self, request, format=None):
-        time.sleep(1)
         top_profiles = None  
         top_posts = None                # These 3 will be sent to the Client
 
@@ -104,7 +98,7 @@ class HomeViewNonAuthenticated(APIView, ResponseUtilities, ProfileRankingSystem,
         top_posts = self.get_top_posts_from_global(count = 3)
 
         # Serializing the data
-        top_3_profiles = TopProfilesSerializer(instance = top_profiles, many=True).data
+        top_3_profiles = UserProfileCardSerializer(instance = top_profiles, many=True).data
         top_3_posts = PostSerializer(instance = top_posts, many=True).data
 
         # Adding the data to the response_data
