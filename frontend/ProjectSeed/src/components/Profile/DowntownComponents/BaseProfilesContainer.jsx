@@ -1,5 +1,5 @@
-import LoadingProfileCard from "./ProfileCards/LoadingProfileCard"
-import DowntownProfileCard from "./ProfileCards/DowntownProfileCard"
+import LoadingProfileCard from "../../ProfileCards/LoadingProfileCard"
+import ProfileCardStandard from "../../ProfileCards/ProfileCardStandard"
 
 export default function BaseProfilesContainer({usersData, isLoading, isSuccess}) {
 
@@ -12,7 +12,7 @@ export default function BaseProfilesContainer({usersData, isLoading, isSuccess})
                 return <NoUsersAvailable />
             }
             let generatedCards = usersData?.map((user)=>{
-                return <DowntownProfileCard key={user.id} user={user} />
+                return <ProfileCardStandard key={user.id} user={user} />
             })
             return generatedCards
         }

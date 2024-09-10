@@ -9,18 +9,35 @@ import signUpPageNumReducer from "./features/Register/signUpPageNumSlice"
 import signUpFormFeedbackReducer from "./features/Register/signUpFormFeedbackSlice"
 import settingsFormNumberReducer from "./features/Settings/settingsFormNumberSlice"
 import CollegeProfileReducer from "./features/CollegeProfile/CollegeProfileSlice"
+import profileOwnerDataReducer from "./features/Profile/profileOwnerDataSlice"
 
 export const store = configureStore({
     reducer: {
+        // Authentication
+        userReducer,
+
+        // Home Page
         homeDataReducer,
         postsReducer,
-        userReducer,
+
+        // Profile Page
+        profileOwnerDataReducer,
+
+        // Top Profiles
         topProfilesReducer,
+
+        // UploadPost Box
         uploadPostActiveReducer,
+
+        // Signup
         signUpFormReducer,
         signUpPageNumReducer,
         signUpFormFeedbackReducer,
+
+        // Settings
         settingsFormNumberReducer,
+
+        // College Profile
         CollegeProfileReducer
     }
 })

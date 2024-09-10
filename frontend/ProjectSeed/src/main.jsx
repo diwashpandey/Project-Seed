@@ -30,5 +30,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
               </AuthenticationHadler>
           </QueryClientProvider>
       </Provider>
-   </React.StrictMode>,
+   </React.StrictMode>
 )

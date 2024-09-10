@@ -1,6 +1,3 @@
-// Imports from react
-import { useContext } from "react"
-
 // Imports from third party libraries
 import { useQuery } from "react-query"
 import { useSelector } from "react-redux"
@@ -9,13 +6,12 @@ import { useSelector } from "react-redux"
 import BaseProfilesContainer from "./BaseProfilesContainer"
 
 // Additional Imports
-import { profileOwnerDataContext } from "../../../pages/Profile"
 import {UserProfileDowntownURL, UserProfileDowntownNonAuthenticatedURL} from "../../../utilities/apiEndpoints"
 import { fetchUserProfileDowntown } from "../../../fetchers/Profile/fetchProfileDowntown"
 
 export default function FollowersBox() {
   const isAuthenticated = useSelector((states)=>states.isAuthenticatedReducer)
-  let {profileOwnerData} = useContext(profileOwnerDataContext)
+  const profileOwnerData = useSelector((states)=>states.profileOwnerDataReducer)
 
 
   const url = isAuthenticated ? UserProfileDowntownURL : UserProfileDowntownNonAuthenticatedURL

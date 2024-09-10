@@ -1,15 +1,38 @@
-import Post from "../../Post/Post/Post"
-import { useContext } from "react"
-import { profileOwnerDataContext } from '../../../pages/Profile'
-import { changeUploadPostActive } from "../../../reduxStore/features/Post/uploadPostActiveSlice"
+// Imports form Third-party libraries
 import { useDispatch, useSelector } from "react-redux"
+import { useQuery } from "react-query"
+import { useParams } from "react-router-dom"
+
+// Components import
+import Post from "../../Post/Post/Post"
 import UploadPost from "../../Post/UploadPost/UploadPost"
+
+// Additional Imports
+import { changeUploadPostActive } from "../../../reduxStore/features/Post/uploadPostActiveSlice"
+import { UserPosts, UserPostsNonAuth } from "../../../utilities/apiEndpoints"
+import { fetchUserPosts } from "../../../fetchers/Profile/fetchUserPosts"
+import { setProfileOwnerData } from "../../../reduxStore/features/Profile/profileOwnerDataSlice"
+import DummyLoadingPost from "../../Post/Post/DummyLoadingPost"
 
 export default function PostsBox() {
     const user = useSelector((states)=>states.userReducer)
     const uploadPostActiveStatus = useSelector((states)=>states.uploadPostActiveReducer)
-    let dispatch = useDispatch()
-    let {profileOwnerData} = useContext(profileOwnerDataContext)
+    const dispatch = useDispatch()
+
+    const profileOwnerData = useSelector((states)=>states.profileOwnerDataReducer)
+
+    const { username } = useParams();
+    const url = user.isAuthenticated ? UserPosts(username) : UserPostsNonAuth(username)
+  
+    const {data, isLoading, isSuccess, error} = useQuery({
+        queryKey : ["userFollowingProfilesQuery", url],
+        queryFn: () => fetchUserPosts(url),
+        refetchOnWindowFocus:false,
+    })
+
+    if(error){
+        return null
+    }
 
   return (
     <>
@@ -33,11 +56,19 @@ export default function PostsBox() {
                 
             </div>
             <div id="downtown-posts-user-cards-container" className="flex flex-col items-center">
-                {profileOwnerData.posts.map((post)=>{
-                    return <Post key={post.id} post={post} />
-                })}
+                {isLoading ? <LoadingBoxes /> : data.map((post) => <Post key={post.id} post={post} />)}
             </div>
         </div>
     </>
   )
+}
+
+function LoadingBoxes(){
+    return (
+        <>
+            <DummyLoadingPost />
+            <DummyLoadingPost />
+            <DummyLoadingPost />
+        </>
+    )
 }

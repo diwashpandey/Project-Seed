@@ -1,14 +1,14 @@
-// Imports from react
-import { useContext } from 'react'
+// Imports from thirdparty libraries
+import { useSelector } from 'react-redux'
 
 // Additional imports
 import { generatePhotoURL } from '../../utilities/apiEndpoints'
-import { profileOwnerDataContext } from '../../pages/Profile'
 import UserRiseButton from '../Buttons/ProfileButtons/UserRiseButton'
 import UserFollowButton from '../Buttons/ProfileButtons/UserFollowButton'
+import ProfileDowntown from './ProfileDowntown'
 
-const MainProfile = ({children}) => {
-    let {profileOwnerData} = useContext(profileOwnerDataContext)
+const MainProfile = () => {
+    let profileOwnerData = useSelector((states)=>states.profileOwnerDataReducer)
 
   return (
       <div id="first-box" className='w-full'>
@@ -104,8 +104,7 @@ const MainProfile = ({children}) => {
                 </div>
             </div>
 
-            {/* This is the Profile Downtown */}
-            {children}
+            <ProfileDowntown />
         </div>
   )
 }

@@ -1,7 +1,8 @@
-
+import { UserPosts, UserPostsNonAuth } from "../../utilities/apiEndpoints"
 import useAxios from "../../hooks/useAxios"
 
-export async function fetchUserProfile(url){
+export async function fetchUserPosts(url){
+
     const axiosHook = useAxios()
     try {
         const response = await axiosHook.get(url)

@@ -1,21 +1,15 @@
-// Imports from react
-import { useContext } from "react"
-
 // Imports from third party libraries
 import { useQuery } from "react-query"
 import { useSelector } from "react-redux"
 
 // Components Imports
 import BaseProfilesContainer from "./BaseProfilesContainer"
-
-// Additional Imports
-import { profileOwnerDataContext } from "../../../pages/Profile"
 import {UserProfileDowntownURL, UserProfileDowntownNonAuthenticatedURL} from "../../../utilities/apiEndpoints"
 import { fetchUserProfileDowntown } from "../../../fetchers/Profile/fetchProfileDowntown"
 
 export default function RisesBox() {
   const isAuthenticated = useSelector((states)=>states.isAuthenticatedReducer)
-  let {profileOwnerData} = useContext(profileOwnerDataContext)
+  const profileOwnerData = useSelector((states)=>states.profileOwnerDataReducer)
 
   const url = isAuthenticated ? UserProfileDowntownURL : UserProfileDowntownNonAuthenticatedURL
   let section = "rises"  // Warning ! don't change ! it's required for server
