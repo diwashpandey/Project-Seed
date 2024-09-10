@@ -28,5 +28,13 @@ urlpatterns = [
        path("profile-rise-handler/", views.RiseHandlerView.as_view(), name="rise_handler"),
        path("profile-follow-handler/", views.FollowHandlerView.as_view(), name="follow_handler"),
 
+       # Settings
+
+       # Profile Update
+       path("update-first-and-last-name/", views.FirstAndLastNameUpdater.as_view(), name="update_first_and_last_name"),
+       path("update-intro/", views.IntroUpdater.as_view(), name="update_intro"),
+       path("update-about-me/", views.AboutMeUpdater.as_view(), name="update_about_me"),
+       path("update-profile-photo/", views.ProfilePhotoUpdater.as_view(), name="update_profile_photo"),
+       path("update-background-photo/", views.ProfileBackgroundUpdater.as_view(), name="update_background_photo"),
 
 ]

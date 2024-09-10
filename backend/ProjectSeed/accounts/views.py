@@ -19,7 +19,8 @@ from ranking.points_counter import get_risepoints_of_user
 # MODELS import
 
 # Serializes imports
-from .serializers import (AuthUserQuickDataSerializer, UserProfileSerializer, DowntownProfileCardsSerializer)
+from .serializers import (UserProfileDataSerializer, UserProfileCardSerializer)
+from .profile_update_serializers import (NameUpdateSerializer)
 
 
 # Getting the user model with django provided settings
@@ -50,12 +51,10 @@ class LoginView(APIView, ResponseUtilities):
 
         return Response(self.get_generated_response())
 
-import time
 
 class RegisterView(APIView, ResponseUtilities, CustomUserRegistration):
     
     def post(self, request, format=None):
-        time.sleep(2)
         user = self.register_user_if_valid(request.data)
         print(self.get_generated_response())
 
@@ -111,13 +110,13 @@ class AuthUserQuickData(APIView, ResponseUtilities):
     
     def get(self, request, format=None):
         try:
-            self.response_data = AuthUserQuickDataSerializer(instance = request.user).data
+            self.response_data = UserProfileDataSerializer(instance = request.user).data
             self.success_status = True
         except:
             self.message_to_client = "Something went wrong when fetching the data"
         
         return Response(self.get_generated_response())
-    
+
 
 class ProfileView(APIView, ResponseUtilities):
     
@@ -129,8 +128,7 @@ class ProfileView(APIView, ResponseUtilities):
         try:
             user = User.objects.get(username = asked_username)
             requested_user = request.user
-            self.response_data = UserProfileSerializer(instance=user).data
-            print(requested_user.rises.all())
+            self.response_data = UserProfileDataSerializer(instance=user).data
             # Adding if_owner to True
             # if the requester is the Owner of the profile
             self.response_data.update({
@@ -138,11 +136,10 @@ class ProfileView(APIView, ResponseUtilities):
                             "already_risen": user in requested_user.rises.all(),
                             "already_followed": user in requested_user.following.all(),
                         })
-
+            
             self.success_status = True
 
         except :
-            print("!!! Got error in the Profile View !!!")
             self.message_to_client = "User didn't found"
         
         return Response(self.get_generated_response())
@@ -158,14 +155,13 @@ class ProfileViewNonAuthenticated(APIView, ResponseUtilities):
         asked_username = request.query_params.get("username")
         try:
             user = User.objects.get(username = asked_username)
-            self.response_data = UserProfileSerializer(instance=user).data
+            self.response_data = UserProfileDataSerializer(instance=user).data
 
             # Adding if_owner to False
             self.response_data["is_owner"] = False
             self.success_status = True
 
         except Exception as e:
-            print("returning the data", e)
             self.message_to_client = "User didn't found"
         
         return Response(self.get_generated_response())
@@ -177,7 +173,6 @@ class ProfileDowntownView(APIView, ResponseUtilities):
 
         asked_username = request.query_params.get("username")
         section = request.query_params.get("section")
-
         try:
             user = User.objects.get(username = asked_username)
 
@@ -193,12 +188,11 @@ class ProfileDowntownView(APIView, ResponseUtilities):
             else:
                 raise Exception("Profile Downtown request without SECTION")
 
-            self.response_data = DowntownProfileCardsSerializer(instance=profiles, many=True).data
+            self.response_data = UserProfileCardSerializer(instance=profiles, many=True).data
 
             self.success_status = True
 
         except Exception as e:
-            print("Error in Downtown View!", e)
             self.message_to_client = "User didn't found"
         
         return Response(self.get_generated_response())
@@ -210,11 +204,8 @@ class ProfileDowntownNonAuthenticatedView(APIView, ResponseUtilities):
     authentication_classes = []
 
     def get(self, request, format=None):
-        import time
-        time.sleep(1)
         asked_username = request.query_params.get("username")
         section = request.query_params.get("section")
-        print("asked section = ", section)
 
         try:
             user = User.objects.get(username = asked_username)
@@ -231,11 +222,10 @@ class ProfileDowntownNonAuthenticatedView(APIView, ResponseUtilities):
             else:
                 raise Exception("Profile Downtown request without SECTION")
 
-            self.response_data = DowntownProfileCardsSerializer(instance=profiles, many=True).data
+            self.response_data = UserProfileCardSerializer(instance=profiles, many=True).data
             self.success_status = True
 
         except Exception as e:
-            print("Error in Downtown View!", e)
             self.message_to_client = "User didn't found"
 
         return Response(self.get_generated_response())
@@ -314,3 +304,139 @@ class FollowHandlerView(APIView, ResponseUtilities):
 
         return Response(self.get_generated_response())
     
+
+class FirstAndLastNameUpdater(APIView, ResponseUtilities):
+
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, format=None):
+        new_first_name = request.data.get("new_first_name", None)
+        new_last_name = request.data.get("new_last_name", None)    
+        new_full_name = new_first_name + " " + new_last_name 
+        user = request.user
+        data = {"first_name":new_first_name,
+                "last_name":new_last_name,
+                "full_name": new_full_name}
+
+        serialized_data = NameUpdateSerializer(data = data)
+        
+        if serialized_data.is_valid():
+            user.first_name = new_first_name
+            user.last_name = new_last_name
+            user.full_name = new_full_name
+            user.save()
+            self.success_status = True
+            self.message_to_client = "Your name was updated successfully"
+
+        else:
+            print("First and Last Name Found Invalid")
+            self.message_to_client = "Your request was unsucessfull"
+        
+        return(Response(self.get_generated_response()))
+    
+      
+class IntroUpdater(APIView, ResponseUtilities):
+
+    permission_classes = [IsAuthenticated]
+
+
+    def post(self, request, format=None):
+        new_intro = request.data.get("new_intro", None)    
+        user = request.user
+
+        if (len(new_intro)>99):
+            self.message_to_client = "Max character limit is 100"
+
+        elif (not new_intro):
+              self.message_to_client = "Intro should now be empty"
+
+        elif (new_intro):
+            user.intro = new_intro
+            user.save()
+
+            self.success_status = True
+            self.message_to_client = "Your intro was updated successfully"    
+
+        else:
+            self.message_to_client = "!! Some error occured !!"
+        
+        return(Response(self.get_generated_response()))
+    
+class AboutMeUpdater(APIView, ResponseUtilities):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        about_me = request.data.get("about_me", "").strip()
+        user = request.user
+
+        if not about_me:
+            self.message_from_server = "About Me section cannot be empty"
+
+        else:
+            user.about_me = about_me
+            user.save()
+            self.success_status = True
+
+        return Response(self.get_generated_response())
+    
+class ProfilePhotoUpdater(APIView, ResponseUtilities):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        commit = request.data.get("commit")
+        profile_photo = request.FILES.get("profile_photo", "")
+        user = request.user
+
+        if commit == "update":
+            if not profile_photo:
+                self.message_to_client = "No profile photo provided"
+            else:
+                # Assign the new profile photo
+                user.profile_photo = profile_photo
+                user.save()
+                self.success_status = True
+
+        elif commit == "remove":
+            if user.profile_photo.name == "default_profile_photo.jpg":
+                self.message_to_client = "No profile photo to remove"
+            else:
+                # Revert to default profile photo
+                user.remove_profile_photo()
+                self.success_status = True
+                self.message_to_client = "Profile photo removed successfully"
+
+        else:
+            self.message_to_client = "Invalid commit action"
+
+        return Response(self.get_generated_response())
+
+class ProfileBackgroundUpdater(APIView, ResponseUtilities):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        commit = request.data.get("commit")
+        background_photo = request.FILES.get("background_photo", "")
+        user = request.user
+
+        if commit == "update":
+            if not background_photo:
+                self.message_from_server = "No background photo provided"
+            else:
+                user.background_photo = background_photo
+                user.save()
+                self.success_status = True
+                self.message_from_server ="Background photo updated successfully"
+
+        elif commit == "remove":
+            if user.background_photo.name == "default_background_photo.jpg":
+               self.message_from_server = "No background photo to remove"
+
+            else:
+                user.background_photo = "default_background_photo.jpg"
+                user.save()
+                self.message_from_server ="Background photo removed successfully"
+
+        else:
+            self.message_from_server = "Invalid commit action"
+        
+        return Response(self.get_generated_response())
