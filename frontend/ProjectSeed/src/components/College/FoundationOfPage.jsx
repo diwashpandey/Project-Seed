@@ -1,13 +1,14 @@
 // Importing from third party libraries
 import { useSelector } from "react-redux"
 
+
 // Importing Components
 import ProfileDowntown from "./ProfileDowntown"
 
 // Additional Import
 import { generatePhotoURL } from "../../utilities/apiEndpoints"
 
-function MainProfileSection() {
+function FoundationOfPage() {
 
     const collegeProfileData = useSelector((states)=>states.CollegeProfileReducer)
 
@@ -62,4 +63,4 @@ function MainProfileSection() {
   )
 }
 
-export default MainProfileSection
+export default FoundationOfPage

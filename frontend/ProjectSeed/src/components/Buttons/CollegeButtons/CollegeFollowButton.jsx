@@ -1,25 +1,29 @@
+// imports from react
+import { useContext } from "react"
+
 // imports from third party libraries
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { useMutation } from "react-query"
 import {Link} from "react-router-dom"
 
 // Additional imports
 import fetchProfileFollowRequest from "../../../fetchers/Profile/fetchProfileFollowRequest"
-import { setProfileOwnerData } from "../../../reduxStore/features/Profile/profileOwnerDataSlice"
+import { profileOwnerDataContext } from "../../../pages/Profile"
 import { loginRoute } from "../../../utilities/frontendRoutes"
 
 function UserFollowButton() {
     
     const user = useSelector((states) => states.userReducer)
-    const dispatch = useDispatch()
-    const profileOwnerData = useSelector((states)=>states.profileOwnerDataReducer)
+    const {collegeProfileData, setCollegeProfileData} = useContext(profileOwnerDataContext)
 
     const mutation = useMutation({
         "mutationFn": ({commit, username}) => fetchProfileFollowRequest(commit, username),
 
         // Rising the POST RISE COUNT with the vanilla JS
         "onSuccess": (data, context)=>{
-          dispatch(setProfileOwnerData({...profileOwnerData, rise_points:data.new_rise_points}))
+            setProfileOwnerData((previousData)=>{
+                return {...previousData, followers_count:data.new_followers_count}
+            })
         },
 
         "onMutate":(context)=>{

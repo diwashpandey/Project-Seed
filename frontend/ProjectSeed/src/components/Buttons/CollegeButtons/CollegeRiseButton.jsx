@@ -2,27 +2,28 @@
 import { useContext } from "react"
 
 // imports from third party libraries
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { useMutation } from "react-query"
 
 // Additional imports
 import fetchProfileRiseRequest from "../../../fetchers/Profile/fetchProfileRiseRequest"
-import { setProfileOwnerData } from "../../../reduxStore/features/Profile/profileOwnerDataSlice"
+import { profileOwnerDataContext } from "../../../pages/Profile"
 import { loginRoute } from "../../../utilities/frontendRoutes"
 
-function UserRiseButton() {
+function CollegeRiseButton() {
     
     const user = useSelector((states) => states.userReducer)
-    const profileOwnerData = useSelector((states)=>states.profileOwnerDataReducer)
-    const dispatch = useDispatch()
+    // const {collegeProfileData, setCollegeProfileData} = useContext(profileOwnerDataContext)
 
     const mutation = useMutation({
         "mutationFn": ({commit, username}) => fetchProfileRiseRequest(commit, username),
 
         // Rising the POST RISE COUNT with the vanilla JS
-        "onSuccess": (data)=>{
-            dispatch(setProfileOwnerData({...profileOwnerData, rise_points:data.new_rise_points}))
+        "onSuccess": (data, context)=>{
+            setProfileOwnerData((previousData)=>{
+                return {...previousData, rise_points:data.new_rise_points}
+            })
         },
 
         "onMutate":(context)=>{
@@ -94,6 +95,6 @@ function UserRiseButton() {
   )
 }
 
-export default UserRiseButton
+export default CollegeRiseButton
 
 
