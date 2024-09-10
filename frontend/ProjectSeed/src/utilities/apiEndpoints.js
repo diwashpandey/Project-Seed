@@ -19,12 +19,22 @@ export const HomePageNonAuthenticatedURL = "home/home-data-non-authenticated/"
 
 // Account or Profile
 export const AuthUserDataURL = `${BaseURL}/accounts/auth-user-quick-data/`
-export const UserProfileURL = `${BaseURL}/accounts/profile`// add ?username="yourusername"
-export const UserProfileNonAuthenticatedURL = `${BaseURL}/accounts/profile-non-authenticated`// add ?username="yourusername"
+export const UserProfileURL = (username) =>{
+    return `${BaseURL}/accounts/profile?username=${username}`
+}
+export const UserProfileNonAuthURL = (username) =>{
+    return `${BaseURL}/accounts/profile-non-authenticated?username=${username}`
+}
 export const UserProfileDowntownURL = `${BaseURL}/accounts/downtown` // add ?username="username"&section="section"
 export const UserProfileDowntownNonAuthenticatedURL = `${BaseURL}/accounts/downtown-non-authenticated` // add ?username="username"&section="section"
 export const UserProfileRiseURL = `${BaseURL}/accounts/profile-rise-handler/`
 export const UserProfileFollowURL = `${BaseURL}/accounts/profile-follow-handler/`
+export const UserPosts = (username, offset=0, limit=10) =>{
+    return `${BaseURL}/posts/get-user-posts?username=${username}&offset=${offset}&limit${limit}`
+}
+export const UserPostsNonAuth = (username, offset=0, limit=10) =>{
+    return `${BaseURL}/posts/get-user-posts-non-auth?username=${username}&offset=${offset}&limit${limit}`
+}
 
 // Settings 
 export const UpdateFirstAndLastNameURL = `${BaseURL}/accounts/update-first-and-last-name/`
@@ -45,6 +55,25 @@ export const GetTopProfilesURL = "ranking/top-profiles" // add ?college=collegen
 
 // Top Posts
 
-
 // College Profile
-export const CollegeProfileURL = `${BaseURL}/colleges/profile/` // add ?college_identifier= 
+export const CollegeProfileURL = (college_identifier) => {
+    return `${BaseURL}/colleges/college-profile/?college_identifier=${college_identifier}`
+}
+export const CollegeProfileNonAuthURL = (college_identifier)=>{
+    return `${BaseURL}/colleges/college-profile-non-authenticated/?college_identifier=${college_identifier}` 
+}
+export const GetCollegeStudentsURL = (college_identifier, start, count) => {
+    return `${BaseURL}/colleges/get-college-students/?college_identifier=${college_identifier}&start=${start}&count=${count}`
+}
+export const GetCollegeMembersURL = (college_identifier, start, count) => {
+    return `${BaseURL}/colleges/get-college-members/?college_identifier=${college_identifier}&start=${start}&count=${count}`
+}
+
+// Ratings
+export const GetCollegeRatingsURL = (college_identifier, count) => {
+    return `${BaseURL}/ratings/get-college-ratings/?college_identifier=${college_identifier}&count=${count}` // add ?college_identifier= & count=
+}
+export const GetCollegeRatingsNonAuthURL = (college_identifier, count=10) => {
+    return `${BaseURL}/ratings/get-college-ratings-non-auth/?college_identifier=${college_identifier}&count=${count}` // add ?college_identifier= & count=
+}
+
