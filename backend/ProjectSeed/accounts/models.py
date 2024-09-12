@@ -23,7 +23,7 @@ class User(AbstractUser):
     full_name = models.CharField(max_length=50)  # This should be the automatic field while registering or updating the name
     first_name = models.CharField(max_length=25)
     last_name = models.CharField(max_length=25)
-    age = models.IntegerField(null=True, blank=True)
+    age = models.PositiveIntegerField(null=True, blank=True)
     intro = models.CharField(max_length=100, null=True, blank=True)
     about_me = models.TextField(max_length=1000, null=True, blank=True)
     gender = models.CharField(max_length=1, choices=Gender.choices)
@@ -40,9 +40,14 @@ class User(AbstractUser):
     is_email_verified = models.BooleanField(default=False)
 
     # Counts and Points
-    following_count = models.IntegerField(default=0, null=True)
-    followers_count = models.IntegerField(default=0, null=True)  # All these fields should be handled by Signals
-    rise_points = models.IntegerField(default=0, null=True)
+    following_count = models.PositiveIntegerField(default=0, null=True)
+    followers_count = models.PositiveIntegerField(default=0, null=True)  # All these fields should be handled by Signals
+    rise_points = models.PositiveIntegerField(default=0, null=True)
+
+    # Location fields
+    city = models.CharField(max_length=50, null=True, blank=True)
+    state = models.CharField(max_length=50, null=True, blank=True)
+    country = models.CharField(max_length=50, null=True, blank=True)
 
     # Social Media URLs
     github = models.URLField(null=True, blank=True)
