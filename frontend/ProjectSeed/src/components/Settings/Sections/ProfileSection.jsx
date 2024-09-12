@@ -5,6 +5,9 @@ import UpdateIntroForm from "../Forms/ProfileSection/UpdateIntroForm"
 import UpdateProfilePhotoForm from "../Forms/ProfileSection/UpdateProfilePhotoForm"
 import OptionBoxHandler from "../OptionBoxes/OptionBoxHandler"
 import { useSelector } from "react-redux"
+import UpdateSkillsForm from "../Forms/ProfileSection/UpdateSkillsForm"
+import UpdateInterestsForm from "../Forms/ProfileSection/updateInterestsForm"
+import UpdateLocationForm from "../Forms/ProfileSection/UpdateLocationForm"
 
 function ProfileSection() {
 
@@ -73,9 +76,9 @@ function ProfileSection() {
       "optionTitle": "Skills",
       "description": "List your skills for better social interactions",
       "currentValue": "user.data?.skills",  // remove the question mark later
-      "optionNumber": 2.8,
-      "optionType":"standard",
-      "OptionForm": ()=>null
+      "optionNumber": 2.7,
+      "optionType":"select",
+      "OptionForm": UpdateSkillsForm
     },
     {
       "type": "option",
@@ -83,8 +86,8 @@ function ProfileSection() {
       "description": "List your interests for better social interactions",
       "currentValue": "user.data?.interests",  // remove the question mark later
       "optionNumber": 2.8,
-      "optionType":"standard",
-      "OptionForm": ()=>null
+      "optionType":"select",
+      "OptionForm": UpdateInterestsForm
     },
     {
       "type": "Header",
@@ -95,16 +98,16 @@ function ProfileSection() {
       "optionTitle": "Location",
       "description": "Update your location details",
       "currentValue": user.data?.location,  // remove the question mark later
-      "optionNumber": 2.6,
+      "optionNumber": 2.9,
       "optionType":"standard",
-      "OptionForm": ()=>null
+      "OptionForm": UpdateLocationForm
     },
     {
       "type": "option",
       "optionTitle": "Website",
       "description": "Add a personal website or blog link",
       "currentValue": "user.data?.website",  // remove the question mark later
-      "optionNumber": 2.7,
+      "optionNumber": 2.10,
       "optionType":"standard",
       "OptionForm": ()=>null
     },

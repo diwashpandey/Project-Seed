@@ -1,5 +1,6 @@
 import OptionPhoto from "./OptionPhoto";
 import OptionStandard from "./OptionStandard";
+import OptionRadio from "./OptionRadio";
 
 function OptionBoxHandler({ option }) {
 
@@ -18,6 +19,10 @@ function OptionBoxHandler({ option }) {
 
         if (option.optionType === "photo") {
             return <OptionPhoto {...commonProps} />;
+        }
+
+        if (option.optionType === "select") {
+            return <OptionRadio {...commonProps} />;
         }
     }
 
