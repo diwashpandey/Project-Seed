@@ -15,10 +15,10 @@ function createUrlWithParams(user) {
       return topProfilesRoute
     }
     if (user.data && user.data.colleges && user.data.colleges.length) {
-      return `${topProfilesRoute}?get_from=college&name=${user.data.colleges[0].name}`; // Adding the college name in the params
+      return `${topProfilesRoute}?get_from=college&name=${user.data.colleges[0].college_identifier}`; // Adding the college name in the params
     } 
     if (user.data && user.data.universities && user.data.universities.length) {
-      return `${topProfilesRoute}?get_from=university&name=${user.data.universities[0].name}`; // Adding the university name in the params
+      return `${topProfilesRoute}?get_from=university&name=${user.data.universities[0].university_identifier}`; // Adding the university name in the params
     }
     return topProfilesRoute;
   }

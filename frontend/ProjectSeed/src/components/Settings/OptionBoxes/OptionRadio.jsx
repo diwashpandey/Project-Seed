@@ -22,7 +22,7 @@ function OptionPhoto({optionTitle=null, currentValue=null, optionNumber=0, Optio
           <h3 className="font-light">{optionTitle}</h3>
 
           {/* Pencil Icon */}
-          <div className="center rounded-full btn-white-hollow border-[1px]">Change</div>
+          <div className="center rounded-full btn-white-hollow border-[1px]">Update</div>
       </div>
     </>
   )

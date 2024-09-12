@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client'
 
 // imports from third parties react libraries
 import {router} from "./Router"
-import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import { RouterProvider } from "react-router-dom"
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { Provider } from "react-redux"
 

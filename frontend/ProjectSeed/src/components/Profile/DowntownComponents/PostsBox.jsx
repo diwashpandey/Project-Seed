@@ -56,7 +56,7 @@ export default function PostsBox() {
                 
             </div>
             <div id="downtown-posts-user-cards-container" className="flex flex-col items-center">
-                {isLoading ? <LoadingBoxes /> : data.map((post) => <Post key={post.id} post={post} />)}
+                {isLoading ? <LoadingBoxes /> : data?.map((post) => <Post key={post.id} post={post} />)}
             </div>
         </div>
     </>

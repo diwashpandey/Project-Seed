@@ -23,7 +23,7 @@ class UserProfileDataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        exclude = ["password", "is_staff", "is_superuser", "date_joined", "last_login", "groups", "user_permissions"]
+        exclude = ["id", "password", "is_staff", "is_superuser", "date_joined", "last_login", "groups", "user_permissions"]
         depth = 2
 
 class UserProfileCardSerializer(serializers.ModelSerializer):

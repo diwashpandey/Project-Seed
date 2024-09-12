@@ -30,7 +30,7 @@ function Home(){
   const { data, isError, isSuccess, error, isLoading } = useQuery({
     queryKey:["homeDataQuery"],
     queryFn: () => fetchHomeData(url),
-    enabled: homePageData===null ? true : false // If home PageData is already there, It wont fetch again
+    // enabled: homePageData===null ? true : false // If home PageData is already there, It wont fetch again
   });
 
   useEffect(()=>{

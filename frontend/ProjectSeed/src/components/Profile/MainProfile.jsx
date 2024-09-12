@@ -58,12 +58,12 @@ const MainProfile = () => {
                 <div id="user-studies-container" className="p-2 rounded-lg flex flex-col gap-4 items-center bg-theme-lighter sm:flex-row">
                     {
                         profileOwnerData.colleges.map((college)=>{
-                            return <span key =  {college.id}  className="text-xs md:text-base">{college.name}</span>
+                            return <span key ={college.college_identifier}  className="text-xs md:text-base">{college.name}</span>
                         })
                     }
                     {
                         profileOwnerData.universities.map((university)=>{
-                            return <span id={`user-profile-university-${university.id}`} key={university.id} className="text-xs md:text-base">{university.name}</span>
+                            return <span id={`user-profile-university-${university.university_identifier}`} key={university.id} className="text-xs md:text-base">{university.name}</span>
                         })
                     }
                     {

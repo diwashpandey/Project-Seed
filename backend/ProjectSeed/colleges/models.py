@@ -12,9 +12,9 @@ User = get_user_model()
 class College(models.Model):
 
     # Details
-    name = models.CharField(max_length=256)
+    name = models.CharField(max_length=80)
     college_identifier = models.SlugField(max_length=255, unique=True, blank=True)
-    intro = models.CharField(max_length = 100, null=True, blank=True)
+    slogan = models.CharField(max_length = 100, null=True, blank=True)
     about_us= models.TextField(max_length=1000, null=True, blank=True)
 
     # Profile Photos
@@ -29,7 +29,7 @@ class College(models.Model):
     is_verified = models.BooleanField(default=False)
 
     # Counts and Points
-    rise_points = models.IntegerField(default = 0, null=True)
+    rise_points = models.PositiveIntegerField(default = 0, null=True)
     students_count = models.PositiveIntegerField(default=0, null=True)
     
     # Timestamps
