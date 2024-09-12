@@ -17,10 +17,12 @@ from . registration import CustomUserRegistration
 from ranking.points_counter import get_risepoints_of_user
 
 # MODELS import
+from . models import Skill
+from . models import Interest
 
 # Serializes imports
 from .serializers import (UserProfileDataSerializer, UserProfileCardSerializer)
-from .profile_update_serializers import (NameUpdateSerializer)
+from .profile_update_serializers import (NameUpdateSerializer, SkillsSerializer, InterestsSerializer, LocationSerializer)
 
 
 # Getting the user model with django provided settings
@@ -438,5 +440,142 @@ class ProfileBackgroundUpdater(APIView, ResponseUtilities):
 
         else:
             self.message_from_server = "Invalid commit action"
+        
+        return Response(self.get_generated_response())
+
+class SkillsUpdater(APIView, ResponseUtilities):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        """
+        Handles the updating of a user's skills.
+
+        This endpoint allows authenticated users to update their list of skills. It processes a list of skill names provided in the request, capitalizes each skill name, and ensures that only valid and unique skills are processed. The function performs the following steps:
+
+        1. Checks if the skills data is provided in the request.
+        2. Capitalizes and trims whitespace from each skill name and filters out any invalid entries.
+        3. Retrieves existing skills from the database and identifies which skills need to be newly created.
+        4. Creates new skills in bulk if they do not already exist in the database.
+        5. Adds all relevant skills (both existing and newly created) to the user's skill set.
+        6. Returns a success message if the operation is successful or an error message if no valid skills are provided.
+
+        Returns:
+            Response: A response object containing the status and message of the operation.
+        """
+        serializer = SkillsSerializer(data=request.data)
+
+        # Validate data using the serializer
+        if not serializer.is_valid():
+            self.message_to_client = "Invalid data: " + str(serializer.errors)
+            return Response(self.get_generated_response(), status=400)
+
+        skills_data = serializer.validated_data.get("skills", [])
+
+        # Capitalize and strip whitespace from each skill, filter out invalid values
+        skill_names = {skill.capitalize().strip() for skill in skills_data if skill.strip()}
+
+        # Fetch existing skills from the database
+        existing_skills = Skill.objects.filter(name__in=skill_names)
+        existing_skill_names = set(existing_skills.values_list('name', flat=True))
+
+        # Determine which skills are new and need to be created
+        new_skill_names = skill_names - existing_skill_names
+        if new_skill_names:
+            # Create new skills in bulk to reduce database operations
+            Skill.objects.bulk_create([Skill(name=skill_name) for skill_name in new_skill_names])
+
+        # Fetch all skills (both existing and newly created) to add to the user
+        all_skills = Skill.objects.filter(name__in=skill_names).only('id')
+
+        # Add all relevant skills to the user's skill set
+        user = request.user
+        user.skills.set(all_skills)
+
+        # Success response
+        self.success_status = True
+        self.message_to_client = "Skills updated successfully"
+
+        return Response(self.get_generated_response())
+
+
+class InterestsUpdater(APIView, ResponseUtilities):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        """
+        Handles the updating of a user's interests.
+
+        This endpoint allows authenticated users to update their list of interests. It processes a list of interest names provided in the request, capitalizes each interest name, and ensures that only valid and unique interests are processed. The function performs the following steps:
+
+        1. Checks if the interests data is provided in the request.
+        2. Capitalizes and trims whitespace from each interest name and filters out any invalid entries.
+        3. Retrieves existing interests from the database and identifies which interests need to be newly created.
+        4. Creates new interests in bulk if they do not already exist in the database.
+        5. Adds all relevant interests (both existing and newly created) to the user's interest set.
+        6. Returns a success message if the operation is successful or an error message if no valid interests are provided.
+
+        Returns:
+            Response: A response object containing the status and message of the operation.
+        """
+        serializer = InterestsSerializer(data=request.data)
+
+        # Validate data using the serializer
+        if not serializer.is_valid():
+            self.message_to_client = "Invalid data: " + str(serializer.errors)
+            return Response(self.get_generated_response(), status=400)
+
+        interests_data = serializer.validated_data.get("interests", [])
+
+        # Capitalize and strip whitespace from each interest, filter out invalid values
+        interest_names = {interest.capitalize().strip() for interest in interests_data if interest.strip()}
+
+        # Fetch existing interests from the database
+        existing_interests = Interest.objects.filter(name__in=interest_names)
+        existing_interest_names = set(existing_interests.values_list('name', flat=True))
+
+        # Determine which interests are new and need to be created
+        new_interest_names = interest_names - existing_interest_names
+        if new_interest_names:
+            # Create new interests in bulk to reduce database operations
+            Interest.objects.bulk_create([Interest(name=interest_name) for interest_name in new_interest_names])
+
+        # Fetch all interests (both existing and newly created) to add to the user
+        all_interests = Interest.objects.filter(name__in=interest_names).only('id')
+
+        # Add all relevant interests to the user's interest set
+        user = request.user
+        user.interests.set(all_interests)
+
+        # Success response
+        self.success_status = True
+        self.message_to_client = "Interests updated successfully"
+
+        return Response(self.get_generated_response())
+
+
+class LocationUpdater(APIView, ResponseUtilities):
+    """
+    Handles the updating of a user's location.
+
+    This endpoint allows authenticated users to update their country, state, and city.
+    It validates the provided data and updates the user's location accordingly.
+    """
+    def post(self, request, *args, **kwargs):
+        self.success_status = False  # Default to failure unless proven otherwise
+        self.message_to_client = None
+        self.response_data = None
+
+        serializer = LocationSerializer(data=request.data)
+        if serializer.is_valid():
+            user = request.user
+            user.country = serializer.validated_data['country']
+            user.state = serializer.validated_data['state']
+            user.city = serializer.validated_data['city']
+            user.save()
+
+            self.success_status = True
+            self.message_to_client = "Location updated successfully."
+        else:
+            self.message_to_client = "Invalid Data for the Location !"
         
         return Response(self.get_generated_response())
