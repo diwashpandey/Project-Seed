@@ -25,7 +25,7 @@ def temporaryview(request):
     return HttpResponse("I am in home")
 
 
-class HomeViewAuthenticated(APIView, ResponseUtilities, ProfileRankingSystem, PostRankingSystem):
+class HomeViewAuthenticated(APIView, ResponseUtilities, PostRankingSystem):
     """
         This is the api view which provides all the data
         that is shown in the home page.
@@ -45,20 +45,40 @@ class HomeViewAuthenticated(APIView, ResponseUtilities, ProfileRankingSystem, Po
     def get(self, request, format=None):
         top_profiles = None  
         top_posts = None    # These 2 will be sent to the Client
+
+        academy = {
+            "college":request.user.colleges.values_list("college_identifier", flat=True).first(),
+            # "college":request.user.universities.values_list("university_identifier", flat=True).first(),
+            "university":None # This is temporary 
+        }
         
-        # Getting top profiles and posts from COLLEGE if exists
-        if request.user.colleges.first():
-            top_profiles = self.get_top_profiles_from_college(request.user.colleges.first().name, count = 3)
+        kwargs = {
+            "get_from":None,
+            "academy_identifier":None,
+            "count":3
+        }
+        if academy["college"] is not None:
+            kwargs["get_from"] = "college"
+            kwargs["academy_identifier"] = academy["college"]
+
+        elif academy["university"] is not None:
+            kwargs["get_from"] = "university"
+            kwargs["academy_identifier"] = academy["university"]
+        profile_ranking_system = ProfileRankingSystem(**kwargs)
+        top_profiles = profile_ranking_system.get_top_profiles()
+
+        print(kwargs)
+        print("\n\n\n These are the top profiles:", top_profiles, "\n\n\n")
+
+        if academy["college"]:
             top_posts = self.get_top_posts_from_college(request.user.colleges.first().name, count = 3)
 
         # Getting top profiles and posts from UNIVERSITY if exists
-        elif request.user.universities.first():
-            top_profiles = self.get_top_profiles_from_university(request.user.universities.first().name, count = 3)
+        elif academy["university"]:
             top_posts = self.get_top_posts_from_university(request.user.universities.first().name, count = 3)
 
         # Getting top profiles and posts from GLOBAL if BOTH DOESN'T EXISTS
         else:
-            top_profiles = self.get_top_profiles_from_global(count = 3)
             top_posts = self.get_top_posts_from_global(count = 3)
 
         # Serializing the data
@@ -68,11 +88,12 @@ class HomeViewAuthenticated(APIView, ResponseUtilities, ProfileRankingSystem, Po
         # Adding the data to the response_data
         self.response_data = {"top_3_profiles":top_3_profiles,
                               "top_3_posts": top_3_posts}
+        self.success_status = profile_ranking_system.success_status
 
         return Response(self.get_generated_response())
     
 
-class HomeViewNonAuthenticated(APIView, ResponseUtilities, ProfileRankingSystem, PostRankingSystem):
+class HomeViewNonAuthenticated(APIView, ResponseUtilities,  PostRankingSystem):
     """
         This is the api view which provides all the data
         that is shown in the home page.
@@ -94,8 +115,11 @@ class HomeViewNonAuthenticated(APIView, ResponseUtilities, ProfileRankingSystem,
         top_profiles = None  
         top_posts = None                # These 3 will be sent to the Client
 
-        top_profiles = self.get_top_profiles_from_global(count = 3)
+        profile_ranking_system = ProfileRankingSystem(count=3)
+        
+        top_profiles = profile_ranking_system.get_profiles_from_global()
         top_posts = self.get_top_posts_from_global(count = 3)
+
 
         # Serializing the data
         top_3_profiles = UserProfileCardSerializer(instance = top_profiles, many=True).data
@@ -104,5 +128,7 @@ class HomeViewNonAuthenticated(APIView, ResponseUtilities, ProfileRankingSystem,
         # Adding the data to the response_data
         self.response_data = {"top_3_profiles":top_3_profiles,
                               "top_3_posts": top_3_posts}
+        self.success_status = profile_ranking_system.success_status
+        
 
         return Response(self.get_generated_response())
