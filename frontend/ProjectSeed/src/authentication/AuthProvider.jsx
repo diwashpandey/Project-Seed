@@ -1,58 +1,54 @@
-// imports from react
-import { useEffect } from "react";
+// Imports from React
+import { useEffect, useState } from "react";
 
-// imports from third parties
+// Imports from third-party libraries
 import { useDispatch, useSelector } from "react-redux";
-import { useQuery } from "react-query"
 
-// Additional imports
-import { TokensHandler } from "./TokensHandler"
-import {setIsAuthenticatedTrue, setUserData} from "../reduxStore/features/Authentication/userSlice"
+// Imports from local files
+import { TokensHandler } from "./TokensHandler";
+import { setIsAuthenticatedTrue, setUserData } from "../reduxStore/features/Authentication/userSlice";
 import { userDataFetcher } from "../fetchers/userData/userDataFetcher";
 
-/*
-    This manages and provides things like:
-        1. isAuthenticated,
-        2. setIsAuthenticated,
-
-        3. userData,
-        4. setuserData
-        
-*/
-
-function AuthenticationHadler({children}){
-    const dispatch = useDispatch()
-    const user = useSelector((states)=>states.userReducer)
-    const TH = new TokensHandler()
-
-    /*
-    Working on Logged in user Data
-    !!! Using raw axios. Cause we don't want this to stick in the cache !!!
-    */
-    const {data:userData, isSuccess} = useQuery({
-        queryKey:["userData"],
-        queryFn:userDataFetcher,
-        enabled:user.isAuthenticated // Setting isAuthenticated in enabled to prevent it to fetch when not authenticated
-    })
+/**
+ * AuthenticationHandler component handles user authentication and data fetching.
+ * It performs authentication check and data fetching once on mount.
+ * Displays a loading indicator while processing.
+ */
+function AuthenticationHandler({ children }) {
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.userReducer);
+    const [isLoading, setIsLoading] = useState(true); // Track loading status
+    const TH = new TokensHandler(); // Initialize once
 
     useEffect(() => {
-        if (TH.checkIfAuthenticated()) {
-            dispatch(setIsAuthenticatedTrue());
-        }
-    }, [dispatch, TH]);
-    
-    useEffect(() => {
-        if (isSuccess && userData) {
-            dispatch(setUserData(userData));
-        }
-    }, [isSuccess, userData, dispatch]);
-    
-    // Returning the Children after the authentication step
+        const checkAuth = async () => {
+            if (!user.isAuthenticated) { // Check if user is not authenticated
+                const isAuthenticated = TH.checkIfAuthenticated();
+                if (isAuthenticated) {
+                    dispatch(setIsAuthenticatedTrue()); // Set authentication state
+                    try {
+                        const userData = await userDataFetcher(); // Fetch user data
+                        dispatch(setUserData(userData)); // Update user data
+                    } catch (error) {
+                        console.error("Error fetching user data:", error); // Log error
+                    }
+                }
+            }
+            setIsLoading(false); // Stop loading indicator
+        };
+
+        checkAuth(); // Execute authentication and data fetching
+    }, [dispatch, TH, user.isAuthenticated]); // Dependency array ensures effect runs correctly
+
+    if (isLoading) { // Show loading state
+        return <div>Loading authentication...</div>;
+    }
+
     return (
         <>
-        {children}
+            {children} {/* Render children after authentication check */}
         </>
-    )
+    );
 }
 
-export default AuthenticationHadler
+export default AuthenticationHandler;
