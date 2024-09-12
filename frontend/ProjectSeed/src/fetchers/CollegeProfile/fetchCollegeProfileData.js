@@ -13,6 +13,6 @@ export async function fetchCollegeProfileData(url){
     }
     catch(err){
         // return Promise.reject(new Error("Something went wrong while fetching the data"))
-        console.log("Got Error while fetching user profile")
+        console.log("Got Error while fetching user profile:\n",err)
     }
 }
