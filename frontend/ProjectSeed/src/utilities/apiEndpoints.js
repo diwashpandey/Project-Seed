@@ -42,7 +42,9 @@ export const UpdateIntroURL = `${BaseURL}/accounts/update-intro/`
 export const UpdateAboutMeURL = `${BaseURL}/accounts/update-about-me/`
 export const UpdateProfilePhotoURL = `${BaseURL}/accounts/update-profile-photo/`
 export const UpdateBackgroundPhotoURL = `${BaseURL}/accounts/update-background-photo/`
-
+export const UpdateSkillsURL = `${BaseURL}/accounts/update-skills/`
+export const UpdateInterestsURL = `${BaseURL}/accounts/update-interests/`
+export const UpdateLocationURL = `${BaseURL}/accounts/update-location/`
 
 // Posts
 export const GetPostsURL = `${BaseURL}/recommendation/get-recommended-posts` // add ?offset= & limit=

@@ -36,5 +36,8 @@ urlpatterns = [
        path("update-about-me/", views.AboutMeUpdater.as_view(), name="update_about_me"),
        path("update-profile-photo/", views.ProfilePhotoUpdater.as_view(), name="update_profile_photo"),
        path("update-background-photo/", views.ProfileBackgroundUpdater.as_view(), name="update_background_photo"),
+       path("update-skills/", views.SkillsUpdater.as_view(), name="update_skills"),
+       path("update-interests/", views.InterestsUpdater.as_view(), name="update_interests"),
+       path("update-location/", views.LocationUpdater.as_view(), name="update_location"),
 
 ]
