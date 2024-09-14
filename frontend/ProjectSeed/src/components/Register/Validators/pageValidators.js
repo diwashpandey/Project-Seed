@@ -3,9 +3,9 @@ export function validatePageAccess(formData, pageNo) {
     let validStatus = { errorStatus:false, errorMessage: "", errorCode: 0 };  // Don't change alone cause this is same in Redux Store
 
     if (pageNo < 1 || pageNo > 6 || pageNo === undefined || pageNo === null) {
-    validStatus.errorStatus = true;
-    validStatus.errorCode = 999;
-    return validStatus;
+        validStatus.errorStatus = true;
+        validStatus.errorCode = 999;
+        return validStatus;
     }
 
     const hasNotGivenProfession = formData.profession === "";
@@ -13,9 +13,12 @@ export function validatePageAccess(formData, pageNo) {
     const hasNotGivenLastName = formData.lastName === "";
     const hasNotGivenGender = formData.gender === "";
     const hasNotGivenEmail = formData.email === "" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
-    const hasNotGivenUsername = formData.username === "";
 
+    const hasNotGivenUsername = formData.username === "";
     const usernameAlreadyExists = formData.usernameAlreadyExists || formData.usernameAlreadyExists === null;
+
+    const isNotValidUsername = ! formData.isValidUsername || formData.isValidUsername === null;
+
     const emailAlreadyExists = formData.emailAlreadyExists || formData.emailAlreadyExists === null;
 
 
@@ -31,6 +34,8 @@ export function validatePageAccess(formData, pageNo) {
         emailExists: { errorMessage: "Email already exists", errorCode: 405, errorStatus:true },
 
         username: { errorMessage: "Enter your username", errorCode: 500, errorStatus:true },
+        usernameNotValid: { errorMessage: "username is not valid", errorCode: 500, errorStatus:true },
+
         usernameExists: { errorMessage: "Username already exists", errorCode: 505, errorStatus:true },
     };
 
@@ -66,6 +71,7 @@ export function validatePageAccess(formData, pageNo) {
         else if(hasNotGivenGender) validStatus =  {...validStatus, ...errors.gender};
         else if(hasNotGivenEmail) validStatus = {...validStatus, ...errors.email};
         else if(hasNotGivenUsername) validStatus = {...validStatus, ...errors.username};
+        else if(isNotValidUsername) validStatus={...validStatus, ...errors.usernameNotValid}
         else if(usernameAlreadyExists) validStatus = {...validStatus, ...errors.usernameExists}
     }
     else{

@@ -8,7 +8,6 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 # rest_framework_simplejwt imports
-from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 
 # imports from APPS
@@ -23,6 +22,9 @@ from . models import Interest
 # Serializes imports
 from .serializers import (UserProfileDataSerializer, UserProfileCardSerializer)
 from .profile_update_serializers import (NameUpdateSerializer, SkillsSerializer, InterestsSerializer, LocationSerializer)
+
+# Additional imports
+import re
 
 
 # Getting the user model with django provided settings
@@ -69,20 +71,50 @@ class UsernameAvailabilityService(APIView, ResponseUtilities):
     authentication_classes = []
 
     def post(self, request, format=None):
-
         asked_for_username = request.data.get("asked_for_username", None)
+        self.response_data = {"exists_or_not": True, "valid_or_not": True}
 
         # Check if username is provided
         if not asked_for_username:
             self.message_to_client = "Username must be provided"
             return Response(self.get_generated_response())
 
-        user_exists_or_not = User.objects.filter(username = asked_for_username).exists()
+        if self._valid_text_for_username(asked_for_username):
+            # Using filter is optimized because exists() only checks for existence
+            self.response_data["exists_or_not"] = User.objects.filter(username=asked_for_username).exists()
 
-        self.response_data = {"exists_or_not":user_exists_or_not}
         self.success_status = True
 
         return Response(self.get_generated_response())
+
+    def _valid_text_for_username(self, username):
+        
+        if len(username) <= 2 or len(username) >= 25:
+            self.message_to_client = "Username must be between 3 and 24 characters!"
+            self.response_data["valid_or_not"] = False
+            return False
+        
+        elif not re.search(r'[a-zA-Z]', username):
+            self.message_to_client = "Username must contain at least one letter!"
+            self.response_data["valid_or_not"] = False
+            return False
+
+        elif username[0].isdigit():
+            self.message_to_client = "Username cannot start with a number!"
+            self.response_data["valid_or_not"] = False
+            return False
+        
+        elif re.search(r'[^a-zA-Z0-9_]', username):
+            self.message_to_client = "Username can only contain letters, numbers, and underscores!"
+            self.response_data["valid_or_not"] = False
+            return False
+
+        elif username.isdigit():
+            self.message_to_client = "Username cannot be only numbers!"
+            self.response_data["valid_or_not"] = False
+            return False
+
+        return True
 
 
 class EmailAvailabilityService(APIView, ResponseUtilities):

@@ -16,15 +16,28 @@ function EnterUsername() {
   const signUpFormFeedback = useSelector((states)=>states.signUpFormFeedbackReducer)
   const dispatch = useDispatch()
   const [isTyping, setIsTyping] = useState(false); // This will be used for the loading bar
-  
+  console.log("form status is:", signUpFormFeedback)
   // Determine if the border should be red
   const borderColor =  [500, 505].includes(signUpFormFeedback.errorCode) ? "border-red-500" : "border-transparent";
 
   const handleUsernameStatus = (data) =>{
+      console.log("THis is data", data)
       setIsTyping(false);  // To stop the loading bar after the reqeust
-      dispatch(addInSignUpForm({usernameAlreadyExists:data.exists_or_not}))  // Setting availability status directly from the server response
-      if (! data.exists_or_not){
-        dispatch(setSignUpFormStatus({errorCode:0}))  // If username doesn't exists there should not be the error
+
+      // Setting availability status directly from the server response
+      dispatch(addInSignUpForm({
+        isValidUsername:data.response_data.valid_or_not,
+        usernameAlreadyExists: data.response_data.exists_or_not
+      }))
+     
+      if (data.response_data.exists_or_not || ! data.response_data.valid_or_not){
+        dispatch(setSignUpFormStatus({
+          errorCode:500,
+          errorMessage:data.message_from_server,
+          errorStatus:true}))  // If username doesn't exists there should not be the error
+        }
+        else{
+        dispatch(setSignUpFormStatus({errorCode:0}))
       }
   }
 
@@ -44,13 +57,13 @@ function EnterUsername() {
   }, [formData.username]);
 
   return (
-    <div className="h-full w-full center relative">
+    <div className="h-full w-full center ">
         {/* Controlling the Error message according to the error code in form Data */}
-        {signUpFormFeedback.errorCode === 500 ||  signUpFormFeedback.errorCode === 505 ? (
+        {[500, 505].includes(signUpFormFeedback.errorCode) ?
           <p id="error-message" className="text-red-500 font-extralight text-sm absolute top-3">
             {signUpFormFeedback.errorMessage}
           </p>
-        ) : null}
+         : null}
         <div className="w-full center flex-col relative">
           <input
           type="text"
@@ -72,7 +85,7 @@ function EnterUsername() {
         <p className={`absolute -bottom-6 text-sm font-extralight right-20 ${formData.usernameAlreadyExists?"text-red-500":"text-green-400"}`}>
           {/* This will be shown as message */}
           {formData.usernameAlreadyExists === true
-            ? "Username already exists!"
+            ? "Username not available!"
             : formData.usernameAlreadyExists === false
             ? "Username available"
             : null}

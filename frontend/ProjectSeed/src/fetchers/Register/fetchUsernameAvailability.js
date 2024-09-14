@@ -8,7 +8,7 @@ async function fetchUsernameAvailability(usernameAskedFor) {
     try {
         const response = await axios.post(UsernameAvailabilityServiceURL, dataForServer);
         if (response.data.success_status === true) {
-            return response.data.response_data;
+            return response.data;
         } else {
             return Promise.reject(response.data.message_from_server);
         }

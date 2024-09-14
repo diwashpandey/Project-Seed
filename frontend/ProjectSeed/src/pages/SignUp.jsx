@@ -81,12 +81,13 @@ function SignUp(){
             <div className="min-h-64 h-fit w-[28rem] center bg-main-box rounded-xl">
 
               {/* Giving boolen as the hidden prop with the help of page number */}
-              {currentPageNo === 1 ? <EnterProfession /> : null}
-              {currentPageNo === 2 ? <EnterName /> : null}
-              {currentPageNo === 3 ? <EnterGender /> : null}
-              {currentPageNo === 4 ? <EnterEmail /> : null}
-              {currentPageNo === 5 ? <EnterUsername /> : null}
-              {currentPageNo === 6 ? <EnterPassword /> : null}
+              {currentPageNo === 1 ? <EnterProfession />
+              : currentPageNo === 2 ? <EnterName />
+              : currentPageNo === 3 ? <EnterGender />
+              : currentPageNo === 4 ? <EnterEmail />
+              : currentPageNo === 5 ? <EnterUsername /> 
+              : currentPageNo === 6 ? <EnterPassword />
+              : null}
 
             </div>
 
