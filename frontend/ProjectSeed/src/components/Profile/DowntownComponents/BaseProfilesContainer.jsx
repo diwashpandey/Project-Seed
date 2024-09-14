@@ -1,5 +1,5 @@
-import LoadingProfileCard from "../../ProfileCards/LoadingProfileCard"
-import ProfileCardStandard from "../../ProfileCards/ProfileCardStandard"
+import LoadingProfileCard from "../../ProfileCards/userProfileCards/LoadingProfileCard"
+import ProfileCardStandard from "../../ProfileCards/userProfileCards/ProfileCardStandard"
 
 export default function BaseProfilesContainer({usersData, isLoading, isSuccess}) {
 

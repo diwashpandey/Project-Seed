@@ -6,8 +6,8 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 
 // Components imports
-import LoadingProfileCard from "../../ProfileCards/LoadingProfileCard";
-import ProfileCardStandard from "../../ProfileCards/ProfileCardStandard"
+import LoadingProfileCard from "../../ProfileCards/userProfileCards/LoadingProfileCard";
+import ProfileCardStandard from "../../ProfileCards/userProfileCards/ProfileCardStandard"
 
 // Additional import
 import { fetchCollegeMembers } from "../../../fetchers/CollegeProfile/fetchCollegeMembers";

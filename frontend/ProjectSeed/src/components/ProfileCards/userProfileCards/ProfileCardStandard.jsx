@@ -2,8 +2,8 @@
 import { Link } from "react-router-dom"
 
 // Additional imports
-import { generatePhotoURL } from "../../utilities/apiEndpoints"
-import { generateProfileRoute } from "../../utilities/frontendRoutes"
+import { generatePhotoURL } from "../../../utilities/apiEndpoints"
+import { generateProfileRoute } from "../../../utilities/frontendRoutes"
 
 export default function ProfileCardStandard({user}) {
   return (

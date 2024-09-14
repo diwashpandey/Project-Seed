@@ -47,7 +47,7 @@ class User(AbstractUser):
     # Location fields
     city = models.CharField(max_length=50, null=True, blank=True)
     state = models.CharField(max_length=50, null=True, blank=True)
-    country = models.CharField(max_length=50, null=True, blank=True)
+    country = models.CharField(max_length=2, null=True, blank=True) # Store ISO 3166-1 alpha-2 code
 
     # Social Media URLs
     github = models.URLField(null=True, blank=True)
