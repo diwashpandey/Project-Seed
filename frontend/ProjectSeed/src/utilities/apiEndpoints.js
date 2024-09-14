@@ -36,6 +36,11 @@ export const UserPostsNonAuth = (username, offset=0, limit=10) =>{
     return `${BaseURL}/posts/get-user-posts-non-auth?username=${username}&offset=${offset}&limit${limit}`
 }
 
+// Skills and Interests
+export const SkillsListURL = `${BaseURL}/accounts/skills-list/`
+export const InterestsListURL = `${BaseURL}/accounts/interests-list/`
+
+
 // Settings 
 export const UpdateFirstAndLastNameURL = `${BaseURL}/accounts/update-first-and-last-name/`
 export const UpdateIntroURL = `${BaseURL}/accounts/update-intro/`

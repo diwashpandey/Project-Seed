@@ -20,7 +20,7 @@ from . models import Skill
 from . models import Interest
 
 # Serializes imports
-from .serializers import (UserProfileDataSerializer, UserProfileCardSerializer)
+from .serializers import (UserProfileDataSerializer, UserProfileCardSerializer, SkillSerializer, InterestSerializer)
 from .profile_update_serializers import (NameUpdateSerializer, SkillsSerializer, InterestsSerializer, LocationSerializer)
 
 # Additional imports
@@ -63,6 +63,28 @@ class RegisterView(APIView, ResponseUtilities, CustomUserRegistration):
         print(self.get_generated_response())
 
         return Response(self.get_generated_response())
+    
+class SkillListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        skills = Skill.objects.all()
+        serializer = SkillSerializer(skills, many=True)
+        return Response({
+            'success_status': True,
+            'response_data': serializer.data
+        })
+    
+class InterestListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        interests = Interest.objects.all()
+        serializer = InterestSerializer(interests, many=True)
+        return Response({
+            'success_status': True,
+            'response_data': serializer.data
+        })
 
 
 class UsernameAvailabilityService(APIView, ResponseUtilities):

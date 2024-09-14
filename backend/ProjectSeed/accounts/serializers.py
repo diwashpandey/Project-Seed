@@ -8,9 +8,21 @@ from django.contrib.auth import get_user_model
 from colleges.serializers import CollegeMiniDataSerializer
 from universities.serializers import UniversityMiniDataSerializer
 
+# models imports
+from .models import Interest, Skill
 
 # using djagno provided function to get the USER Model
 User = get_user_model()
+
+class SkillSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ["name"]
+        model = Skill
+
+class InterestSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ["name"]
+        model = Interest
 
 class UserProfileDataSerializer(serializers.ModelSerializer):
     """
@@ -19,6 +31,8 @@ class UserProfileDataSerializer(serializers.ModelSerializer):
         Includes mini data of connected colleges and universities.
     """
     colleges = CollegeMiniDataSerializer(many=True)
+    interests = InterestSerializer(many=True)
+    skills = SkillSerializer(many=True)
     universities = UniversityMiniDataSerializer(many=True)
 
     class Meta:

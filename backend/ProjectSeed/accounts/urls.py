@@ -29,6 +29,8 @@ urlpatterns = [
        path("profile-follow-handler/", views.FollowHandlerView.as_view(), name="follow_handler"),
 
        # Settings
+       path("skills-list/", views.SkillListView.as_view(), name="skills_list"),
+       path("interests-list/", views.InterestListView.as_view(), name="interests_list"),
 
        # Profile Update
        path("update-first-and-last-name/", views.FirstAndLastNameUpdater.as_view(), name="update_first_and_last_name"),
