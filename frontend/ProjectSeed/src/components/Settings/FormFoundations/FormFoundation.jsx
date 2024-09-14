@@ -14,7 +14,7 @@ function FormFoundation({children, formTitle, description, error=null}) {
   return (
     // Background Box
     <div
-    className="h-[100vh] w-[100vw] center fixed top-0 z-40 bg-[rgba(0,0,0,0.41)]"
+    className="h-[100vh] w-[100vw] center fixed top-0 right-0 z-40 bg-[rgba(0,0,0,0.41)]"
     onClick={handleClose}
     >
         {/* Main Box */}

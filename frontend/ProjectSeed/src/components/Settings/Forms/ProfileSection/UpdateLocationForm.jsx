@@ -1,23 +1,17 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "react-query";
 import Select from "react-select";
 import FormFoundation from "../../FormFoundations/FormFoundation";
 import { updateLocationFetcher } from "../../../../fetchers/Settings/ProfileSection/updateLocationFetcher";
 import { resetSettingsFormNumber } from "../../../../reduxStore/features/Settings/settingsFormNumberSlice";
+import {countryList} from "../../../../utilities/countries/countryList"
 
-const countryOptions = [
-    { value: "nepal", label: "Nepal" },
-    { value: "india", label: "India" },
-    { value: "usa", label: "USA" },
-    { value: "uk", label: "UK" },
-    // Add more countries as needed
-];
-
-function UpdateLocationForm({ formTitle, description, currentLocation }) {
-    const [selectedCountry, setSelectedCountry] = useState(currentLocation?.country || "");
-    const [state, setState] = useState(currentLocation?.state || "");
-    const [city, setCity] = useState(currentLocation?.city || "");
+function UpdateLocationForm({ formTitle, description }) {
+    const user = useSelector((states)=>states.userReducer)
+    const [selectedCountry, setSelectedCountry] = useState(user.data.country);
+    const [state, setState] = useState(user.data?.state || "");
+    const [city, setCity] = useState(user.data?.city || "");
     const [errorMessage, setErrorMessage] = useState("");
 
     const dispatch = useDispatch();
@@ -53,7 +47,7 @@ function UpdateLocationForm({ formTitle, description, currentLocation }) {
                 <Select
                     value={{ label: selectedCountry, value: selectedCountry }}
                     onChange={(option) => setSelectedCountry(option?.value || "")}
-                    options={countryOptions}
+                    options={countryList}
                     placeholder="Select your country"
                     className="w-full mb-4"
                     classNamePrefix="react-select"

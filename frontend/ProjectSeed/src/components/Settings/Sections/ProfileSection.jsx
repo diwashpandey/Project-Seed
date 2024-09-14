@@ -12,6 +12,7 @@ import UpdateLocationForm from "../Forms/ProfileSection/UpdateLocationForm"
 function ProfileSection() {
 
   const user = useSelector((states)=>states.userReducer)
+  console.log(user)
 
   const Options = [
     {
@@ -97,20 +98,20 @@ function ProfileSection() {
       "type": "option",
       "optionTitle": "Location",
       "description": "Update your location details",
-      "currentValue": user.data?.location,  // remove the question mark later
+      "currentValue": `${user.data?.state}, ${user.data?.city} - ${user.data?.country}`,
       "optionNumber": 2.9,
       "optionType":"standard",
       "OptionForm": UpdateLocationForm
     },
-    {
-      "type": "option",
-      "optionTitle": "Website",
-      "description": "Add a personal website or blog link",
-      "currentValue": "user.data?.website",  // remove the question mark later
-      "optionNumber": 2.10,
-      "optionType":"standard",
-      "OptionForm": ()=>null
-    },
+    // {
+    //   "type": "option",
+    //   "optionTitle": "Website",
+    //   "description": "Add a personal website or blog link",
+    //   "currentValue": "user.data?.website",  // remove the question mark later
+    //   "optionNumber": 2.10,
+    //   "optionType":"standard",
+    //   "OptionForm": ()=>null
+    // },
   ]
 
   return (

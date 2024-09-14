@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "react-query";
 import FormFoundation from "../../FormFoundations/FormFoundation";
 import { resetSettingsFormNumber } from "../../../../reduxStore/features/Settings/settingsFormNumberSlice";
 import { updateAboutMeFetcher } from "../../../../fetchers/Settings/ProfileSection/updateAboutMeFetcher";
 
-function UpdateAboutMeForm({ formTitle, description, initialAboutMe }) {
-    console.log("Here i am")
-    const [aboutMe, setAboutMe] = useState(initialAboutMe || "");
+function UpdateAboutMeForm({ formTitle, description }) {
+    const user = useSelector((states)=>states.userReducer)
+    const [aboutMe, setAboutMe] = useState(user.data?.about_me || "");
     const [errorMessage, setErrorMessage] = useState("");
 
     const dispatch = useDispatch();

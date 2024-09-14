@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useMutation } from "react-query";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FormFoundation from "../../FormFoundations/FormFoundation";
 import { updateIntroURLFetcher } from "../../../../fetchers/Settings/ProfileSection/updateIntroFetcher";
 import { resetSettingsFormNumber } from "../../../../reduxStore/features/Settings/settingsFormNumberSlice";
 import { updateUserData } from "../../../../reduxStore/features/Authentication/userSlice";
 
-function UpdateIntroForm({ formTitle, description, currentValue }) {
-  const [intro, setIntro] = useState("");
+function UpdateIntroForm({ formTitle, description }) {
+  const user = useSelector((states)=>states.userReducer)
+  const [intro, setIntro] = useState(user.data?.intro || "");
   const [errorMessage, setErrorMessage] = useState("");
 
   const dispatch = useDispatch();

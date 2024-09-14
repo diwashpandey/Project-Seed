@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { resetSettingsFormNumber } from "../../../../reduxStore/features/Settings/settingsFormNumberSlice"
 import { useState } from "react";
 import { useMutation } from "react-query";
@@ -6,9 +6,10 @@ import FormFoundation from "../../FormFoundations/FormFoundation";
 import { updateFirstAndLastNameFetcher } from "../../../../fetchers/Settings/ProfileSection/updateFirstAndLastNameFetcher";
 import { updateUserData } from "../../../../reduxStore/features/Authentication/userSlice";
 
-function FullNameForm({ formTitle, description, currentValue }) {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+function FullNameForm({ formTitle, description }) {
+  const user = useSelector((states)=>states.userReducer)
+  const [firstName, setFirstName] = useState(user.data?.first_name || "");
+  const [lastName, setLastName] = useState(user.data?.last_name || "");
   const [errorMessage, setErrorMessage] = useState("");
 
   const dispatch = useDispatch()

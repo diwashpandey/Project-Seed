@@ -13,6 +13,7 @@ import EmailSection from "../components/Settings/Sections/EmailSection"
 
 // Additional Import
 import { settingsRoute } from "../utilities/frontendRoutes"
+import InfoBox from "../components/Settings/InfoBox"
 
 function Settings() {
   const {sectionName} = useParams()
@@ -72,9 +73,15 @@ function Settings() {
                        className={`${emailActive} w-20 p-1 center`}
                        to={`${settingsRoute}email`}>Email</Link></li>
                 </ul>
-                <section className="bg-main-background min-h-96 w-full p-8 pt-10 flex flex-col rounded-lg items-center gap-2">
-                    <SectionPage />
-                </section>
+                <div className="h-full w-full flex gap-4">
+                  <section className="bg-main-background min-h-96 w-full p-8 pt-10 flex flex-col rounded-lg items-center gap-2">
+                      <SectionPage />
+                  </section>
+                  <section className="w-[30%]">
+                    <InfoBox />
+                  </section>
+                </div>
+
             </div>
         </main>
       </>
