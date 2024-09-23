@@ -65,14 +65,13 @@ class RegisterView(APIView, ResponseUtilities, CustomUserRegistration):
         return Response(self.get_generated_response())
     
 class SkillListView(APIView):
-    permission_classes = [IsAuthenticated]
+    authentication_classes = []
 
     def get(self, request, format=None):
-        skills = Skill.objects.all()
-        serializer = SkillSerializer(skills, many=True)
+        skills = Skill.objects.values_list("name", flat=True)
         return Response({
             'success_status': True,
-            'response_data': serializer.data
+            'response_data': skills
         })
     
 class InterestListView(APIView):
@@ -185,6 +184,7 @@ class ProfileView(APIView, ResponseUtilities):
             user = User.objects.get(username = asked_username)
             requested_user = request.user
             self.response_data = UserProfileDataSerializer(instance=user).data
+            print("Got user:", user)
             # Adding if_owner to True
             # if the requester is the Owner of the profile
             self.response_data.update({
@@ -195,7 +195,8 @@ class ProfileView(APIView, ResponseUtilities):
             
             self.success_status = True
 
-        except :
+        except Exception as e:
+            print("error is:", e)
             self.message_to_client = "User didn't found"
         
         return Response(self.get_generated_response())

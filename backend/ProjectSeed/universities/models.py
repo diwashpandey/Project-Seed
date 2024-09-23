@@ -17,9 +17,10 @@ class University(models.Model):
     profile_photo = models.ImageField(default="university_default_profile_photo", upload_to="universities_profile_photos/", blank=True, null=True)
     background_photo = models.ImageField(default="university_default_background_photo.jpg", upload_to = "universities_background_photos/", blank=True, null=True)
 
-    #   Location and Country
-    location = models.CharField(max_length=50)
-    country = models.CharField(max_length=15)
+    # Location fields
+    city = models.CharField(max_length=50, null=True, blank=True)
+    state = models.CharField(max_length=50, null=True, blank=True)
+    country = models.CharField(max_length=2, null=True, blank=True) # Store ISO 3166-1 alpha-2 code
 
     #   Verifications
     is_verified = models.BooleanField(default=False)
@@ -39,8 +40,8 @@ class University(models.Model):
         ordering = ["name"]
 
     def save(self, *args, **kwargs):
-        if not self.college_identifier:
-            self.college_identifier = slugify(self.name)
+        if not self.university_identifier:
+            self.university_identifier = slugify(self.name)
         super().save(*args, **kwargs)
     
     def __str__(self) -> str:

@@ -15,18 +15,24 @@ function NameAndAboutUsBox() {
                 <p className="text-xs text-theme-color font-light mb-4 md:text-sm">@{collegeProfileData.college_identifier}</p>
                 {/* College Intro */}
                 <p className="mb-4 text-sm text-center md:mb-8 md:text-base">{collegeProfileData.intro}</p>
-                {/* College Students Counts*/}
-                <div className="bg-black-white p-1 center flex-col rounded-xl md:p-6">
-                    <p className="text-light-mode-opposite-color md:text-2xl ">5k</p>
-                    <p className="text-light-mode-opposite-color font-light text-xs md:text-base">Students</p>
+                {/* College Students Counts and Rating Box*/}
+                <div className="flex gap-5">
+                    <div className="bg-black-white h-16 w-16 p-1 center flex-col rounded-xl md:p-6 md:h-24 md:w-24">
+                        <p className="text-light-mode-opposite-color md:text-2xl ">5k</p>
+                        <p className="text-light-mode-opposite-color font-light text-xs md:text-base">Students</p>
+                    </div>
+                    <div className="bg-black-white h-16 w-16 p-1 center flex-col rounded-xl md:p-6 md:h-24 md:w-24">
+                        <p className="text-light-mode-opposite-color md:text-2xl ">3.9</p>
+                        <p className="text-light-mode-opposite-color font-light text-xs md:text-base">Rating</p>
+                    </div>
                 </div>
             </div>
 
             {/* Box 1.2 -> About us */}
-            <div className="w-[80%] m-auto p-2 rounded-xl bg-theme-lighter md:w-auto md:p-8">
+            <div className="w-[80%] m-auto p-2 rounded-xl bg-theme-lighter overflow-scroll max-h-96 md:w-auto md:p-8">
                 <h2 className="text-center text-lg mb-1 md:mb-4 md:text-2xl">About Us</h2>
-                <pre className="text-center font-light text-xs md:text-base whitespace-pre-wrap">
-                    {collegeProfileData.about_us}
+                <pre className="text-center font-light text-xs md:text-base whitespace-pre-wrap overflow-scroll">
+                    {collegeProfileData?.about_us}
                 </pre>
             </div>
 

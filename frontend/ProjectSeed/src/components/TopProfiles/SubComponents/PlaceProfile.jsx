@@ -1,4 +1,4 @@
-import {generatePhotoURL} from "../../utilities/apiEndpoints"
+import {generatePhotoURL} from "../../../utilities/apiEndpoints"
 import { useSelector } from "react-redux"
 
 function PlaceProfile(){
@@ -22,7 +22,7 @@ function PlaceProfile(){
                 {/* <!-- More Details --> */}
                 <p className="mt-2 md:text-2xl">{placeData?.name}</p>
                 <p className="font-light text-xs md:text-sm">{placeData?.country}, {placeData?.location}</p>
-                <p className="text-theme-color text-sm font-light md:text-xl">{placeData?.profile_count}K Students</p>
+                <p className="text-theme-color text-sm font-light md:text-xl">{placeData?.students_count} Students</p>
             </div>
         </div>
     )

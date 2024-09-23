@@ -26,9 +26,9 @@ function MoreDetailsBox() {
                     <h3 className="px-2 py-1 mb-4 text-sm rounded-lg bg-black-white text-light-mode-opposite-color md:text-base">Courses Provided</h3>
                     {/* Courses Container */}
                     <p className="mb-2 text-center text-sm font-light">Bachelors of Science in Information Technology {"(BScIt)"}</p>
-                    <p className="mb-2 text-center text-sm font-light">Bachelors of Science in Information Technology {"(BScIt)"}</p>
-                    <p className="mb-2 text-center text-sm font-light">Bachelors of Science in Information Technology {"(BScIt)"}</p>
-                    <p className="mb-2 text-center text-sm font-light">Bachelors of Science in Information Technology {"(BScIt)"}</p>
+                    <p className="mb-2 text-center text-sm font-light">Masters of Science in Information Technology {"(MScIt)"}</p>
+                    <p className="mb-2 text-center text-sm font-light">Bachelors of in Accountant {"(BA)"}</p>
+                    <p className="mb-2 text-center text-sm font-light">Bachelors in Artificial Intelligence {"(BAI)"}</p>
                     <p className="mb-2 text-center text-sm font-light">Bachelors of Science in Information Technology {"(BScIt)"}</p>
                     
                     <p className="w-full px-4 text-light font-light text-sm text-right cursor-pointer hover:underline">See more</p>

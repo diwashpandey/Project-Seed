@@ -47,7 +47,7 @@ function Ratings() {
   return (
     <div className="w-full p-8 rounded-xl grid grid-cols-1 gap-4 bg-theme-lighter justify-items-center items-center xl:grid-cols-2">
         <>
-            {data.map((ratingData, index)=>{
+            {data?.map((ratingData, index)=>{
                 return (
                     <RatingProfileCard key={index} ratingData={ratingData} />
                 )

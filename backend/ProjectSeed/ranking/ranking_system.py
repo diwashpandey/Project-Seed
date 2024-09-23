@@ -42,7 +42,8 @@ class ProfileRankingSystem:
             (None, False): self.get_profiles_from_global,
         }
 
-        key = (self.get_from, self.skill is not None)
+        key = (self.get_from, (self.skill is not None and self.skill is not ""))
+        print("KEy is:", key)
         return method.get(key, self.get_profiles_from_global)()
 
     def get_profiles_from_college(self):

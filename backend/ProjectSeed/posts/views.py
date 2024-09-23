@@ -41,7 +41,7 @@ class GetUserPosts(APIView, ResponseUtilities):
             user_id = request.user.id
 
             for post in serialized_data:
-                post["already_risen"] = user_id in [user.id for user in post['rises']]
+                post["already_risen"] = user_id in post['rises']
 
             self.response_data = serialized_data
             self.success_status = True

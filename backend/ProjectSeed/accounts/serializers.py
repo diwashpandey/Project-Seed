@@ -41,7 +41,25 @@ class UserProfileDataSerializer(serializers.ModelSerializer):
         depth = 2
 
 class UserProfileCardSerializer(serializers.ModelSerializer):
-
+    
     class Meta:
         model = User
         fields = ["id", "username", "full_name", "profile_photo", "intro", "rise_points"]
+
+class UserSearchBoxProfileCardSerializer(serializers.ModelSerializer):
+    college_name = serializers.SerializerMethodField()
+    university_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = ["id", "username", "full_name", "profile_photo", "intro", "rise_points", "college_name", "university_name"]
+
+    def get_college_name(self, obj):
+        # Since colleges are prefetched, we don't hit the database again.
+        college = obj.collegeconnection_set.first()
+        return college.college.name if college else None
+
+    def get_university_name(self, obj):
+        # Similarly, universities are prefetched, avoiding additional queries.
+        university = obj.universityconnection_set.first()
+        return university.university.name if university else None

@@ -10,6 +10,7 @@ urlpatterns = [
     path('posts/', include("posts.urls")),
     path('colleges/', include("colleges.urls")),
     path('universities/', include("universities.urls")),
+    path('search/', include("search.urls")),
     path('ranking/', include("ranking.urls")),
     path('ratings/', include("ratings.urls")),
     path('recommendation/', include("recommendation.urls"))

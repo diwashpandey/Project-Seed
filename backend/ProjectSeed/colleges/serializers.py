@@ -21,7 +21,12 @@ class UserProfileSerializerForCollege(ModelSerializer):
 class CollegeMiniDataSerializer(ModelSerializer):
     class Meta:
         model = College
-        fields = ["name", "college_identifier", "profile_photo", "background_photo", "location", "country"]
+        fields = ["name", "college_identifier", "profile_photo", "background_photo", "slogan", "state", "city", "country", "students_count" ]
+
+class CollegeProfileCardSerializer(ModelSerializer):
+    class Meta:
+        model = College
+        fields = ["name", "college_identifier", "profile_photo", "slogan", "state", "city", "country"]
 
 class CollegeDetailSerializer(ModelSerializer):
     admin = UserProfileSerializerForCollege(read_only=True)

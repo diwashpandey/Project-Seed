@@ -28,8 +28,6 @@ class RegisterCollege(APIView, ResponseUtilities):
     def post(self, request, format=None):
         pass
 
-
-
 class CollegeProfileView(APIView, ResponseUtilities):
     permission_classes = [IsAuthenticated]
     
@@ -46,6 +44,7 @@ class CollegeProfileView(APIView, ResponseUtilities):
         try:
             # Attempt to retrieve the college instance using the provided identifier
             college = College.objects.get(college_identifier=college_identifier)
+            print(f"\n\n\n{college.college_ratings.all()}\n\n\n")
             serialized_data = CollegeDetailSerializer(instance=college).data
 
             serialized_data["is_admin"] = college.admin == request.user
@@ -244,3 +243,12 @@ class GetCollegeMembersView(APIView, ResponseUtilities):
             "admin": UserProfileCardSerializer(admin, many=True).data,
             "management_team": UserProfileCardSerializer(management_team, many=True).data
         }
+
+class GetCollegesListView(APIView, ResponseUtilities):
+    authentication_classes = []
+
+    def get(self, request, format=None):
+        self.success_status = True
+        self.response_data = College.objects.values("name", "college_identifier")
+        
+        return Response(self.get_generated_response())

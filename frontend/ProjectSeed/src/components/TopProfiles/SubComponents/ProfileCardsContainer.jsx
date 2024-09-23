@@ -9,7 +9,7 @@ function ProfileCardsContainer() {
 
   return (
 
-    <div id="user-profiles-container" className="w-full mt-24">
+    <div id="user-profiles-container" className="w-[90%] mx-auto mt-24 py-8 rounded-2xl bg-main-background grid grid-cols-1 sm:grid-cols-2">
 
     {/* <!-- Top Profile Cards --> */}
 

@@ -19,7 +19,7 @@ function UserFollowButton() {
 
         // Rising the POST RISE COUNT with the vanilla JS
         "onSuccess": (data, context)=>{
-          dispatch(setProfileOwnerData({...profileOwnerData, rise_points:data.new_rise_points}))
+          dispatch(setProfileOwnerData({...profileOwnerData, followers_count:data.new_followers_count}))
         },
 
         "onMutate":(context)=>{
@@ -50,7 +50,7 @@ function UserFollowButton() {
       if(profileOwnerData.already_followed){
         return (
           <form data-username={profileOwnerData.username} data-commit="unfollow" onSubmit={handleFollow}>
-            <button type="submit" className='follow-btn'>Follow</button>
+            <button type="submit" className='follow-btn'>Unfollow</button>
           </form>
         )
       }

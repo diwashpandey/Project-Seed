@@ -5,6 +5,7 @@ export async function fetchUserProfile(url){
     const axiosHook = useAxios()
     try {
         const response = await axiosHook.get(url)
+        console.log(response)
         if (response.data.success_status){
             return response.data.response_data
         }

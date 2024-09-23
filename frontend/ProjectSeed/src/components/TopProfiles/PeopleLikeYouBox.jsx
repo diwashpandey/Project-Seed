@@ -1,5 +1,8 @@
 function PeopleLikeYouBox() {
 
+    // Temporary returning nothing:
+    return null
+
   return (
         <div id="people-like-you" className="hidden w-[60%] max-w-96 h-96 p-4 space-y-2 rounded-xl flex-col items-center bg-main-box md:flex">
             <h2 className="mb-2 self-start text-2xl">People Like You</h2>

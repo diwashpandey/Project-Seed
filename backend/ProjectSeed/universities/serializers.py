@@ -5,4 +5,4 @@ class UniversityMiniDataSerializer(ModelSerializer):
 
     class Meta:
         model = University
-        fields = ["id","name", "profile_photo", "background_photo", "location", "country"]
+        fields = ["id","name", "profile_photo", "slogan", "state", "city", "country"]

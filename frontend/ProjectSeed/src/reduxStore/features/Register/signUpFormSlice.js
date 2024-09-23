@@ -12,6 +12,9 @@ let initialState = {
 
     usernameAlreadyExists:null,  // If username is available or not ( This is used for both form regestration and Page change too)
     emailAlreadyExists:null,  // if email is available or not ( This is used for both form regestration and Page change too)
+
+    isValidUsername:false,
+    isValidEmail:false
 }
 
 const signUpFormSlice = createSlice({

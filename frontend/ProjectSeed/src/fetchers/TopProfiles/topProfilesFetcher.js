@@ -8,8 +8,6 @@ export async function topProfilesFetcher(url){
         return response.data.response_data
     }
     else{
-        throw new Error("There was some problem while fetching data")
+        return new Promise.reject(new Error("No allowed"))
     }
-
 }
-

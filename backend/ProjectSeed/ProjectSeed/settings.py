@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'posts',
     'colleges',
     'universities',
+    'search',
     'ranking',
     'recommendation',
     'ratings'
@@ -67,6 +68,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'accounts.delay_middleware.DelayMiddleware' # This is temporary just for the checking
 ]
 
 ROOT_URLCONF = 'ProjectSeed.urls'

@@ -17,6 +17,12 @@ export const EmailAvailabilityServiceURL = `${BaseURL}/accounts/email-availabili
 export const HomePageAuthenticatedURL = "home/home-data-authenticated/"
 export const HomePageNonAuthenticatedURL = "home/home-data-non-authenticated/"
 
+// Search
+export const SearchURL = (searchFor) => {
+    return `${BaseURL}/search/?search-for=${searchFor}`
+} 
+    
+
 // Account or Profile
 export const AuthUserDataURL = `${BaseURL}/accounts/auth-user-quick-data/`
 export const UserProfileURL = (username) =>{
@@ -58,7 +64,11 @@ export const PostRiseRequestURL = `${BaseURL}/posts/rise-commit` // add ?offset=
 export const UploadPostRequestURL = `${BaseURL}/posts/upload-post`
 
 // Top Profiles
-export const GetTopProfilesURL = "ranking/top-profiles" // add ?college=collegename&school=schoolname&count=number
+export const GetTopProfilesURL = (getFrom, name, skill, count)=>{
+    return `${BaseURL}/ranking/top-profiles?get_from=${getFrom}&name=${name}&skill=${skill}&count=${count}`
+}
+export const CollegesListURL = `${BaseURL}/colleges/colleges-list/`
+export const UniversitiesListURL = `${BaseURL}/universities/universities-list/`
 
 // Top Posts
 
@@ -76,11 +86,13 @@ export const GetCollegeMembersURL = (college_identifier, start, count) => {
     return `${BaseURL}/colleges/get-college-members/?college_identifier=${college_identifier}&start=${start}&count=${count}`
 }
 
+// University
+export const UniversityListURL = `${BaseURL}/university/university-list/`
+
 // Ratings
-export const GetCollegeRatingsURL = (college_identifier, count) => {
+export const GetCollegeRatingsURL = (college_identifier, count=100) => {
     return `${BaseURL}/ratings/get-college-ratings/?college_identifier=${college_identifier}&count=${count}` // add ?college_identifier= & count=
 }
-export const GetCollegeRatingsNonAuthURL = (college_identifier, count=10) => {
+export const GetCollegeRatingsNonAuthURL = (college_identifier, count=100) => {
     return `${BaseURL}/ratings/get-college-ratings-non-auth/?college_identifier=${college_identifier}&count=${count}` // add ?college_identifier= & count=
 }
-
